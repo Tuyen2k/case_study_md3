@@ -1,6 +1,8 @@
 package com.example.case_study_md3_demo.controller;
 
+import com.example.case_study_md3_demo.DAO.iplm.CategoryDAO;
 import com.example.case_study_md3_demo.DAO.iplm.ProductDAO;
+import com.example.case_study_md3_demo.model.Category;
 import com.example.case_study_md3_demo.model.Product;
 
 import javax.servlet.RequestDispatcher;
@@ -15,17 +17,43 @@ import java.util.List;
 @WebServlet(name = "ProductServlet", value = "/products")
 public class ProductServlet extends HttpServlet {
     ProductDAO productDAO = new ProductDAO();
+    CategoryDAO categoryDAO = new CategoryDAO();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        List<Product> products = productDAO.findAll();
-        request.setAttribute("products", products);
-        RequestDispatcher rq = request.getRequestDispatcher("display_product.jsp");
-        rq.forward(request, response);
+        String action = request.getParameter("action");
+        if (action == null){
+            action = "";
+        }
+        switch (action){
+            case "display_one": displayOneProduct(request, response);
+                break;
+            default: displayProduct(request,response);
+        }
+
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
+
+    private void displayProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Product> products = productDAO.findAll();
+        List<Category> categories = categoryDAO.findAll();
+        request.setAttribute("products", products);
+        request.setAttribute("categories", categories);
+        RequestDispatcher rq = request.getRequestDispatcher("display_product.jsp");
+        rq.  forward(request, response);
+    }
+    private void displayOneProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id_product =Integer.parseInt(request.getParameter("id_product"));
+        Product product = productDAO.findById(id_product);
+        List<Category> categories = categoryDAO.findAll();
+        request.setAttribute("product", product);
+        request.setAttribute("categories", categories);
+        RequestDispatcher rq = request.getRequestDispatcher("display_one_product.jsp");
+        rq.forward(request, response);
+    }
+
 }

@@ -44,7 +44,27 @@ public class ProductDAO implements IProductDAO {
 
     @Override
     public Product findById(int id) {
-        return null;
+        String select = "select * from product where id_product = ?;";
+        Product product = new Product();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(select)) {
+            preparedStatement.setInt(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                double price = resultSet.getDouble("price");
+                double sale_price = resultSet.getDouble("sale_price");
+                int quantity = resultSet.getInt("quantity");
+                String description = resultSet.getString("description");
+                String image = resultSet.getString("image");
+                int isActive = resultSet.getInt("isActive");
+                int id_category =resultSet.getInt("id_category");
+                int id_brand = resultSet.getInt("id_brand");
+                product = new Product(id, name, price, sale_price, quantity, description, image,isActive,id_category,id_brand);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return product;
     }
 
     @Override
