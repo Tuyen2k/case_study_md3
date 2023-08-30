@@ -2,24 +2,24 @@ package com.example.case_study_md3_demo.model;
 
 public class CartDetail {
     private int id_cartDetail;
-    private int id_cart;
-    private int id_product;
+    private Cart cart;
+    private Product product;
     private double price;
     private int quantity;
     private double total_product;
 
-    public CartDetail(int id_cartDetail, int id_cart, int id_product, double price, int quantity, double total_product) {
+    public CartDetail(int id_cartDetail, Cart cart, Product product, double price, int quantity, double total_product) {
         this.id_cartDetail = id_cartDetail;
-        this.id_cart = id_cart;
-        this.id_product = id_product;
+        this.cart = cart;
+        this.product = product;
         this.price = price;
         this.quantity = quantity;
         this.total_product = total_product;
     }
 
-    public CartDetail(int id_cart, int id_product, double price, int quantity, double total_product) {
-        this.id_cart = id_cart;
-        this.id_product = id_product;
+    public CartDetail(Cart cart, Product product, double price, int quantity, double total_product) {
+        this.cart = cart;
+        this.product = product;
         this.price = price;
         this.quantity = quantity;
         this.total_product = total_product;
@@ -36,20 +36,20 @@ public class CartDetail {
         this.id_cartDetail = id_cartDetail;
     }
 
-    public int getId_cart() {
-        return id_cart;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setId_cart(int id_cart) {
-        this.id_cart = id_cart;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
-    public int getId_product() {
-        return id_product;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setId_product(int id_product) {
-        this.id_product = id_product;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public double getPrice() {

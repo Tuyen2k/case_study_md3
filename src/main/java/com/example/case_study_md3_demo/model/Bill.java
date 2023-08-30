@@ -4,7 +4,7 @@ import java.time.LocalDate;
 
 public class Bill {
     private int id_bill;
-    private int id_product; //--> lấy ra name product
+    private Product product; //--> lấy ra name product
     private double price;
     private int quantity;
     private double total_bill;
@@ -13,17 +13,17 @@ public class Bill {
     public Bill() {
     }
 
-    public Bill(int id_product, double price, int quantity, double total_bill, LocalDate timePurchase) {
-        this.id_product = id_product;
+    public Bill(int id_bill, Product product, double price, int quantity, double total_bill, LocalDate timePurchase) {
+        this.id_bill = id_bill;
+        this.product = product;
         this.price = price;
         this.quantity = quantity;
         this.total_bill = total_bill;
         this.timePurchase = timePurchase;
     }
 
-    public Bill(int id_bill, int id_product, double price, int quantity, double total_bill, LocalDate timePurchase) {
-        this.id_bill = id_bill;
-        this.id_product = id_product;
+    public Bill(Product product, double price, int quantity, double total_bill, LocalDate timePurchase) {
+        this.product = product;
         this.price = price;
         this.quantity = quantity;
         this.total_bill = total_bill;
@@ -38,12 +38,12 @@ public class Bill {
         this.id_bill = id_bill;
     }
 
-    public int getId_product() {
-        return id_product;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setId_product(int id_product) {
-        this.id_product = id_product;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public double getPrice() {
