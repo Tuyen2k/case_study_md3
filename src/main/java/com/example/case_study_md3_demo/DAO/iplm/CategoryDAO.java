@@ -56,11 +56,23 @@ public class CategoryDAO implements ICategoryDAO {
 
     @Override
     public void create(Category category) {
-
+        try (PreparedStatement preparedStatement = connection.prepareStatement(INSERT_INTO_CATEGORY)) {
+            preparedStatement.setString(1, category.getName());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void update(Category category) {
-
+        try(PreparedStatement preparedStatement =connection.prepareStatement(UPDATE_CATEGORY)){
+            preparedStatement.setString(1,category.getName());
+            preparedStatement.setInt(2,category.getId_category());
+            preparedStatement.executeUpdate();
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
     }
 }
