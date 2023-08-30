@@ -28,32 +28,37 @@ public class ProductDAO implements IProductDAO {
         connection = myConnection.getConnection();
     }
 
+//    public List<Product> findAll() {
+////        List<Product> productList = new ArrayList<>();
+////        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PRODUCT_LIST)) {
+////            ResultSet resultSet = preparedStatement.executeQuery();
+////            while (resultSet.next()) {
+////                int id = resultSet.getInt("id_product");
+////                String name = resultSet.getString("name");
+////                double price = resultSet.getDouble("price");
+////                double salePrice = resultSet.getDouble("sale_price");
+////                int quantity = resultSet.getInt("quantity");
+////                String description = resultSet.getString("description");
+////                String image = resultSet.getString("image");
+////                int isActive = resultSet.getInt("isActive");
+////                int categoryId = resultSet.getInt("id_category");
+////                int brandId = resultSet.getInt("id_brand");
+////
+////                Category category = categoryDAO.findById(categoryId);
+//////                Brand brand = brandDAO.findById(brandId);
+////
+////
+////                productList.add(new Product(id, name, price, salePrice, quantity, description, image, isActive, category, brand));
+////            }
+////        } catch (SQLException e) {
+////            e.printStackTrace();
+////        }
+////        return productList;
+//    }
+
+    @Override
     public List<Product> findAll() {
-        List<Product> productList = new ArrayList<>();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_PRODUCT_LIST)) {
-            ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                int id = resultSet.getInt("id_product");
-                String name = resultSet.getString("name");
-                double price = resultSet.getDouble("price");
-                double salePrice = resultSet.getDouble("sale_price");
-                int quantity = resultSet.getInt("quantity");
-                String description = resultSet.getString("description");
-                String image = resultSet.getString("image");
-                int isActive = resultSet.getInt("isActive");
-                int categoryId = resultSet.getInt("id_category");
-                int brandId = resultSet.getInt("id_brand");
-
-                Category category = categoryDAO.findById(categoryId);
-                Brand brand = brandDAO.findById(brandId);
-
-
-                productList.add(new Product(id, name, price, salePrice, quantity, description, image, isActive, category, brand));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return productList;
+        return null;
     }
 
     @Override
