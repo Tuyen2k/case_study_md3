@@ -1,33 +1,22 @@
 package com.example.case_study_md3_demo.model;
 
-import java.time.LocalDate;
-
 public class Bill {
     private int id_bill;
-    private Product product; //--> lấy ra name product
-    private double price;
-    private int quantity;
-    private double total_bill;
-    private LocalDate timePurchase;
+    private Account account;
+    private double total;
+
+    public Bill(int id_bill, Account account, double total) {
+        this.id_bill = id_bill;
+        this.account = account;
+        this.total = total;
+    }
+
+    public Bill(Account account, double total) {
+        this.account = account;
+        this.total = total;
+    }
 
     public Bill() {
-    }
-
-    public Bill(int id_bill, Product product, double price, int quantity, double total_bill, LocalDate timePurchase) {
-        this.id_bill = id_bill;
-        this.product = product;
-        this.price = price;
-        this.quantity = quantity;
-        this.total_bill = total_bill;
-        this.timePurchase = timePurchase;
-    }
-
-    public Bill(Product product, double price, int quantity, double total_bill, LocalDate timePurchase) {
-        this.product = product;
-        this.price = price;
-        this.quantity = quantity;
-        this.total_bill = total_bill;
-        this.timePurchase = timePurchase;
     }
 
     public int getId_bill() {
@@ -38,43 +27,19 @@ public class Bill {
         this.id_bill = id_bill;
     }
 
-    public Product getProduct() {
-        return product;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public double getPrice() {
-        return price;
+    public double getTotal() {
+        return total;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
-    }
-
-    public double getTotal_bill() {
-        return total_bill;
-    }
-
-    public void setTotal_bill(double total_bill) {
-        this.total_bill = total_bill;
-    }
-
-    public LocalDate getTimePurchase() {
-        return timePurchase;
-    }
-
-    public void setTimePurchase(LocalDate timePurchase) {
-        this.timePurchase = timePurchase;
+    public void setTotal(double total) {
+        this.total = total;
     }
 }
