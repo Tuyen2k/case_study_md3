@@ -9,7 +9,7 @@ public class MyConnection {
     private final String username = "root";
     private final String password = "12345678";
     private static MyConnection myConnection;
-    private MyConnection(){
+    public MyConnection(){
     }
 
     public static MyConnection getMyConnection(){
