@@ -77,9 +77,9 @@
                     <div class="header-search">
                         <form>
                             <select class="input-select">
-                                <option value="0">All Categories</option>
-                                <option value="1">Category 01</option>
-                                <option value="1">Category 02</option>
+                                <option value="0">All Brand</option>
+                                <option value="1">Brand 01</option>
+                                <option value="1">Brand 02</option>
                             </select>
                             <input class="input" placeholder="Search here">
                             <button class="search-btn">Search</button>
@@ -196,13 +196,13 @@
                 </script>
             </c:if>
         </c:if>
-        <h1>Show List Category</h1>
-        <a class="btn btn-primary" onclick="document.getElementById('form_create_category').style.display = 'block'">
-            Create Category</a> <br>
+        <h1>Show List Brand</h1>
+        <a class="btn btn-primary" onclick="document.getElementById('form_create_brand').style.display = 'block'">
+            Create Brand</a> <br>
         <br>
-        <form action="categories?action=create" id="form_create_category" style="display: none" method="post">
-            <label for="name_category">Name Category</label>
-            <input type="text" id="name_category" name="name_category" placeholder="name category">
+        <form action="brands?action=create" id="form_create_brand" style="display: none" method="post">
+            <label for="name_brand">Name Category</label>
+            <input type="text" id="name_brand" name="name_brand" placeholder="name brand">
             <button>Create</button>
         </form>
         <table class="table">
@@ -214,22 +214,22 @@
             </tr>
             </thead>
             <tbody>
-            <c:forEach varStatus="index" items="${categories}" var="category">
+            <c:forEach varStatus="index" items="${brands}" var="brand">
                 <tr>
                     <td>${index.count}</td>
-                    <td>${category.getName()}</td>
+                    <td>${brand.getName()}</td>
                     <td>
-                        <button onclick="onUpdate(${category.getId_category()})"
+                        <button onclick="onUpdate(${brand.getId_brand()})"
                                 class="btn btn-primary">Update
                         </button>
                     </td>
-                    <td class="input-text" id="cell-${category.getId_category()}" style="display: none">
-                        <form action="categories?action=update&&id_category=${category.getId_category()}"
+                    <td class="input-text" id="cell-${brand.getId_brand()}" style="display: none">
+                        <form action="brands?action=update&&id_brand=${brand.getId_brand()}"
                               method="post">
-                            <input type="text" name="name_category" placeholder="name category update">
+                            <input type="text" name="name_brand" placeholder="name brand update">
                             <button>Save</button>
                             <button type="reset">Reset</button>
-                            <button type="button" onclick="onClose(${category.getId_category()})">Close</button>
+                            <button type="button" onclick="onClose(${brand.getId_brand()})">Close</button>
                         </form>
                     </td>
                 </tr>

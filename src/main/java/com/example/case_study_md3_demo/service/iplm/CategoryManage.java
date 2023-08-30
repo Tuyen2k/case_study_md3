@@ -10,7 +10,7 @@ public class CategoryManage implements ICategoryService {
     private CategoryDAO categoryDAO;
     private static CategoryManage categoryManage;
 
-    private CategoryManage() {
+    public CategoryManage() {
         categoryDAO = new CategoryDAO();
     }
 
@@ -33,11 +33,11 @@ public class CategoryManage implements ICategoryService {
 
     @Override
     public void create(Category category) {
-
+        categoryDAO.create(category);
     }
 
     @Override
     public void update(Category category) {
-
+        categoryDAO.update(category);
     }
 }

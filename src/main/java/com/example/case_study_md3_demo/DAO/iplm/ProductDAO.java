@@ -3,6 +3,8 @@ package com.example.case_study_md3_demo.DAO.iplm;
 import com.example.case_study_md3_demo.DAO.IProductDAO;
 import com.example.case_study_md3_demo.model.Product;
 import com.example.case_study_md3_demo.myConnection.MyConnection;
+import com.example.case_study_md3_demo.service.iplm.BrandManage;
+import com.example.case_study_md3_demo.service.iplm.CategoryManage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,12 +16,16 @@ import java.util.List;
 
 public class ProductDAO implements IProductDAO {
     private final Connection connection;
+    CategoryManage categoryManage ;
+    BrandManage brandManage ;
     private MyConnection myConnection = new MyConnection();
     private final String SELECT_ALL = "select* from product;";
     private final String SELECT_BY_ID = "select*from product where id=?;";
 
     public ProductDAO() {
         connection = myConnection.getConnection();
+        categoryManage = new CategoryManage();
+        brandManage =new BrandManage();
     }
 
     @Override

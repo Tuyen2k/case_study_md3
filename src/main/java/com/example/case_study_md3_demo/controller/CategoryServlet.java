@@ -21,36 +21,68 @@ public class CategoryServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        if (action == null){
+        if (action == null) {
             action = "";
         }
-        switch (action){
-            case "create":
-                break;
+        switch (action) {
             case "update":
+                getUpdateCategory(request,response);
                 break;
-            default: displayCategory(request, response);
+            default:
+                displayCategory(request, response);
                 break;
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if (action == null) {
+            action = "";
+        }
+        switch (action) {
+            case "create":
+                postCreate(request,response);
+                break;
+            case "update":
+                postUpdateCategory(request,response);
+                break;
 
     }
-
+    }
     private void displayCategory(HttpServletRequest request, HttpServletResponse response) throws IOException {
         List<Category> categories = categoryManage.findAll();
         HttpSession session = request.getSession();
-        if (!categories.isEmpty()){
-            session.setAttribute("categories",categories);
+        if (!categories.isEmpty()) {
+            session.setAttribute("categories", categories);
             response.sendRedirect("home_category.jsp");
-        }
-        else {
+        } else {
             boolean flag = true;
-            session.setAttribute("message","There are no categories");
-            session.setAttribute("flag",flag);
+            session.setAttribute("message", "There are no categories");
+            session.setAttribute("flag", flag);
             response.sendRedirect("home_category.jsp");
         }
+    }
+
+    public void postCreate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("name_category");
+        Category category = new Category(name);
+        categoryManage.create(category);
+        response.sendRedirect("categories");
+    }
+    public void getUpdateCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id_category = Integer.parseInt(request.getParameter("id_category"));
+        Category category = categoryManage.findById(id_category);
+        request.setAttribute("category", category);
+        RequestDispatcher rq = request.getRequestDispatcher("home_category.jsp");
+        rq.forward(request, response);
+}
+    public void postUpdateCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id_category =Integer.parseInt( request.getParameter("id_category"));
+        String name =request.getParameter("name_category");
+        Category category =new Category(name);
+        category.setId_category(id_category);
+        categoryManage.update(category);
+        response.sendRedirect("categories");
     }
 }
