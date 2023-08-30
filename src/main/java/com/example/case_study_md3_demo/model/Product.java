@@ -9,10 +9,10 @@ public class Product {
     private String description;
     private String image;
     private int isActive; // 0 là false, 1 là true
-    private int id_category;
-    private int id_brand;
+    private Category category;
+    private Brand brand;
 
-    public Product(int id_product, String name, double price, double sale_price, int quantity, String description, String image, int isActive, int id_category, int id_brand) {
+    public Product(int id_product, String name, double price, double sale_price, int quantity, String description, String image, int isActive, Category category, Brand brand) {
         this.id_product = id_product;
         this.name = name;
         this.price = price;
@@ -21,11 +21,11 @@ public class Product {
         this.description = description;
         this.image = image;
         this.isActive = isActive;
-        this.id_category = id_category;
-        this.id_brand = id_brand;
+        this.category = category;
+        this.brand = brand;
     }
 
-    public Product(String name, double price, double sale_price, int quantity, String description, String image, int isActive, int id_category, int id_brand) {
+    public Product(String name, double price, double sale_price, int quantity, String description, String image, int isActive, Category category, Brand brand) {
         this.name = name;
         this.price = price;
         this.sale_price = sale_price;
@@ -33,8 +33,8 @@ public class Product {
         this.description = description;
         this.image = image;
         this.isActive = isActive;
-        this.id_category = id_category;
-        this.id_brand = id_brand;
+        this.category = category;
+        this.brand = brand;
     }
 
     public Product() {
@@ -104,19 +104,19 @@ public class Product {
         this.isActive = isActive;
     }
 
-    public int getId_category() {
-        return id_category;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setId_category(int id_category) {
-        this.id_category = id_category;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
-    public int getId_brand() {
-        return id_brand;
+    public Brand getBrand() {
+        return brand;
     }
 
-    public void setId_brand(int id_brand) {
-        this.id_brand = id_brand;
+    public void setBrand(Brand brand) {
+        this.brand = brand;
     }
 }

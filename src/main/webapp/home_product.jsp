@@ -198,12 +198,12 @@
         </script>
       </c:if>
     </c:if>
-    <h1>Show List Category</h1>
-    <a class="btn btn-primary" onclick="document.getElementById('form_create_category').style.display = 'block'">
-      Create Category</a> <br>
-    <form action="categories" id="form_create_category" style="display: none" method="post">
-      <label for="name_category">Name Category</label>
-      <input type="text" id="name_category" name="name_category" placeholder="name category">
+    <h1>Show List Product</h1>
+    <a class="btn btn-primary" onclick="document.getElementById('form_create_product').style.display = 'block'">
+      Create Product</a> <br>
+    <form action="products" id="form_create_product" style="display: none" method="post">
+      <label for="product_name">Product name</label>
+      <input type="text" id="product_name" name="product_name" placeholder="product name">
       <button>Create</button>
     </form>
     <table class="table">
@@ -215,22 +215,22 @@
       </tr>
       </thead>
       <tbody>
-      <c:forEach varStatus="index" items="${categories}" var="category">
+      <c:forEach varStatus="index" items="${products}" var="product">
         <tr>
           <td>${index.count}</td>
-          <td>${category.getName()}</td>
+          <td>${product.getName()}</td>
           <td>
-            <button onclick="onUpdate(${category.getId_category()})"
+            <button onclick="onUpdate(${product.getId_product()})"
                     class="btn btn-primary">Update
             </button>
           </td>
-          <td class="input-text" id="cell-${category.getId_category()}" style="display: none">
-            <form action="products?action=update&&id_category=${category.getId_category()}"
+          <td class="input-text" id="cell-${product.getId_product()}" style="display: none">
+            <form action="products?action=update&&id_product=${product.getId_product()}"
                   method="post">
-              <input type="text" name="name_category" placeholder="name category update">
+              <input type="text" name="product_name" placeholder="product name update">
               <button>Save</button>
               <button type="reset">Reset</button>
-              <button type="button" onclick="onClose(${category.getId_category()})">Close</button>
+              <button type="button" onclick="onClose(${product.getId_product()})">Close</button>
             </form>
           </td>
         </tr>
