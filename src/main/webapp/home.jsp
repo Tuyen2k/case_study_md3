@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -77,8 +78,9 @@
                         <form>
                             <select class="input-select">
                                 <option value="0">All Categories</option>
-                                <option value="1">Category 01</option>
-                                <option value="1">Category 02</option>
+                                <c:forEach items="${categories}" var="category">
+                                <option value="${category.id_category}">${category.name}</option>
+                                </c:forEach>
                             </select>
                             <input class="input" placeholder="Search here">
                             <button class="search-btn">Search</button>

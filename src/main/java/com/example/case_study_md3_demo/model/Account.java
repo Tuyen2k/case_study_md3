@@ -7,28 +7,28 @@ public class Account {
     private String phone;
     private String email;
     private String address;
-    private int id_role;
+    private Role role;
 
     public Account() {
     }
 
-    public Account(int id_account, String username, String password, String phone, String email, String address, int id_role) {
+    public Account(int id_account, String username, String password, String phone, String email, String address, Role role) {
         this.id_account = id_account;
         this.username = username;
         this.password = password;
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.id_role = id_role;
+        this.role = role;
     }
 
-    public Account(String username, String password, String phone, String email, String address, int id_role) {
+    public Account(String username, String password, String phone, String email, String address, Role role) {
         this.username = username;
         this.password = password;
         this.phone = phone;
         this.email = email;
         this.address = address;
-        this.id_role = id_role;
+        this.role = role;
     }
 
     public int getId_account() {
@@ -79,11 +79,11 @@ public class Account {
         this.address = address;
     }
 
-    public int getId_role() {
-        return id_role;
+    public Role getRole() {
+        return role;
     }
 
-    public void setId_role(int id_role) {
-        this.id_role = id_role;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
