@@ -24,8 +24,6 @@ public class BrandDAO implements IBrandDAO  {
         myConnection = MyConnection.getMyConnection();
         connection = myConnection.getConnection();
     }
-
-
     @Override
     public List<Brand> findAll() {
         List<Brand> brands = new ArrayList<>();
