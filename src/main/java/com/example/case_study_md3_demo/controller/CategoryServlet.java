@@ -44,13 +44,13 @@ public class CategoryServlet extends HttpServlet {
         HttpSession session = request.getSession();
         if (!categories.isEmpty()){
             session.setAttribute("categories",categories);
-            response.sendRedirect("test.jsp");
+            response.sendRedirect("home_category.jsp");
         }
         else {
             boolean flag = true;
             session.setAttribute("message","There are no categories");
             session.setAttribute("flag",flag);
-            response.sendRedirect("test.jsp");
+            response.sendRedirect("home_category.jsp");
         }
     }
 }
