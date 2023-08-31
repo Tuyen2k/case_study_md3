@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductDAO implements IProductDAO {
-
     private final MyConnection myConnection;
     private final Connection connection;
     private String SELECT_PRODUCT_LIST = "select * from product;";
@@ -106,7 +105,7 @@ public class ProductDAO implements IProductDAO {
 
     @Override
     public void update(Product product) {
-        String sql = "UPDATE product SET name=?, price=?, sale_price=?, quantity=?, description=?, image=?, isActive=?, category=?, brand=? WHERE id_product=?;";
+        String sql = "UPDATE product SET name=?, price=?, sale_price=?, quantity=?, description=?, image=?, isActive=?, id_category=?, id_brand=? WHERE id_product=?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setDouble(2, product.getPrice());
@@ -120,7 +119,7 @@ public class ProductDAO implements IProductDAO {
             preparedStatement.setInt(10, product.getId_product());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -131,7 +130,7 @@ public class ProductDAO implements IProductDAO {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }
