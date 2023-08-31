@@ -49,10 +49,20 @@ public class ProductServlet extends HttpServlet {
             case "display_one":
                 displayOneProduct(request, response);
                 break;
+            case "home_product":
+                homeProduct(request, response);
+                break;
+            case "update_product":
+                updateGet(request, response);
+                break;
+            case "delete_product":
+                delete(request, response);
+                break;
 
             default:
                 displayProduct(request, response);
         }
+
     }
 
     @Override
@@ -65,6 +75,20 @@ public class ProductServlet extends HttpServlet {
 
 
     }
+        String action = request.getParameter("action");
+        if (action == null) {
+            action = "";
+        }
+        switch (action) {
+            case "create":
+                create(request, response);
+                break;
+            case "update_product":
+                update(request, response);
+                break;
+            default:
+                displayProduct(request, response);
+        }
     }
 
 
@@ -89,4 +113,70 @@ public class ProductServlet extends HttpServlet {
     }
 
 
+    private void homeProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        List<Product> products = productManage.findAll();
+        List<Category> categories = categoryManage.findAll();
+        List<Brand> brands = brandManage.findAll();
+        HttpSession session = request.getSession();
+        session.setAttribute("products", products);
+        session.setAttribute("categories", categories);
+        session.setAttribute("brands", brands);
+        response.sendRedirect("home_product.jsp");
+    }
+
+    private void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("name");
+        double price = Double.parseDouble(request.getParameter("price"));
+        double sale_price = Double.parseDouble(request.getParameter("sale_price"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        String description = request.getParameter("description");
+        String image = request.getParameter("image");
+        int id_category = Integer.parseInt(request.getParameter("category"));
+        int id_brand = Integer.parseInt(request.getParameter("brand"));
+        Category category = categoryManage.findById(id_category);
+        Brand brand = brandManage.findById(id_brand);
+        Product product = new Product(name, price, sale_price, quantity, description, image, 1, category, brand);
+        productManage.create(product);
+        HttpSession session = request.getSession();
+        session.setAttribute("message", "Create product success!");
+        response.sendRedirect("products?action=home_product");
+    }
+
+    private void updateGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id_product"));
+        Product product = productManage.findById(id);
+        List<Category> categories = categoryManage.findAll();
+        List<Brand> brands = brandManage.findAll();
+        HttpSession session = request.getSession();
+        session.setAttribute("categories", categories);
+        session.setAttribute("brands", brands);
+        session.setAttribute("product", product);
+        response.sendRedirect("update_product.jsp");
+    }
+
+    private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id_product"));
+        String name = request.getParameter("name");
+        double price = Double.parseDouble(request.getParameter("price"));
+        double sale_price = Double.parseDouble(request.getParameter("sale_price"));
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+        String description = request.getParameter("description");
+        String image = request.getParameter("image");
+        int id_category = Integer.parseInt(request.getParameter("category"));
+        int id_brand = Integer.parseInt(request.getParameter("brand"));
+        Category category = categoryManage.findById(id_category);
+        Brand brand = brandManage.findById(id_brand);
+        Product product = new Product(id, name, price, sale_price, quantity, description, image, 1, category, brand);
+        productManage.update(product);
+        HttpSession session = request.getSession();
+        session.setAttribute("message", "Create product success!");
+        response.sendRedirect("products?action=home_product");
+    }
+    private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id_product"));
+        productManage.delete(id);
+        HttpSession session = request.getSession();
+        session.setAttribute("message", "Delete success!");
+        response.sendRedirect("products?action=home_product");
+    }
 }
