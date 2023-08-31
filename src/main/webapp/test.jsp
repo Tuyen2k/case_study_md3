@@ -347,7 +347,7 @@
                         <td>${index.count}</td>
                         <td>${product.getName()}</td>
                         <td><fmt:formatNumber value="${product.getPrice()}" pattern="#,##0"/></td>
-                        <td><fmt:formatNumber value="${product.getPrice()}" pattern="#,##0"/></td>
+                        <td><fmt:formatNumber value="${product.getSale_price()}" pattern="#,##0"/></td> <!-- thay getSale_price() -->
                         <td>${product.getQuantity()}</td>
                         <td>${product.getCategory().getName()}</td>
                         <td>${product.getBrand().getName()}</td>
@@ -355,9 +355,9 @@
                             <a href="products?action=update_product&&id_product=${product.getId_product()}" class="edit" data-toggle="modal"><i class="material-icons"
                                                                                              data-toggle="tooltip"
                                                                                              title="Edit">&#xE254;</i></a>
-                            <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"><i class="material-icons"
-                                                                                                 data-toggle="tooltip"
-                                                                                                 title="Delete">&#xE872;</i></a>
+                            <a onclick="deleteProduct(${product.getId_product()})"
+                               class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip"
+                                                                     title="Delete">&#xE872;</i></a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -417,9 +417,9 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Category</label>
+                        <label>Brand</label>
                         <select name="brand" id="brand">
-                            <c:forEach var="bran d" items="${brands}">
+                            <c:forEach var="brand" items="${brands}">
                                 <option value="${brand.getId_brand()}">${brand.getName()}</option>
                             </c:forEach>
                         </select>
@@ -432,81 +432,6 @@
                 <div class="modal-footer">
                     <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
                     <input type="submit" class="btn btn-success" value="Add">
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- Edit Modal HTML -->
-<div id="editEmployeeModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="products?action=update&&id_product=${product.getId_product()}" method="post">
-                <div class="modal-header">
-                    <h4 class="modal-title">Edit Product</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Name</label>
-                        <input type="text" class="form-control" name="name" value="${product.getName()}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Price</label>
-                        <input type="number" class="form-control" name="price" value="${product.getPrice()}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Sale Price</label>
-                        <input type="number" class="form-control" name="sale_price" value="${product.getSale_price()}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Quantity</label>
-                        <input type="text" class="form-control" name="quantity" value="${product.getQuantity()}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Image</label>
-                        <input type="text" class="form-control" name="image" value="${product.getImage()}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Category</label>
-                        <select name="category" id="category_update">
-                            <c:forEach items="${categories}" var="category">
-                                <c:choose>
-                                    <c:when test="${product.getCategory().getId_category() == category.getId_category()}">
-                                        <option name="id_category" value="${category.getId_category()}"
-                                                selected>${category.getName()}</option>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <option value="${category.getId_category()}">${category.getName()}</option>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Brand</label>
-                        <select name="brand" id="brand_update">
-                            <c:forEach items="${brands}" var="brand">
-                                <c:choose>
-                                    <c:when test="${product.getBrand().getId_brand() == brand.getId_brand()}">
-                                        <option name="id_category" value="${brand.getId_brand()}"
-                                                selected>${brand.getName()}</option>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <option value="${brand.getId_brand()}">${brand.getName()}</option>
-                                    </c:otherwise>
-                                </c:choose>
-                            </c:forEach>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea class="form-control" required>${product.getDescription()}</textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
-                    <input type="submit" class="btn btn-info" value="Save">
                 </div>
             </form>
         </div>
@@ -535,3 +460,11 @@
 </div>
 </body>
 </html>
+<script>
+    function deleteProduct(id) {
+        let flag = confirm("Are you sure you want to delete these Records??")
+        if (flag === true) {
+            window.location.href = "products?action=delete_product&&id_product=" + id;
+        }
+    }
+</script>

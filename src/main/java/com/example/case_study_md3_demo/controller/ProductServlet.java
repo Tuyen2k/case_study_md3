@@ -43,10 +43,13 @@ public class ProductServlet extends HttpServlet {
                 displayOneProduct(request, response);
                 break;
             case "home_product":
-                 homeProduct(request, response);
+                homeProduct(request, response);
                 break;
             case "update_product":
                 updateGet(request, response);
+                break;
+            case "delete_product":
+                delete(request, response);
                 break;
             default:
                 displayProduct(request, response);
@@ -71,7 +74,6 @@ public class ProductServlet extends HttpServlet {
                 displayProduct(request, response);
         }
     }
-
 
 
     private void displayProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -103,6 +105,7 @@ public class ProductServlet extends HttpServlet {
         session.setAttribute("brands", brands);
         response.sendRedirect("test.jsp");
     }
+
     private void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name");
         double price = Double.parseDouble(request.getParameter("price"));
@@ -114,12 +117,13 @@ public class ProductServlet extends HttpServlet {
         int id_brand = Integer.parseInt(request.getParameter("brand"));
         Category category = categoryManage.findById(id_category);
         Brand brand = brandManage.findById(id_brand);
-        Product product = new Product(name,price,sale_price,quantity,description,image,1,category,brand);
+        Product product = new Product(name, price, sale_price, quantity, description, image, 1, category, brand);
         productManage.create(product);
         HttpSession session = request.getSession();
-        session.setAttribute("message","Create product success!");
+        session.setAttribute("message", "Create product success!");
         response.sendRedirect("products?action=home_product");
     }
+
     private void updateGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id_product"));
         Product product = productManage.findById(id);
@@ -128,9 +132,10 @@ public class ProductServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("categories", categories);
         session.setAttribute("brands", brands);
-        session.setAttribute("product",product);
+        session.setAttribute("product", product);
         response.sendRedirect("update_product.jsp");
     }
+
     private void update(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id_product"));
         String name = request.getParameter("name");
@@ -143,10 +148,17 @@ public class ProductServlet extends HttpServlet {
         int id_brand = Integer.parseInt(request.getParameter("brand"));
         Category category = categoryManage.findById(id_category);
         Brand brand = brandManage.findById(id_brand);
-        Product product = new Product(id,name,price,sale_price,quantity,description,image,1,category,brand);
+        Product product = new Product(id, name, price, sale_price, quantity, description, image, 1, category, brand);
         productManage.update(product);
         HttpSession session = request.getSession();
-        session.setAttribute("message","Create product success!");
+        session.setAttribute("message", "Create product success!");
+        response.sendRedirect("products?action=home_product");
+    }
+    private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id = Integer.parseInt(request.getParameter("id_product"));
+        productManage.delete(id);
+        HttpSession session = request.getSession();
+        session.setAttribute("message", "Delete success!");
         response.sendRedirect("products?action=home_product");
     }
 }

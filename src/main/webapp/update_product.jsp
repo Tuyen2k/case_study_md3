@@ -326,11 +326,11 @@
           </div>
           <div class="form-group">
             <label>Price</label>
-            <input type="number" class="form-control" name="price" value="<fmt:formatNumber value="${product.getPrice()}" pattern="#,##0"/>" required>
+            <input type="text" class="form-control" name="price" value="<fmt:formatNumber value="${product.getPrice()}" pattern="###0"/>" required>
           </div>
           <div class="form-group">
             <label>Sale Price</label>
-            <input type="number" class="form-control" name="sale_price" value="<fmt:formatNumber value="${product.getSale_Price()}" pattern="#,##0"/>" required>
+            <input type="text" class="form-control" name="sale_price" value="<fmt:formatNumber value="${product.getSale_price()}" pattern="###0"/>" required>
           </div>
           <div class="form-group">
             <label>Quantity</label>
