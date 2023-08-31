@@ -82,6 +82,7 @@ public class ProductDAO implements IProductDAO {
         return product;
     }
 
+
     @Override
     public void create(Product product) {
         String sql = "insert into product (name, price, sale_price, quantity, description, image, isActive, id_category, id_brand) values(?,?,?,?,?,?,?,?,?);";

@@ -50,7 +50,7 @@
             </ul>
             <ul class="header-links pull-right">
                 <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                <li><a href="accounts"><i class="fa fa-user-o"></i> My Account</a></li>
             </ul>
         </div>
     </div>
@@ -79,7 +79,7 @@
                             <select class="input-select">
                                 <option value="0">All Categories</option>
                                 <c:forEach items="${categories}" var="category">
-                                <option value="${category.getId_category()}">${category.getName()}</option>
+                                    <option value="${category.getId_category()}">${category.getName()}</option>
                                 </c:forEach>
                             </select>
                             <input class="input" placeholder="Search here">
@@ -139,7 +139,7 @@
                                 </div>
                                 <div class="cart-btns">
                                     <a href="#">View Cart</a>
-                                    <a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+                                    <a href="#">Checkout <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -178,9 +178,11 @@
                 <c:forEach var="category" items="${categories}">
                     <li><a href="products?action=search_by_category&&id_category=${category.getId_category()}">${category.getName()}</a></li>
                 </c:forEach>
-                <li><a href="products?action=home_product">Product Home</a></li>
-                <li><a href="categories">Category Home</a></li>
-                <li><a href="brands">Brand Home</a></li>
+                <c:if test="${sessionScope.role.getId_role() == 1}">
+                    <li><a href="products?action=home_product">Product Home</a></li>
+                    <li><a href="categories">Category Home</a></li>
+                    <li><a href="brands">Brand Home</a></li>
+                </c:if>
             </ul>
             <!-- /NAV -->
         </div>

@@ -2,12 +2,8 @@ package com.example.case_study_md3_demo.controller;
 
 import com.example.case_study_md3_demo.DAO.iplm.CategoryDAO;
 import com.example.case_study_md3_demo.DAO.iplm.ProductDAO;
-import com.example.case_study_md3_demo.model.Brand;
-import com.example.case_study_md3_demo.model.Category;
-import com.example.case_study_md3_demo.model.Product;
-import com.example.case_study_md3_demo.service.iplm.BrandManage;
-import com.example.case_study_md3_demo.service.iplm.CategoryManage;
-import com.example.case_study_md3_demo.service.iplm.ProductManage;
+import com.example.case_study_md3_demo.model.*;
+import com.example.case_study_md3_demo.service.iplm.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -17,18 +13,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+
 
 @WebServlet(name = "ProductServlet", value = "/products")
 public class ProductServlet extends HttpServlet {
     private ProductManage productManage;
     private CategoryManage categoryManage;
     private BrandManage brandManage;
+    AccountManage accountManage;
+    RoleManage roleManage;
 
     @Override
     public void init() throws ServletException {
         productManage = new ProductManage();
+        accountManage = new AccountManage();
         categoryManage = CategoryManage.getCategoryManage();
+        roleManage = new RoleManage();
         brandManage = BrandManage.getBrandManage();
     }
 
@@ -51,6 +53,7 @@ public class ProductServlet extends HttpServlet {
             case "delete_product":
                 delete(request, response);
                 break;
+
             default:
                 displayProduct(request, response);
         }
@@ -96,6 +99,7 @@ public class ProductServlet extends HttpServlet {
         RequestDispatcher rq = request.getRequestDispatcher("display_one_product.jsp");
         rq.forward(request, response);
     }
+
 
     private void homeProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Product> products = productManage.findAll();
@@ -156,6 +160,7 @@ public class ProductServlet extends HttpServlet {
         session.setAttribute("message", "Create product success!");
         response.sendRedirect("products?action=home_product");
     }
+
     private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id_product"));
         productManage.delete(id);
