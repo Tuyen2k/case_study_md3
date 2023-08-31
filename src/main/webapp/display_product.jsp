@@ -178,8 +178,10 @@
                 <c:forEach var="category" items="${categories}">
                     <li><a href="products?action=search_by_category&&id_category=${category.getId_category()}">${category.getName()}</a></li>
                 </c:forEach>
-                <li><a href="categories">Category Home</a></li>
+                <c:if test="${sessionScope.role.getId_role() == 1}">
+                <li><a href="categories" >Category Home</a></li>
                 <li><a href="brands">Brand Home</a></li>
+                </c:if>
             </ul>
             <!-- /NAV -->
         </div>
@@ -857,4 +859,24 @@
 <script src="js/main.js"></script>
 
 </body>
+<script>
+    function checkRole(role) {
+        var column1 = document.getElementsByClassName("update")
+        var column2 = document.getElementsByClassName("delete")
+        var column3 = document.getElementsByClassName("add_cart")
+        if (role === 1) {
+            for (let i = 0; i < column1.length; i++) {
+                column1[i].style.display = "inline-block";
+                column2[i].style.display = "inline-block";
+                column3[i].style.display = "none";
+            }
+        } else if (role === 2) {
+            for (let i = 0; i < column1.length; i++) {
+                column1[i].style.display = "none";
+                column2[i].style.display = "none";
+                column3[i].style.display = "inline";
+            }
+        }
+    }
+</script>
 </html>

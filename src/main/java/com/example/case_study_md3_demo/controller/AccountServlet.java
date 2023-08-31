@@ -1,9 +1,7 @@
 package com.example.case_study_md3_demo.controller;
 
-import com.example.case_study_md3_demo.model.Account;
-import com.example.case_study_md3_demo.model.Role;
-import com.example.case_study_md3_demo.service.iplm.AccountManage;
-import com.example.case_study_md3_demo.service.iplm.RoleManage;
+import com.example.case_study_md3_demo.model.*;
+import com.example.case_study_md3_demo.service.iplm.*;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -14,12 +12,18 @@ import java.util.List;
 @WebServlet(name = "AccountServlet", value = "/accounts")
 public class AccountServlet extends HttpServlet {
     private AccountManage accountManage;
-    RoleManage roleManage;
+    private ProductManage productManage;
+    private CategoryManage categoryManage;
+    private BrandManage brandManage;
+    private RoleManage roleManage;
 
     @Override
     public void init() throws ServletException {
         accountManage =AccountManage.getAccountManage();
         roleManage =new RoleManage();
+        productManage = new ProductManage();
+        categoryManage = CategoryManage.getCategoryManage();
+        brandManage = BrandManage.getBrandManage();
     }
 
     @Override
@@ -100,7 +104,7 @@ public class AccountServlet extends HttpServlet {
             session.setAttribute("userLogin", userLogin);
             Role role = roleManage.findById(userLogin.getRole().getId_role());
             session.setAttribute("role", role);
-            response.sendRedirect("home.jsp");
+            response.sendRedirect("products");
         } else {
             session.setAttribute("message", "Login Not Success!");
             response.sendRedirect("login.jsp");
