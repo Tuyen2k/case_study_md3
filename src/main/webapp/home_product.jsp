@@ -310,7 +310,7 @@
     </script>
 </head>
 <body>
-<!-- Display product -->
+<!-- Disp vlay product -->
 <div class="container">
     <div class="table-responsive">
         <div class="table-wrapper">
