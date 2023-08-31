@@ -9,6 +9,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet(name = "AccountServlet", value = "/accounts")
 public class AccountServlet extends HttpServlet {
@@ -29,7 +30,7 @@ public class AccountServlet extends HttpServlet {
         }
         switch (action) {
             default:
-                registerGet(request,response);
+                loginGet(request,response);
         }
     }
 
@@ -40,8 +41,8 @@ public class AccountServlet extends HttpServlet {
             action = "";
         }
         switch (action) {
-            case "register":
-                registerPost(request, response);
+            case "login":
+                loginPost(request, response);
                 break;
         }
     }
@@ -66,6 +67,37 @@ public class AccountServlet extends HttpServlet {
         } else {
             session.setAttribute("message", "Repeat your password not matching!");
             response.sendRedirect("accounts");
+        }
+    }
+    private void loginGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect("login.jsp");
+
+    }
+
+    private void loginPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        boolean flag = false;
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        List<Account> accounts = accountManage.findAll();
+        Account userLogin = new Account();
+        HttpSession session = request.getSession();
+        for (Account account :accounts ) {
+            if (account.getUsername().equals(username)
+                    && account.getPassword().equals(password)) {
+                userLogin = account;
+                flag = true;
+                break;
+            }
+        }
+        if (flag) {
+            session.setAttribute("message", "Login Success!");
+            session.setAttribute("userLogin", userLogin);
+            Role role = roleManage.findById(userLogin.getRole().getId_role());
+            session.setAttribute("role", role);
+            response.sendRedirect("products");
+        } else {
+            session.setAttribute("message", "Login Not Success!");
+            response.sendRedirect("products");
         }
     }
 }

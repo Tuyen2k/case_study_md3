@@ -49,6 +49,7 @@ public class ProductServlet extends HttpServlet {
             case "display_one":
                 displayOneProduct(request, response);
                 break;
+
             default:
                 displayProduct(request, response);
         }
@@ -56,7 +57,14 @@ public class ProductServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if (action == null) {
+            action = "";
+        }
+        switch (action) {
 
+
+    }
     }
 
 
@@ -66,7 +74,7 @@ public class ProductServlet extends HttpServlet {
         List<Category> categories = categoryManage.findAll();
         request.setAttribute("products", products);
         request.setAttribute("categories", categories);
-        RequestDispatcher rq = request.getRequestDispatcher("display_");
+        RequestDispatcher rq = request.getRequestDispatcher("display_product.jsp");
         rq.forward(request, response);
     }
 
@@ -80,35 +88,5 @@ public class ProductServlet extends HttpServlet {
         rq.forward(request, response);
     }
 
-    private void loginGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.sendRedirect("login.jsp");
 
-    }
-
-    private void loginPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        boolean flag = false;
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        List<Account> accounts = accountManage.findAll();
-        Account userLogin = new Account();
-        HttpSession session = request.getSession();
-        for (Account account :accounts ) {
-            if (account.getUsername().equals(username)
-                    && account.getPassword().equals(password)) {
-                userLogin = account;
-                flag = true;
-                break;
-            }
-        }
-        if (flag) {
-            session.setAttribute("message", "Login Success!");
-            session.setAttribute("userLogin", userLogin);
-            Role role = roleManage.findById(userLogin.getRole().getId_role());
-            session.setAttribute("role", role);
-            response.sendRedirect("products");
-        } else {
-            session.setAttribute("message", "Login Not Success!");
-            response.sendRedirect("products?action=login");
-        }
-    }
 }
