@@ -79,8 +79,10 @@ public class ProductServlet extends HttpServlet {
     private void displayProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         List<Product> products = productManage.findAll();
         List<Category> categories = categoryManage.findAll();
+        List<Brand> brands = brandManage.findAll();
         request.setAttribute("products", products);
         request.setAttribute("categories", categories);
+        request.setAttribute("brands", brands);
         RequestDispatcher rq = request.getRequestDispatcher("display_product.jsp");
         rq.forward(request, response);
     }
@@ -160,5 +162,13 @@ public class ProductServlet extends HttpServlet {
         HttpSession session = request.getSession();
         session.setAttribute("message", "Delete success!");
         response.sendRedirect("products?action=home_product");
+    }
+
+    private void displayByCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
+
+    private void displayByBrand(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 }

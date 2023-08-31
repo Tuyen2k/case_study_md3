@@ -19,11 +19,9 @@ public class ProductDAO implements IProductDAO {
     private final MyConnection myConnection;
     private final Connection connection;
     private String SELECT_PRODUCT_LIST = "select * from product;";
-    private final String SELECT_PRODUCT_BY_ID = "select * from product where id_product = ?;";
 
     private CategoryDAO categoryDAO;
     private BrandDAO brandDAO;
-    private final String SELECT_ALL = "select* from product;";
     private final String SELECT_BY_ID = "select*from product where id_product=?;";
 
     public ProductDAO(){
@@ -132,5 +130,62 @@ public class ProductDAO implements IProductDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public List<Product> findAllByCategory(int id) {
+        List<Product> product = new ArrayList<>();
+        String sql = "SELECT * FROM product WHERE id_category=?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                double price = resultSet.getDouble("price");
+                double salePrice = resultSet.getDouble("sale_price");
+                int quantity = resultSet.getInt("quantity");
+                String description = resultSet.getString("description");
+                String image = resultSet.getString("image");
+                int isActive = resultSet.getInt("isActive");
+                int categoryId = resultSet.getInt("id_category");
+                int brandId = resultSet.getInt("id_brand");
+
+                Category category = categoryDAO.findById(categoryId);
+                Brand brand = brandDAO.findById(brandId);
+
+                product.add(new Product(name, price, salePrice, quantity, description, image, isActive, category, brand));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return product;
+    }
+
+    public List<Product> findAllByBrand(int id) {
+        List<Product> product = new ArrayList<>();
+        String sql = "SELECT * FROM product WHERE id_brand=?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                String name = resultSet.getString("name");
+                double price = resultSet.getDouble("price");
+                double salePrice = resultSet.getDouble("sale_price");
+                int quantity = resultSet.getInt("quantity");
+                String description = resultSet.getString("description");
+                String image = resultSet.getString("image");
+                int isActive = resultSet.getInt("isActive");
+                int categoryId = resultSet.getInt("id_category");
+                int brandId = resultSet.getInt("id_brand");
+
+                Category category = categoryDAO.findById(categoryId);
+                Brand brand = brandDAO.findById(brandId);
+
+                product.add(new Product(name, price, salePrice, quantity, description, image, isActive, category, brand));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return product;
     }
 }
