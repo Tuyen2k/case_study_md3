@@ -71,6 +71,7 @@ public class ProductDAO implements IProductDAO {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
+                int id1 = resultSet.getInt("id");
                 String name = resultSet.getString("name");
                 double price = resultSet.getDouble("price");
                 double sale_price = resultSet.getDouble("sale_price");
@@ -89,6 +90,7 @@ public class ProductDAO implements IProductDAO {
         }
         return product;
     }
+
 
     @Override
     public void create(Product product) {
