@@ -34,7 +34,7 @@ public class ProductDAO implements IProductDAO {
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                int id = resultSet.getInt("id");
+                int id = resultSet.getInt("id_product");
                 String name = resultSet.getString("name");
                 double price = resultSet.getDouble("price");
                 double sale_price = resultSet.getDouble("sale_price");
@@ -60,7 +60,7 @@ public class ProductDAO implements IProductDAO {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                int id1 = resultSet.getInt("id");
+                int id1 = resultSet.getInt("id_product");
                 String name = resultSet.getString("name");
                 double price = resultSet.getDouble("price");
                 double sale_price = resultSet.getDouble("sale_price");
