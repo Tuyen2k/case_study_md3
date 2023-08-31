@@ -103,7 +103,7 @@ public class ProductServlet extends HttpServlet {
         session.setAttribute("products", products);
         session.setAttribute("categories", categories);
         session.setAttribute("brands", brands);
-        response.sendRedirect("test.jsp");
+        response.sendRedirect("home_product.jsp");
     }
 
     private void create(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
