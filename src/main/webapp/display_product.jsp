@@ -178,6 +178,7 @@
                 <c:forEach var="category" items="${categories}">
                     <li><a href="products?action=search_by_category&&id_category=${category.getId_category()}">${category.getName()}</a></li>
                 </c:forEach>
+                <li><a href="products?action=home_product">Product Home</a></li>
                 <li><a href="categories">Category Home</a></li>
                 <li><a href="brands">Brand Home</a></li>
             </ul>
@@ -227,56 +228,11 @@
                             <input type="checkbox" id="category-${category.getId_category()}">
                             <label for="category-${category.getId_category()}">
                                 <span></span>
-                                    ${category.getName()}
+                                <a href="#"></a>${category.getName()}
                                 <small>(120)</small> <!--đếm số lượng cata trong list-->
                             </label>
                         </div>
                         </c:forEach>
-
-<%--                        <div class="input-checkbox">--%>
-<%--                            <input type="checkbox" id="category-2">--%>
-<%--                            <label for="category-2">--%>
-<%--                                <span></span>--%>
-<%--                                Smartphones--%>
-<%--                                <small>(740)</small>--%>
-<%--                            </label>--%>
-<%--                        </div>--%>
-
-<%--                        <div class="input-checkbox">--%>
-<%--                            <input type="checkbox" id="category-3">--%>
-<%--                            <label for="category-3">--%>
-<%--                                <span></span>--%>
-<%--                                Cameras--%>
-<%--                                <small>(1450)</small>--%>
-<%--                            </label>--%>
-<%--                        </div>--%>
-
-<%--                        <div class="input-checkbox">--%>
-<%--                            <input type="checkbox" id="category-4">--%>
-<%--                            <label for="category-4">--%>
-<%--                                <span></span>--%>
-<%--                                Accessories--%>
-<%--                                <small>(578)</small>--%>
-<%--                            </label>--%>
-<%--                        </div>--%>
-
-<%--                        <div class="input-checkbox">--%>
-<%--                            <input type="checkbox" id="category-5">--%>
-<%--                            <label for="category-5">--%>
-<%--                                <span></span>--%>
-<%--                                Laptops--%>
-<%--                                <small>(120)</small>--%>
-<%--                            </label>--%>
-<%--                        </div>--%>
-
-<%--                        <div class="input-checkbox">--%>
-<%--                            <input type="checkbox" id="category-6">--%>
-<%--                            <label for="category-6">--%>
-<%--                                <span></span>--%>
-<%--                                Smartphones--%>
-<%--                                <small>(740)</small>--%>
-<%--                            </label>--%>
-<%--                        </div>--%>
                     </div>
                 </div>
                 <!-- /aside Widget -->
@@ -442,8 +398,10 @@
                             <div class="product-body">
                                 <p class="product-category">${name}</p>
                                 <h3 class="product-name"><a href="products?action=display_one&&id_product=${product.getId_product()}">${product.getName()}</a></h3>
-                                <h4 class="product-price"><fmt:formatNumber value="${product.getPrice()}" pattern="#,##0"/>
-                                    <del class="product-old-price"><fmt:formatNumber value="${product.getPrice()}" pattern="#,##0"/></del></h4>
+                                <h4 class="product-price">
+                                    <fmt:formatNumber value="${product.getPrice()}" pattern="#,##0"/>
+                                    <del class="product-old-price">
+                                        <fmt:formatNumber value="${product.getPrice()}" pattern="#,##0"/></del></h4>
                                 <div class="product-rating">
                                     <i class="fa fa-star"></i>
                                     <i class="fa fa-star"></i>

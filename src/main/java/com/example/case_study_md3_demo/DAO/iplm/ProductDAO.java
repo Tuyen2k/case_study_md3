@@ -22,18 +22,16 @@ public class ProductDAO implements IProductDAO {
     private String SELECT_PRODUCT_LIST = "select * from product;";
     private final String SELECT_PRODUCT_BY_ID = "select * from product where id_product = ?;";
 
-    private CategoryDAO categoryDAO = new CategoryDAO();
-
-    private CategoryManage categoryManage;
-    private BrandManage brandManage;
+    private CategoryDAO categoryDAO;
+    private BrandDAO brandDAO;
     private final String SELECT_ALL = "select* from product;";
     private final String SELECT_BY_ID = "select*from product where id_product=?;";
 
     public ProductDAO(){
         myConnection = MyConnection.getMyConnection();
         connection = myConnection.getConnection();
-        categoryManage = new CategoryManage();
-        brandManage = new BrandManage();
+        categoryDAO = new CategoryDAO();
+        brandDAO = new BrandDAO();
     }
 
     public List<Product> findAll() {
@@ -51,11 +49,8 @@ public class ProductDAO implements IProductDAO {
                 int isActive = resultSet.getInt("isActive");
                 int categoryId = resultSet.getInt("id_category");
                 int brandId = resultSet.getInt("id_brand");
-
                 Category category = categoryDAO.findById(categoryId);
-                Brand brand = brandManage.findById(brandId);
-
-
+                Brand brand = brandDAO.findById(brandId);
                 productList.add(new Product(id, name, price, salePrice, quantity, description, image, isActive, category, brand));
             }
         } catch (SQLException e) {
@@ -81,7 +76,7 @@ public class ProductDAO implements IProductDAO {
                 int id_category = resultSet.getInt("id_category");
                 int id_brand = resultSet.getInt("id_brand");
                 Category category = categoryDAO.findById(id_category);
-                Brand brand = brandManage.findById(id_brand);
+                Brand brand = brandDAO.findById(id_brand);
                 product = new Product(id, name, price, sale_price, quantity, description, image, isActive, category, brand);
             }
         } catch (SQLException e) {
@@ -92,27 +87,7 @@ public class ProductDAO implements IProductDAO {
 
     @Override
     public void create(Product product) {
-        String sql = "insert into product (name, price, sale_price, quantity, description, image, isActive, category, brand) values(?,?,?,?,?,?,?,?,?);";
-        try (
-                PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setString(1, product.getName());
-            preparedStatement.setDouble(2, product.getPrice());
-            preparedStatement.setDouble(3, product.getSale_price());
-            preparedStatement.setInt(4, product.getQuantity());
-            preparedStatement.setString(5, product.getDescription());
-            preparedStatement.setString(6, product.getImage());
-            preparedStatement.setInt(7, product.getIsActive());
-            preparedStatement.setInt(8, product.getCategory().getId_category());
-            preparedStatement.setInt(9, product.getCategory().getId_category());
-            preparedStatement.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void update(Product product) {
-        String sql = "UPDATE product SET name=?, price=?, sale_price=?, quantity=?, description=?, image=?, isActive=?, category=?, brand=? WHERE id=?;";
+        String sql = "insert into product (name, price, sale_price, quantity, description, image, isActive, id_category, id_brand) values(?,?,?,?,?,?,?,?,?);";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setString(1, product.getName());
             preparedStatement.setDouble(2, product.getPrice());
@@ -122,7 +97,27 @@ public class ProductDAO implements IProductDAO {
             preparedStatement.setString(6, product.getImage());
             preparedStatement.setInt(7, product.getIsActive());
             preparedStatement.setInt(8, product.getCategory().getId_category());
-            preparedStatement.setInt(9, product.getCategory().getId_category());
+            preparedStatement.setInt(9, product.getBrand().getId_brand());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void update(Product product) {
+        String sql = "UPDATE product SET name=?, price=?, sale_price=?, quantity=?, description=?, image=?, isActive=?, category=?, brand=? WHERE id_product=?;";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setString(1, product.getName());
+            preparedStatement.setDouble(2, product.getPrice());
+            preparedStatement.setDouble(3, product.getSale_price());
+            preparedStatement.setInt(4, product.getQuantity());
+            preparedStatement.setString(5, product.getDescription());
+            preparedStatement.setString(6, product.getImage());
+            preparedStatement.setInt(7, product.getIsActive());
+            preparedStatement.setInt(8, product.getCategory().getId_category());
+            preparedStatement.setInt(9, product.getBrand().getId_brand());
+            preparedStatement.setInt(10, product.getId_product());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -131,7 +126,7 @@ public class ProductDAO implements IProductDAO {
 
     @Override
     public void delete(int id) {
-        String sql = "DELETE FROM product WHERE id = ?;";
+        String sql = "DELETE FROM product WHERE id_product = ?;";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
