@@ -2,14 +2,8 @@ package com.example.case_study_md3_demo.controller;
 
 import com.example.case_study_md3_demo.DAO.iplm.CategoryDAO;
 import com.example.case_study_md3_demo.DAO.iplm.ProductDAO;
-import com.example.case_study_md3_demo.model.Category;
-import com.example.case_study_md3_demo.model.Account;
-import com.example.case_study_md3_demo.model.Product;
-import com.example.case_study_md3_demo.model.Role;
-import com.example.case_study_md3_demo.service.iplm.AccountManage;
-import com.example.case_study_md3_demo.service.iplm.CategoryManage;
-import com.example.case_study_md3_demo.service.iplm.ProductManage;
-import com.example.case_study_md3_demo.service.iplm.RoleManage;
+import com.example.case_study_md3_demo.model.*;
+import com.example.case_study_md3_demo.service.iplm.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,20 +17,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-
 @WebServlet(name = "ProductServlet", value = "/products")
 public class ProductServlet extends HttpServlet {
     private ProductManage productManage;
-   private CategoryManage categoryManage;
+    private CategoryManage categoryManage;
+    private BrandManage brandManage;
     AccountManage accountManage;
-    RoleManage roleManage ;
+    RoleManage roleManage;
 
     @Override
     public void init() throws ServletException {
         productManage = new ProductManage();
-        accountManage =new AccountManage();
-        categoryManage =new CategoryManage();
+        accountManage = new AccountManage();
+        categoryManage = CategoryManage.getCategoryManage();
         roleManage = new RoleManage();
+        brandManage = BrandManage.getBrandManage();
     }
 
     @Override
@@ -72,14 +67,6 @@ public class ProductServlet extends HttpServlet {
             action = "";
         }
         switch (action) {
-
-
-    }
-        String action = request.getParameter("action");
-        if (action == null) {
-            action = "";
-        }
-        switch (action) {
             case "create":
                 create(request, response);
                 break;
@@ -90,7 +77,6 @@ public class ProductServlet extends HttpServlet {
                 displayProduct(request, response);
         }
     }
-
 
 
     private void displayProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -172,6 +158,7 @@ public class ProductServlet extends HttpServlet {
         session.setAttribute("message", "Create product success!");
         response.sendRedirect("products?action=home_product");
     }
+
     private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id = Integer.parseInt(request.getParameter("id_product"));
         productManage.delete(id);

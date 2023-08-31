@@ -73,7 +73,7 @@ public class AccountServlet extends HttpServlet {
             Account account = new Account(username, password, phone,email,address,role );
             accountManage.create(account);
             session.setAttribute("message", "Register success!");
-            response.sendRedirect("products");
+            response.sendRedirect("login.jsp");
         } else {
             session.setAttribute("message", "Repeat your password not matching!");
             response.sendRedirect("accounts");
