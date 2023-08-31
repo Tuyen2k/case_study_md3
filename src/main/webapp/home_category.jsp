@@ -176,6 +176,7 @@
                 <c:forEach var="category" items="${categories}">
                     <li><a href="products?action=search_by_category&&id_category=${category.getId_category()}">${category.getName()}</a></li>
                 </c:forEach>
+                <li><a href="products?action=home_product">Product Home</a></li>
                 <li><a href="categories">Category Home</a></li>
                 <li><a href="brands">Brand Home</a></li>
             </ul>

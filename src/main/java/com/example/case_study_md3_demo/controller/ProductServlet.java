@@ -37,6 +37,9 @@ public class ProductServlet extends HttpServlet {
             case "display_one":
                 displayOneProduct(request, response);
                 break;
+            case "home_product":
+                 homeProduct(request, response);
+                break;
             default:
                 displayProduct(request, response);
         }
@@ -69,4 +72,7 @@ public class ProductServlet extends HttpServlet {
         rq.forward(request, response);
     }
 
+    private void homeProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect("home_product.jsp");
+    }
 }
