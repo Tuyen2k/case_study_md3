@@ -25,9 +25,6 @@ public class CategoryServlet extends HttpServlet {
             action = "";
         }
         switch (action) {
-            case "update":
-                getUpdateCategory(request,response);
-                break;
             default:
                 displayCategory(request, response);
                 break;
@@ -64,20 +61,13 @@ public class CategoryServlet extends HttpServlet {
         }
     }
 
-    public void postCreate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void postCreate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name_category");
         Category category = new Category(name);
         categoryManage.create(category);
         response.sendRedirect("categories");
     }
-    public void getUpdateCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id_category = Integer.parseInt(request.getParameter("id_category"));
-        Category category = categoryManage.findById(id_category);
-        request.setAttribute("category", category);
-        RequestDispatcher rq = request.getRequestDispatcher("home_category.jsp");
-        rq.forward(request, response);
-}
-    public void postUpdateCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void postUpdateCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id_category =Integer.parseInt( request.getParameter("id_category"));
         String name =request.getParameter("name_category");
         Category category =new Category(name);

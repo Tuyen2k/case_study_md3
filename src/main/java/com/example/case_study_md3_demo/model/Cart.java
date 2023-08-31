@@ -2,17 +2,17 @@ package com.example.case_study_md3_demo.model;
 
 public class Cart {
     private int id_cart;
-    private int id_account;
+    private Account account;
     private double total;
 
-    public Cart(int id_cart, int id_account, double total) {
+    public Cart(int id_cart, Account account, double total) {
         this.id_cart = id_cart;
-        this.id_account = id_account;
+        this.account = account;
         this.total = total;
     }
 
-    public Cart(int id_account, double total) {
-        this.id_account = id_account;
+    public Cart(Account account, double total) {
+        this.account = account;
         this.total = total;
     }
 
@@ -27,12 +27,12 @@ public class Cart {
         this.id_cart = id_cart;
     }
 
-    public int getId_account() {
-        return id_account;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setId_account(int id_account) {
-        this.id_account = id_account;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public double getTotal() {

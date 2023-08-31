@@ -26,9 +26,6 @@ public class BrandServlet extends HttpServlet {
             action = "";
         }
         switch (action) {
-            case "update":
-                getUpdateBrand(request,response);
-                break;
             default:
                 displayBrand(request, response);
                 break;
@@ -59,26 +56,19 @@ public class BrandServlet extends HttpServlet {
             response.sendRedirect("home_brand.jsp");
         } else {
             boolean flag = true;
-            session.setAttribute("message", "There are no categories");
+            session.setAttribute("message", "There are no brands!");
             session.setAttribute("flag", flag);
             response.sendRedirect("home_brand.jsp");
         }
     }
 
-    public void postCreate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void postCreate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name_brand");
         Brand brand = new Brand(name);
         brandManage.create(brand);
         response.sendRedirect("brands");
     }
-    public void getUpdateBrand(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id_brand = Integer.parseInt(request.getParameter("id_brand"));
-        Brand brand = brandManage.findById(id_brand);
-        request.setAttribute("brand", brand);
-        RequestDispatcher rq = request.getRequestDispatcher("home_brand.jsp");
-        rq.forward(request, response);
-    }
-    public void postUpdateBrand(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private void postUpdateBrand(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id_brand =Integer.parseInt( request.getParameter("id_brand"));
         String name =request.getParameter("name_brand");
         Brand brand =new Brand(name);

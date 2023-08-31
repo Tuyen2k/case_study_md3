@@ -171,13 +171,13 @@
         <div id="responsive-nav">
             <!-- NAV -->
             <ul class="main-nav nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
+                <li class="active"><a href="products">Home</a></li>
                 <li><a href="#">Hot Deals</a></li>
-                <li><a href="categories">Categories</a></li>
-                <li><a href="#">Laptops</a></li>
-                <li><a href="#">Smartphones</a></li>
-                <li><a href="#">Cameras</a></li>
-                <li><a href="#">Accessories</a></li>
+                <c:forEach var="category" items="${categories}">
+                    <li><a href="products?action=search_by_category&&id_category=${category.getId_category()}">${category.getName()}</a></li>
+                </c:forEach>
+                <li><a href="categories">Category Home</a></li>
+                <li><a href="brands">Brand Home</a></li>
             </ul>
             <!-- /NAV -->
         </div>
