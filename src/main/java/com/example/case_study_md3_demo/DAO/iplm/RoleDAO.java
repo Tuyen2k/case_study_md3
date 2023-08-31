@@ -16,7 +16,7 @@ public class RoleDAO implements IRoleDAO {
     private MyConnection myConnection = MyConnection.getMyConnection();;
     private Connection connection;
     private String SELECT_ROLE_LIST = "select * from role;";
-    private final String SELECT_ROLE_BY_ID = "select * from role where id = ?;";
+    private final String SELECT_ROLE_BY_ID = "select * from role where id_role = ?;";
     private final String INSERT_INTO_ROLE = "insert into role(name) value(?);";
 
     public RoleDAO(){
@@ -29,7 +29,7 @@ public class RoleDAO implements IRoleDAO {
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()){
                 int id_role = resultSet.getInt("id_role");
-                int name = Integer.parseInt(resultSet.getString("name"));
+                String name = resultSet.getString("name");
                 roles.add(new Role(id_role,name));
             }
         }catch (SQLException e){
@@ -45,7 +45,7 @@ public class RoleDAO implements IRoleDAO {
             preparedStatement.setInt(1,id);
             ResultSet resultSet = preparedStatement.executeQuery();
             while (resultSet.next()) {
-                int name =Integer.parseInt(resultSet.getString("name"));
+                String name =resultSet.getString("name");
                 role = new Role(id, name);
             }
         } catch (SQLException e) {

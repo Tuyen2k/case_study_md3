@@ -29,6 +29,9 @@ public class AccountServlet extends HttpServlet {
             action = "";
         }
         switch (action) {
+            case "register" :
+                registerGet(request,response);
+                break;
             default:
                 loginGet(request,response);
         }
@@ -43,6 +46,9 @@ public class AccountServlet extends HttpServlet {
         switch (action) {
             case "login":
                 loginPost(request, response);
+                break;
+            case "create":
+                registerPost(request,response);
                 break;
         }
     }
@@ -94,10 +100,11 @@ public class AccountServlet extends HttpServlet {
             session.setAttribute("userLogin", userLogin);
             Role role = roleManage.findById(userLogin.getRole().getId_role());
             session.setAttribute("role", role);
-            response.sendRedirect("products");
+            response.sendRedirect("home.jsp");
         } else {
             session.setAttribute("message", "Login Not Success!");
-            response.sendRedirect("products");
+            response.sendRedirect("login.jsp");
         }
     }
+
 }

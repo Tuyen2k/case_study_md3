@@ -18,9 +18,9 @@ public class AccountDAO implements IAccountDAO {
     private final Connection connection;
     RoleManage roleManage ;
     private String SELECT_ACCOUNT_LIST = "select * from account";
-    private final String SELECT_ACCOUNT_BY_ID = "select * from account where id = ?";
-    private final String INSERT_INTO_ACCOUNT = "insert into account(username,password,phone,email,address,role) value(?,?,?,?,?,?);";
-    private final String UPDATE_ACCOUNT = "update account set name = ? where id = ?";
+    private final String SELECT_ACCOUNT_BY_ID = "select * from account where id_account = ?";
+    private final String INSERT_INTO_ACCOUNT = "insert into account(username,password,phone,email,address,id_role) value(?,?,?,?,?,?);";
+    private final String UPDATE_ACCOUNT = "update account set name = ? where id_account = ?";
 
     public AccountDAO() {
       myConnection =MyConnection.getMyConnection();

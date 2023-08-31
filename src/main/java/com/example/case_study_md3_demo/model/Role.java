@@ -2,14 +2,14 @@ package com.example.case_study_md3_demo.model;
 
 public class Role {
     private int id_role;
-    private int name;
+    private String name;
 
-    public Role(int id_role, int name) {
+    public Role(int id_role, String name) {
         this.id_role = id_role;
         this.name = name;
     }
 
-    public Role(int name) {
+    public Role(String name) {
         this.name = name;
     }
 
@@ -24,11 +24,11 @@ public class Role {
         this.id_role = id_role;
     }
 
-    public int getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(int name) {
+    public void setName(String name) {
         this.name = name;
     }
 }
