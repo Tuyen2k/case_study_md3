@@ -24,6 +24,7 @@ public class CartDAO implements ICartDAO {
 
     private String SELECT_ALL_CART = "select * from cart;";
     private String SELECT_CART_BY_ID = "select * from cart where id_cart = ?;";
+    private String SELECT_CART_BY_IDACCOUNT = "select * from cart where id_account = ?;";
     private String SELECT_NEW_CART = "select * from cart order by id_cart desc limit 1;";
     private String INSERT_INTO = "insert into cart(id_account,total) value(?, ?);";
     private String UPDATE_CART = "update cart set total = ? where id_cart = ?";
@@ -45,18 +46,35 @@ public class CartDAO implements ICartDAO {
         return carts;
     }
 
+    private Cart getDataDB(ResultSet resultSet) throws SQLException {
+        Cart cart = new Cart();
+        while (resultSet.next()){
+            int id_cart = resultSet.getInt("id_cart");
+            int id_product = resultSet.getInt("id_account");
+            double total = resultSet.getDouble("total");
+            cart = new Cart(id_cart,accountDAO.findById(id_product),total);
+            return cart;
+        }
+        return null;
+    }
     @Override
     public Cart findById(int id) {
         Cart cart = new Cart();
         try(PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CART_BY_ID)) {
             preparedStatement.setInt(1,id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
-                int id_cart = resultSet.getInt("id_cart");
-                int id_product = resultSet.getInt("id_account");
-                double total = resultSet.getDouble("total");
-                cart = new Cart(id_cart,accountDAO.findById(id_product),total);
-            }
+            cart = getDataDB(resultSet);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return cart;
+    }
+    public Cart findByIdAccount(int id) {
+        Cart cart = new Cart();
+        try(PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CART_BY_IDACCOUNT)) {
+            preparedStatement.setInt(1,id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            cart = getDataDB(resultSet);
         }catch (SQLException e){
             e.printStackTrace();
         }

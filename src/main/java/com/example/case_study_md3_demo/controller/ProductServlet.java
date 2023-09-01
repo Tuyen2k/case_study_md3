@@ -190,14 +190,38 @@ public class ProductServlet extends HttpServlet {
             Product product = new Product();
             if (account != null) {
                 product = productManage.findById(id_product);
-                Cart cart = new Cart(account);
-                cartManage.create(cart);
-                cart = cartManage.findNewCart();
-                double price = product.getPrice();
-                double total = price * 1;
-                cart.setTotal(total);
-                CartDetail cartDetail = new CartDetail(cart, product, price, 1, total);
-                cartDetailManage.create(cartDetail);
+                Cart cart = cartManage.findByIdAccount(account.getId_account());
+                if (cart.getId_cart() == 0) {
+                    cart = new Cart(account);
+                    cartManage.create(cart);
+                    cart = cartManage.findNewCart();
+                }
+                CartDetail cartDetail = cartDetailManage.findByIdCart(cart.getId_cart());
+                if (cartDetail == null){
+                    double price = product.getPrice();
+                    double total = price * 1;
+                    cart.setTotal(total);
+                    cartDetail = new CartDetail(cart, product, price, 1, total);
+                    cartDetailManage.create(cartDetail);
+                }
+                else {
+                    CartDetail cartDetail1 = cartDetailManage.findByIdProduct(product.getId_product());
+                    if (cartDetail1.getId_cartDetail() != 0){
+                        int quantity = cartDetail1.getQuantity() + 1;
+                        double price = product.getPrice();
+                        double total = price * quantity;
+                        cartDetail1.setPrice(price);
+                        cartDetail1.setQuantity(quantity);
+                        cartDetail1.setTotal_product(total);
+                        cartDetailManage.update(cartDetail1);
+                    }
+                    else {
+                        double price = product.getPrice();
+                        double total = price * 1;
+                        cartDetail = new CartDetail(cart, product, price, 1, total);
+                        cartDetailManage.create(cartDetail);
+                    }
+                }
                 session.setAttribute("flag", true);
                 session.setAttribute("message", "Add to cart success!");
                 response.sendRedirect("products");

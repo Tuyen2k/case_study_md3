@@ -21,6 +21,9 @@ public class CartManage implements ICartService {
     public Cart findById(int id) {
         return cartDAO.findById(id);
     }
+    public Cart findByIdAccount(int id_account) {
+        return cartDAO.findByIdAccount(id_account);
+    }
 
     @Override
     public void create(Cart cart) {
@@ -34,4 +37,5 @@ public class CartManage implements ICartService {
     public Cart findNewCart(){
         return cartDAO.findNewCart();
     }
+
 }

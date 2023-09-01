@@ -104,13 +104,7 @@ public class AccountServlet extends HttpServlet {
             session.setAttribute("userLogin", userLogin);
             Role role = roleManage.findById(userLogin.getRole().getId_role());
             session.setAttribute("role", role);
-            List<Product> products = productManage.findAll();
-            List<Category> categories = categoryManage.findAll();
-            List<Brand> brands = brandManage.findAll();
-            session.setAttribute("products", products);
-            session.setAttribute("categories", categories);
-            session.setAttribute("brands", brands);
-            response.sendRedirect("display_product.jsp");
+            response.sendRedirect("products");
         } else {
             session.setAttribute("message", "Login Not Success!");
             response.sendRedirect("login.jsp");
