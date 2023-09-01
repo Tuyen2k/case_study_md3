@@ -1,7 +1,5 @@
 package com.example.case_study_md3_demo.controller;
 
-import com.example.case_study_md3_demo.DAO.iplm.CategoryDAO;
-import com.example.case_study_md3_demo.DAO.iplm.ProductDAO;
 import com.example.case_study_md3_demo.model.*;
 import com.example.case_study_md3_demo.service.iplm.*;
 
@@ -13,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -24,6 +21,7 @@ public class ProductServlet extends HttpServlet {
     private BrandManage brandManage;
     AccountManage accountManage;
     RoleManage roleManage;
+    private CartManage cartManage;
 
     @Override
     public void init() throws ServletException {
@@ -32,6 +30,7 @@ public class ProductServlet extends HttpServlet {
         categoryManage = CategoryManage.getCategoryManage();
         roleManage = new RoleManage();
         brandManage = BrandManage.getBrandManage();
+        cartManage = new CartManage();
     }
 
     @Override
@@ -53,7 +52,9 @@ public class ProductServlet extends HttpServlet {
             case "delete_product":
                 delete(request, response);
                 break;
-
+            case "add_cart":
+                addCart(request, response);
+                break;
             default:
                 displayProduct(request, response);
         }
@@ -175,5 +176,34 @@ public class ProductServlet extends HttpServlet {
 
     private void displayByBrand(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+    }
+
+    private void addCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int id_user = Integer.parseInt(request.getParameter("id_user"));
+        Account account = accountManage.findById(id_user);
+        int id_product = Integer.parseInt(request.getParameter("id_product"));
+        Product product = new Product();
+        if (account != null){
+            product = productManage.findById(id_product);
+            Cart cart = new Cart(account);
+            cartManage.create(cart);
+            cart = cartManage.findNewCart();
+            double price = product.getPrice();
+            double total = price * 1;
+            cart.setTotal(total);
+            CartDetail cartDetail = new CartDetail(cart,product,price,1,total);
+
+        }
+
+    }
+    private boolean checkUser(int id_user){
+        boolean flag = false;
+        List<Account> accounts = accountManage.findAll();
+        for (Account account : accounts){
+            if (account.getId_account() == id_user){
+                flag = true;break;
+            }
+        }
+        return flag;
     }
 }

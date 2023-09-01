@@ -380,7 +380,7 @@
                                 </div>
                             </div>
                             <div class="add-to-cart">
-                                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                <a class="add-to-cart-btn" href="products?action=add_cart&&id_user=${userLogin.getId_user()}&&id_product=${product.getId_product()}"><i class="fa fa-shopping-cart"></i> Add to cart</a>
                             </div>
                         </div>
                     </div>
