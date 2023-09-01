@@ -66,7 +66,7 @@ public class AccountDAO implements IAccountDAO {
                 String address =resultSet.getString("address");
                 int id_role = resultSet.getInt("id_role");
                 Role role = roleManage.findById(id_role);
-                account = new Account( username, password,phone,email,address,role);
+                account = new Account(id,username, password,phone,email,address,role);
             }
         } catch (SQLException e) {
             e.printStackTrace();

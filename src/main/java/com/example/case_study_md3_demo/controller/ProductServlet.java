@@ -22,6 +22,7 @@ public class ProductServlet extends HttpServlet {
     AccountManage accountManage;
     RoleManage roleManage;
     private CartManage cartManage;
+    private CartDetailManage cartDetailManage;
 
     @Override
     public void init() throws ServletException {
@@ -31,6 +32,7 @@ public class ProductServlet extends HttpServlet {
         roleManage = new RoleManage();
         brandManage = BrandManage.getBrandManage();
         cartManage = new CartManage();
+        cartDetailManage = new CartDetailManage();
     }
 
     @Override
@@ -84,11 +86,11 @@ public class ProductServlet extends HttpServlet {
         List<Product> products = productManage.findAll();
         List<Category> categories = categoryManage.findAll();
         List<Brand> brands = brandManage.findAll();
-        request.setAttribute("products", products);
-        request.setAttribute("categories", categories);
-        request.setAttribute("brands", brands);
-        RequestDispatcher rq = request.getRequestDispatcher("display_product.jsp");
-        rq.forward(request, response);
+        HttpSession session = request.getSession();
+        session.setAttribute("products", products);
+        session.setAttribute("categories", categories);
+        session.setAttribute("brands", brands);
+        response.sendRedirect("display_product.jsp");
     }
 
     private void displayOneProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -179,29 +181,42 @@ public class ProductServlet extends HttpServlet {
     }
 
     private void addCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id_user = Integer.parseInt(request.getParameter("id_user"));
-        Account account = accountManage.findById(id_user);
-        int id_product = Integer.parseInt(request.getParameter("id_product"));
-        Product product = new Product();
-        if (account != null){
-            product = productManage.findById(id_product);
-            Cart cart = new Cart(account);
-            cartManage.create(cart);
-            cart = cartManage.findNewCart();
-            double price = product.getPrice();
-            double total = price * 1;
-            cart.setTotal(total);
-            CartDetail cartDetail = new CartDetail(cart,product,price,1,total);
-
+        HttpSession session = request.getSession();
+        boolean flag = false;
+        try {
+            int id_user = Integer.parseInt(request.getParameter("id_user"));
+            Account account = accountManage.findById(id_user);
+            int id_product = Integer.parseInt(request.getParameter("id_product"));
+            Product product = new Product();
+            if (account != null) {
+                product = productManage.findById(id_product);
+                Cart cart = new Cart(account);
+                cartManage.create(cart);
+                cart = cartManage.findNewCart();
+                double price = product.getPrice();
+                double total = price * 1;
+                cart.setTotal(total);
+                CartDetail cartDetail = new CartDetail(cart, product, price, 1, total);
+                cartDetailManage.create(cartDetail);
+                session.setAttribute("flag", true);
+                session.setAttribute("message", "Add to cart success!");
+                response.sendRedirect("products");
+            }
+        } catch (NumberFormatException e) {
+            session.setAttribute("flag", true);
+            session.setAttribute("confirm_user", "You need to log in to your account first!");
+            response.sendRedirect("products");
         }
 
     }
-    private boolean checkUser(int id_user){
+
+    private boolean checkUser(int id_user) {
         boolean flag = false;
         List<Account> accounts = accountManage.findAll();
-        for (Account account : accounts){
-            if (account.getId_account() == id_user){
-                flag = true;break;
+        for (Account account : accounts) {
+            if (account.getId_account() == id_user) {
+                flag = true;
+                break;
             }
         }
         return flag;
