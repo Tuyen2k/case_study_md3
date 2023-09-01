@@ -205,15 +205,14 @@ public class ProductServlet extends HttpServlet {
                     cartDetailManage.create(cartDetail);
                 }
                 else {
-                    CartDetail cartDetail1 = cartDetailManage.findByIdProduct(product.getId_product());
-                    if (cartDetail1.getId_cartDetail() != 0){
-                        int quantity = cartDetail1.getQuantity() + 1;
+                    if (cartDetail.getProduct().getId_product() == product.getId_product()){
+                        int quantity = cartDetail.getQuantity() + 1;
                         double price = product.getPrice();
                         double total = price * quantity;
-                        cartDetail1.setPrice(price);
-                        cartDetail1.setQuantity(quantity);
-                        cartDetail1.setTotal_product(total);
-                        cartDetailManage.update(cartDetail1);
+                        cartDetail.setPrice(price);
+                        cartDetail.setQuantity(quantity);
+                        cartDetail.setTotal_product(total);
+                        cartDetailManage.update(cartDetail);
                     }
                     else {
                         double price = product.getPrice();
