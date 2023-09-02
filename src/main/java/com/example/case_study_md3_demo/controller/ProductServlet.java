@@ -230,7 +230,11 @@ public class ProductServlet extends HttpServlet {
         else {
             session.setAttribute("flag", true);
             session.setAttribute("confirm_user", "You need to log in to your account first!");
+            //t có thấy b bắn message đâu
+            // cái confirm_user ở đây này b
             response.sendRedirect("products");
+            //nó nhận message ở đây r nhưng sang khi k hiển thị b ạ
+
         }
 
     }

@@ -38,19 +38,21 @@
 
 </head>
 <body>
+
 <c:if test="${flag}">
     <c:if test="${ not empty confirm_user}">
         <script>
             function confirmUser() {
-                if (confirm(${confirm_user})) {
+                if (confirm("${confirm_user}")) {
                     window.location.href = "accounts";
                 }
             }
+            confirmUser()
         </script>
     </c:if>
     <c:if test="${ not empty message }">
         <script>
-            alert(${message});
+            alert("${message}");
         </script>
     </c:if>
 </c:if>
@@ -189,27 +191,6 @@
     <!-- /container -->
 </nav>
 <!-- /NAVIGATION -->
-
-<!-- BREADCRUMB -->
-<div id="breadcrumb" class="section">
-    <!-- container -->
-    <div class="container">
-        <!-- row -->
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="breadcrumb-tree">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">All Categories</a></li>
-                    <li><a href="#">Accessories</a></li>
-                    <li class="active">Headphones (227,490 Results)</li>
-                </ul>
-            </div>
-        </div>
-        <!-- /row -->
-    </div>
-    <!-- /container -->
-</div>
-<!-- /BREADCRUMB -->
 
 <!-- SECTION -->
 <div class="section">
