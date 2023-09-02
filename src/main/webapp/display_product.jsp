@@ -1,6 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -39,22 +38,22 @@
 
 </head>
 <body>
-<%--<c:if test="${flag}">--%>
-<%--    <c:if test="${confirm_user != null}">--%>
-<%--        <script>--%>
-<%--            function confirmUser() {--%>
-<%--                if (confirm(${confirm_user})) {--%>
-<%--                    window.location.href = "accounts";--%>
-<%--                }--%>
-<%--            }--%>
-<%--        </script>--%>
-<%--    </c:if>--%>
-<%--    <c:if test="${message != null}">--%>
-<%--        <script>--%>
-<%--            alert(${message});--%>
-<%--        </script>--%>
-<%--    </c:if>--%>
-<%--</c:if>--%>
+<c:if test="${flag}">
+    <c:if test="${ not empty confirm_user}">
+        <script>
+            function confirmUser() {
+                if (confirm(${confirm_user})) {
+                    window.location.href = "accounts";
+                }
+            }
+        </script>
+    </c:if>
+    <c:if test="${ not empty message }">
+        <script>
+            alert(${message});
+        </script>
+    </c:if>
+</c:if>
 <!-- HEADER -->
 <header>
     <!-- TOP HEADER -->
@@ -83,7 +82,7 @@
                 <div class="col-md-3">
                     <div class="header-logo">
                         <a href="#" class="logo">
-                            <img src="./img/logo.png" alt="">
+                            <img src="./img/logo.png" alt="image">
                         </a>
                     </div>
                 </div>
@@ -128,34 +127,31 @@
                             </a>
                             <div class="cart-dropdown">
                                 <div class="cart-list">
-                                    <div class="product-widget">
-                                        <div class="product-img">
-                                            <img src="./img/product01.png" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-                                        </div>
-                                        <button class="delete"><i class="fa fa-close"></i></button>
-                                    </div>
 
-                                    <div class="product-widget">
-                                        <div class="product-img">
-                                            <img src="./img/product02.png" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-                                        </div>
-                                        <button class="delete"><i class="fa fa-close"></i></button>
-                                    </div>
+                                    <c:if test="${not empty cartDetails}">
+                                        <c:forEach items="${cartDetails}" varStatus="cartDetail">
+                                            <div class="product-widget">
+                                                <div class="product-img">
+                                                    <img src="${cartDetail.product.getImage()}" alt="image">
+                                                </div>
+                                                <div class="product-body">
+                                                    <h3 class="product-name"><a
+                                                            href="#">${cartDetail.getProduct().getName()}</a></h3>
+                                                    <h4 class="product-price"><span
+                                                            class="qty">${cartDetail.getQuantity()}</span>${cartDetail.getPrice()}
+                                                    </h4>
+                                                </div>
+                                                <button class="delete"><i class="fa fa-close"></i></button>
+                                            </div>
+                                        </c:forEach>
+                                    </c:if>
                                 </div>
                                 <div class="cart-summary">
                                     <small>3 Item(s) selected</small>
                                     <h5>SUBTOTAL: $2940.00</h5>
                                 </div>
                                 <div class="cart-btns">
-                                    <a href="#">View Cart</a>
+                                    <a href="carts&&id_user=${userLogin.getId_account()}">View Cart</a>
                                     <a href="#">Checkout <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
@@ -390,7 +386,7 @@
                                             href="products?action=display_one&&id_product=${product.getId_product()}">${product.getName()}</a>
                                     </h3>
                                     <h4 class="product-price">
-                                        <fmt:formatNumber value="${product.getPrice()}" pattern="#,##0"/>
+                                        <fmt:formatNumber value="${product.getSale_price()}" pattern="#,##0"/>
                                         <del class="product-old-price">
                                             <fmt:formatNumber value="${product.getPrice()}" pattern="#,##0"/></del>
                                     </h4>

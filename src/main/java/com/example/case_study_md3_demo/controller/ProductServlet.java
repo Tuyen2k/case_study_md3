@@ -183,49 +183,51 @@ public class ProductServlet extends HttpServlet {
     private void addCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         boolean flag = false;
-        try {
-            int id_user = Integer.parseInt(request.getParameter("id_user"));
-            Account account = accountManage.findById(id_user);
-            int id_product = Integer.parseInt(request.getParameter("id_product"));
-            Product product = new Product();
-            if (account != null) {
-                product = productManage.findById(id_product);
-                Cart cart = cartManage.findByIdAccount(account.getId_account());
-                if (cart.getId_cart() == 0) {
-                    cart = new Cart(account);
-                    cartManage.create(cart);
-                    cart = cartManage.findNewCart();
-                }
-                CartDetail cartDetail = cartDetailManage.findByIdCart(cart.getId_cart());
-                if (cartDetail == null){
-                    double price = product.getPrice();
-                    double total = price * 1;
-                    cart.setTotal(total);
-                    cartDetail = new CartDetail(cart, product, price, 1, total);
-                    cartDetailManage.create(cartDetail);
-                }
-                else {
-                    if (cartDetail.getProduct().getId_product() == product.getId_product()){
-                        int quantity = cartDetail.getQuantity() + 1;
-                        double price = product.getPrice();
-                        double total = price * quantity;
-                        cartDetail.setPrice(price);
-                        cartDetail.setQuantity(quantity);
-                        cartDetail.setTotal_product(total);
-                        cartDetailManage.update(cartDetail);
+        String strId = request.getParameter("id_user");
+        if (!strId.equals("")) {
+                int id_user = Integer.parseInt(strId);
+                Account account = accountManage.findById(id_user);
+                int id_product = Integer.parseInt(request.getParameter("id_product"));
+                Product product = new Product();
+                if (account != null) {
+                    product = productManage.findById(id_product);
+                    Cart cart = cartManage.findByIdAccount(account.getId_account());
+                    if (cart.getId_cart() == 0) {
+                        cart = new Cart(account);
+                        cartManage.create(cart);
+                        cart = cartManage.findNewCart();
                     }
-                    else {
+                    CartDetail cartDetail = cartDetailManage.checkCart(cart.getId_cart());
+                    if (cartDetail == null) {
                         double price = product.getPrice();
                         double total = price * 1;
+                        cart.setTotal(total);
                         cartDetail = new CartDetail(cart, product, price, 1, total);
                         cartDetailManage.create(cartDetail);
+                    } else {
+                        if (cartDetail.getProduct().getId_product() == product.getId_product()) {
+                            int quantity = cartDetail.getQuantity() + 1;
+                            double price = product.getSale_price();
+                            double total = price * quantity;
+                            cartDetail.setPrice(price);
+                            cartDetail.setQuantity(quantity);
+                            cartDetail.setTotal_product(total);
+                            cartDetailManage.update(cartDetail);
+                        } else {
+                            double price = product.getPrice();
+                            double total = price * 1;
+                            cartDetail = new CartDetail(cart, product, price, 1, total);
+                            cartDetailManage.create(cartDetail);
+                        }
                     }
+                    List<CartDetail> cartDetails = cartDetailManage.findByIdCart(cart.getId_cart());
+                    session.setAttribute("flag", true);
+                    session.setAttribute("cartDetails", cartDetails);
+                    session.setAttribute("message", "Add to cart success!");
+                    response.sendRedirect("products");
                 }
-                session.setAttribute("flag", true);
-                session.setAttribute("message", "Add to cart success!");
-                response.sendRedirect("products");
-            }
-        } catch (NumberFormatException e) {
+        }
+        else {
             session.setAttribute("flag", true);
             session.setAttribute("confirm_user", "You need to log in to your account first!");
             response.sendRedirect("products");

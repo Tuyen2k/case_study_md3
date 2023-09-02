@@ -34,15 +34,18 @@ public class CartDetailDAO implements ICartDetailDAO {
         List<CartDetail> cartDetails = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()) {
-                int id_cartDetail = resultSet.getInt("id_cartDetail");
-                int id_cart = resultSet.getInt("id_cart");
-                int id_product = resultSet.getInt("id_product");
-                double price = resultSet.getDouble("price");
-                int quantity = resultSet.getInt("quantity");
-                double total = resultSet.getDouble("total");
-                cartDetails.add(new CartDetail(id_cartDetail, cartDAO.findById(id_cart), productDAO.findById(id_product), price, quantity, total));
-            }
+            cartDetails = getListDataDB(resultSet);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return cartDetails;
+    }
+    public List<CartDetail> findByIdCart(int id) {
+        List<CartDetail> cartDetails = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CARTDETAIL_BY_IDCART)) {
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            cartDetails = getListDataDB(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -63,6 +66,19 @@ public class CartDetailDAO implements ICartDetailDAO {
         }
         return null;
     }
+    private List<CartDetail> getListDataDB(ResultSet resultSet) throws SQLException {
+        List<CartDetail> cartDetails = new ArrayList<>();
+        while (resultSet.next()) {
+            int id_cartDetail = resultSet.getInt("id_cartDetail");
+            int id_cart = resultSet.getInt("id_cart");
+            int id_product = resultSet.getInt("id_product");
+            double price = resultSet.getDouble("price");
+            int quantity = resultSet.getInt("quantity");
+            double total = resultSet.getDouble("total_product");
+            cartDetails.add(new CartDetail(id_cartDetail, cartDAO.findById(id_cart), productDAO.findById(id_product), price, quantity, total));
+        }
+        return cartDetails;
+    }
 
     @Override
     public CartDetail findById(int id) {
@@ -77,21 +93,9 @@ public class CartDetailDAO implements ICartDetailDAO {
         return cartDetail;
     }
 
-    public CartDetail findByIdCart(int id) {
+    public CartDetail checkCart(int id) {
         CartDetail cartDetail = new CartDetail();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CARTDETAIL_BY_IDCART)) {
-            preparedStatement.setInt(1, id);
-            ResultSet resultSet = preparedStatement.executeQuery();
-            cartDetail = getDataDB(resultSet);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return cartDetail;
-    }
-
-    public CartDetail findByIdProduct(int id) {
-        CartDetail cartDetail = new CartDetail();
-        try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CARTDETAIL_BY_IDPRODUCT)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
             cartDetail = getDataDB(resultSet);

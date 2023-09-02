@@ -1,4 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
       integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <!DOCTYPE html>
@@ -41,13 +43,16 @@
     .fa-minus:before, .fa-subtract:before {
         content: "\f068";
     }
+
     *, :after, :before {
         box-sizing: border-box;
     }
+
     .fa-solid, .fas {
         font-family: "Font Awesome 6 Free";
         font-weight: 900;
     }
+
     .fa, .fa-brands, .fa-duotone, .fa-light, .fa-regular, .fa-solid, .fa-thin, .fab, .fad, .fal, .far, .fas, .fat {
         -moz-osx-font-smoothing: grayscale;
         -webkit-font-smoothing: antialiased;
@@ -56,17 +61,21 @@
         line-height: 1;
         text-rendering: auto;
     }
+
     user agent stylesheet
     i {
         font-style: italic;
     }
+
     [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
         cursor: pointer;
     }
-    .btn-link, .btn-link:first-child:hover, .btn-link:focus-visible, .btn-link:hover, :not(.btn-check)+.btn-link:hover {
+
+    .btn-link, .btn-link:first-child:hover, .btn-link:focus-visible, .btn-link:hover, :not(.btn-check) + .btn-link:hover {
         text-decoration: none;
         box-shadow: var(--mdb-btn-box-shadow);
     }
+
     .btn-link {
         --mdb-btn-font-weight: 500;
         --mdb-btn-color: #3b71ca;
@@ -77,16 +86,17 @@
         --mdb-btn-disabled-color: #9e9e9e;
         --mdb-btn-box-shadow: none;
     }
+
     .btn {
         --mdb-btn-padding-top: 0.625rem;
         --mdb-btn-padding-bottom: 0.5rem;
         --mdb-btn-border-width: 0;
         --mdb-btn-border-color: none;
         --mdb-btn-border-radius: 0.25rem;
-        --mdb-btn-box-shadow: 0 4px 9px -4px rgba(0,0,0,0.35);
-        --mdb-btn-hover-box-shadow: 0 8px 9px -4px rgba(0,0,0,0.15),0 4px 18px 0 rgba(0,0,0,0.1);
-        --mdb-btn-focus-box-shadow: 0 8px 9px -4px rgba(0,0,0,0.15),0 4px 18px 0 rgba(0,0,0,0.1);
-        --mdb-btn-active-box-shadow: 0 8px 9px -4px rgba(0,0,0,0.15),0 4px 18px 0 rgba(0,0,0,0.1);
+        --mdb-btn-box-shadow: 0 4px 9px -4px rgba(0, 0, 0, 0.35);
+        --mdb-btn-hover-box-shadow: 0 8px 9px -4px rgba(0, 0, 0, 0.15), 0 4px 18px 0 rgba(0, 0, 0, 0.1);
+        --mdb-btn-focus-box-shadow: 0 8px 9px -4px rgba(0, 0, 0, 0.15), 0 4px 18px 0 rgba(0, 0, 0, 0.1);
+        --mdb-btn-active-box-shadow: 0 8px 9px -4px rgba(0, 0, 0, 0.15), 0 4px 18px 0 rgba(0, 0, 0, 0.1);
         padding-top: var(--mdb-btn-padding-top);
         padding-bottom: var(--mdb-btn-padding-bottom);
         text-transform: uppercase;
@@ -95,6 +105,7 @@
         border-radius: var(--mdb-btn-border-radius);
         box-shadow: var(--mdb-btn-box-shadow);
     }
+
     .btn-link {
         --mdb-btn-font-weight: 400;
         --mdb-btn-bg: transparent;
@@ -103,8 +114,9 @@
         --mdb-btn-active-color: #386bc0;
         --mdb-btn-active-border-color: transparent;
         --mdb-btn-disabled-border-color: transparent;
-        --mdb-btn-focus-shadow-rgb: 88,134,210;
+        --mdb-btn-focus-shadow-rgb: 88, 134, 210;
     }
+
     .btn {
         --mdb-btn-padding-x: 1.5rem;
         --mdb-btn-padding-y: 0.375rem;
@@ -117,7 +129,7 @@
         --mdb-btn-border-color: transparent;
         --mdb-btn-hover-border-color: transparent;
         --mdb-btn-disabled-opacity: 0.65;
-        --mdb-btn-focus-box-shadow: 0 0 0 0.25rem rgba(var(--mdb-btn-focus-shadow-rgb),0.5);
+        --mdb-btn-focus-box-shadow: 0 0 0 0.25rem rgba(var(--mdb-btn-focus-shadow-rgb), 0.5);
         display: inline-block;
         padding: var(--mdb-btn-padding-y) var(--mdb-btn-padding-x);
         font-size: var(--mdb-btn-font-size);
@@ -132,17 +144,20 @@
         user-select: none;
         border: var(--mdb-btn-border-width) solid var(--mdb-btn-border-color);
         background-color: var(--mdb-btn-bg);
-        transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+        transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
     }
+
     button, select {
         text-transform: none;
     }
+
     button, input, optgroup, select, textarea {
         margin: 0;
         font-family: inherit;
         font-size: inherit;
         line-height: inherit;
     }
+
     user agent stylesheet
     button {
         text-rendering: auto;
@@ -157,30 +172,33 @@
         cursor: default;
         writing-mode: horizontal-tb !important;
     }
+
     .row {
         --mdb-gutter-x: 1.5rem;
         --mdb-gutter-y: 0;
         display: flex;
         flex-wrap: wrap;
-        margin-top: calc(var(--mdb-gutter-y)*-1);
-        margin-right: calc(var(--mdb-gutter-x)*-0.5);
-        margin-left: calc(var(--mdb-gutter-x)*-0.5);
+        margin-top: calc(var(--mdb-gutter-y) * -1);
+        margin-right: calc(var(--mdb-gutter-x) * -0.5);
+        margin-left: calc(var(--mdb-gutter-x) * -0.5);
     }
+
     .card-body {
         flex: 1 1 auto;
         padding: var(--mdb-card-spacer-y) var(--mdb-card-spacer-x);
     }
+
     .card {
         --mdb-card-spacer-y: 1.5rem;
         --mdb-card-spacer-x: 1.5rem;
         --mdb-card-title-spacer-y: 0.5rem;
         --mdb-card-border-width: 1px;
         --mdb-card-border-radius: 0.5rem;
-        --mdb-card-box-shadow: 0 2px 15px -3px rgba(0,0,0,0.07),0 10px 20px -2px rgba(0,0,0,0.04);
+        --mdb-card-box-shadow: 0 2px 15px -3px rgba(0, 0, 0, 0.07), 0 10px 20px -2px rgba(0, 0, 0, 0.04);
         --mdb-card-inner-border-radius: calc(0.5rem - 1px);
         --mdb-card-cap-padding-y: 0.75rem;
         --mdb-card-cap-padding-x: 1.5rem;
-        --mdb-card-cap-bg: hsla(0,0%,100%,0);
+        --mdb-card-cap-bg: hsla(0, 0%, 100%, 0);
         --mdb-card-bg: #fff;
         --mdb-card-img-overlay-padding: 1.5rem;
         --mdb-card-group-margin: 0.75rem;
@@ -194,27 +212,31 @@
         border-radius: var(--mdb-card-border-radius);
         box-shadow: var(--mdb-card-box-shadow);
     }
+
     .container, .container-fluid, .container-lg, .container-md, .container-sm, .container-xl, .container-xxl {
         --mdb-gutter-x: 1.5rem;
         --mdb-gutter-y: 0;
         width: 100%;
-        padding-right: calc(var(--mdb-gutter-x)*0.5);
-        padding-left: calc(var(--mdb-gutter-x)*0.5);
+        padding-right: calc(var(--mdb-gutter-x) * 0.5);
+        padding-left: calc(var(--mdb-gutter-x) * 0.5);
         margin-right: auto;
         margin-left: auto;
     }
+
     body {
         margin: 0;
         font-family: var(--mdb-body-font-family);
         font-size: 20px;
         font-weight: var(--mdb-body-font-weight);
         -webkit-text-size-adjust: 100%;
-        -webkit-tap-highlight-color: rgba(0,0,0,0);
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     }
+
     :root {
-        --mdb-font-roboto: "Roboto",sans-serif;
+        --mdb-font-roboto: "Roboto", sans-serif;
         --mdb-bg-opacity: 1;
     }
+
     :root {
         --mdb-red: #f44336;
         --mdb-pink: #e91e63;
@@ -248,31 +270,34 @@
         --mdb-info: #54b4d3;
         --mdb-light: #fbfbfb;
         --mdb-dark: #332d2d;
-        --mdb-primary-rgb: 59,113,202;
-        --mdb-secondary-rgb: 159,166,178;
-        --mdb-success-rgb: 20,164,77;
-        --mdb-danger-rgb: 220,76,100;
-        --mdb-warning-rgb: 228,161,27;
-        --mdb-info-rgb: 84,180,211;
-        --mdb-light-rgb: 251,251,251;
-        --mdb-dark-rgb: 51,45,45;
-        --mdb-white-rgb: 255,255,255;
-        --mdb-black-rgb: 0,0,0;
-        --mdb-body-color-rgb: 79,79,79;
-        --mdb-body-bg-rgb: 255,255,255;
-        --mdb-font-sans-serif: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
-        --mdb-font-monospace: SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
-        --mdb-gradient: linear-gradient(180deg,hsla(0,0%,100%,0.15),hsla(0,0%,100%,0));
+        --mdb-primary-rgb: 59, 113, 202;
+        --mdb-secondary-rgb: 159, 166, 178;
+        --mdb-success-rgb: 20, 164, 77;
+        --mdb-danger-rgb: 220, 76, 100;
+        --mdb-warning-rgb: 228, 161, 27;
+        --mdb-info-rgb: 84, 180, 211;
+        --mdb-light-rgb: 251, 251, 251;
+        --mdb-dark-rgb: 51, 45, 45;
+        --mdb-white-rgb: 255, 255, 255;
+        --mdb-black-rgb: 0, 0, 0;
+        --mdb-body-color-rgb: 79, 79, 79;
+        --mdb-body-bg-rgb: 255, 255, 255;
+        --mdb-font-sans-serif: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+        --mdb-font-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        --mdb-gradient: linear-gradient(180deg, hsla(0, 0%, 100%, 0.15), hsla(0, 0%, 100%, 0));
         --mdb-body-font-family: var(--mdb-font-roboto);
         --mdb-body-font-size: 1rem;
         --mdb-body-font-weight: 400;
     }
+
     :host, :root {
         --fa-font-solid: normal 900 1em/1 "Font Awesome 6 Free";
     }
+
     :host, :root {
         --fa-font-regular: normal 400 1em/1 "Font Awesome 6 Free";
     }
+
     :host, :root {
         --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
     }
@@ -377,7 +402,7 @@
                                 </div>
                                 <div class="cart-btns">
                                     <a href="#">View Cart</a>
-                                    <a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+                                    <a href="#">Checkout <i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -415,181 +440,70 @@
                         </i></a></p>
                     </div>
                 </div>
+                <c:forEach var="cartDetail" items="${cartDetails}">
+                    <div class="card rounded-3 mb-4">
+                        <div class="card-body p-4">
+                            <div class="row d-flex justify-content-between align-items-center">
+                                <div class="col-md-2 col-lg-2 col-xl-2">
+                                    <img src="${cartDetail.getProduct().getImage()}"
+                                            class="img-fluid rounded-3" alt="Cotton T-shirt">
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-xl-3">
+                                    <p class="lead fw-normal mb-2">Basic T-shirt</p>
+                                    <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey
+                                    </p>
+                                </div>
+                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                    <button class="btn btn-link px-2"
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                        <i class="fas fa-minus">
+                                        </i>
+                                    </button>
 
-                <div class="card rounded-3 mb-4">
-                    <div class="card-body p-4">
-                        <div class="row d-flex justify-content-between align-items-center">
-                            <div class="col-md-2 col-lg-2 col-xl-2">
-                                <img
-                                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-                                        class="img-fluid rounded-3" alt="Cotton T-shirt">
-                            </div>
-                            <div class="col-md-3 col-lg-3 col-xl-3">
-                                <p class="lead fw-normal mb-2">Basic T-shirt</p>
-                                <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey
-                                </p>
-                            </div>
-                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                <button class="btn btn-link px-2"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                    <i class="fas fa-minus">
-                                    </i>
-                                </button>
+                                    <input id="form5" min="0" name="quantity" value="${cartDetail.getQuantity()}" type="number"
+                                           class="form-control form-control-sm"/>
 
-                                <input id="form5" min="0" name="quantity" value="2" type="number"
-                                       class="form-control form-control-sm"/>
-
-                                <button class="btn btn-link px-2"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                    <i class="fas fa-plus">
-                                    </i>
-                                </button>
-                            </div>
-                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                <h5 class="mb-0">$499.00</h5>
-                            </div>
-                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg">
-                                </i></a>
+                                    <button class="btn btn-link px-2"
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                        <i class="fas fa-plus">
+                                        </i>
+                                    </button>
+                                </div>
+                                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                    <h5 class="mb-0"><fmt:formatNumber value="${cartDetail.getPrice()}" pattern="#,##0"/></h5>
+                                </div>
+                                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                    <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg">
+                                    </i></a>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="card rounded-3 mb-4">
-                    <div class="card-body p-4">
-                        <div class="row d-flex justify-content-between align-items-center">
-                            <div class="col-md-2 col-lg-2 col-xl-2">
-                                <img
-                                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-                                        class="img-fluid rounded-3" alt="Cotton T-shirt">
-                            </div>
-                            <div class="col-md-3 col-lg-3 col-xl-3">
-                                <p class="lead fw-normal mb-2">Basic T-shirt</p>
-                                <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey
-                                </p>
-                            </div>
-                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                <button class="btn btn-link px-2"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                    <i class="fas fa-minus">
-                                    </i>
-                                </button>
-
-                                <input id="form4" min="0" name="quantity" value="2" type="number"
-                                       class="form-control form-control-sm"/>
-
-                                <button class="btn btn-link px-2"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                <h5 class="mb-0">$499.00</h5>
-                            </div>
-                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card rounded-3 mb-4">
-                    <div class="card-body p-4">
-                        <div class="row d-flex justify-content-between align-items-center">
-                            <div class="col-md-2 col-lg-2 col-xl-2">
-                                <img
-                                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-                                        class="img-fluid rounded-3" alt="Cotton T-shirt">
-                            </div>
-                            <div class="col-md-3 col-lg-3 col-xl-3">
-                                <p class="lead fw-normal mb-2">Basic T-shirt</p>
-                                <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey
-                                </p>
-                            </div>
-                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                <button class="btn btn-link px-2"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-
-                                <input id="form3" min="0" name="quantity" value="2" type="number"
-                                       class="form-control form-control-sm"/>
-
-                                <button class="btn btn-link px-2"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                <h5 class="mb-0">$499.00</h5>
-                            </div>
-                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card rounded-3 mb-4">
-                    <div class="card-body p-4">
-                        <div class="row d-flex justify-content-between align-items-center">
-                            <div class="col-md-2 col-lg-2 col-xl-2">
-                                <img
-                                        src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-                                        class="img-fluid rounded-3" alt="Cotton T-shirt">
-                            </div>
-                            <div class="col-md-3 col-lg-3 col-xl-3">
-                                <p class="lead fw-normal mb-2">Basic T-shirt</p>
-                                <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey
-                                </p>
-                            </div>
-                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                <button class="btn btn-link px-2"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                    <i class="fas fa-minus"></i>
-                                </button>
-
-                                <input id="form2" min="0" name="quantity" value="2" type="number"
-                                       class="form-control form-control-sm"/>
-
-                                <button class="btn btn-link px-2"
-                                        onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                    <i class="fas fa-plus"></i>
-                                </button>
-                            </div>
-                            <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                <h5 class="mb-0">$499.00</h5>
-                            </div>
-                            <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                                <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <hr class="mb-4" style="height: 2px; background-color: #1266f1; opacity: 1;">
-
+                </c:forEach>
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between px-x">
                             <p class="fw-bold mb-3">Discount:</p>
-                            <p class="fw-bold mb-3">95$</p>
+                            <p class="fw-bold mb-3"><fmt:formatNumber value="${discount}" pattern="#,##0"/></p>
                         </div>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-body">
-                        <div class="d-flex justify-content-between p-2 mb-2" style="background-color: #e1f5fe; font-size: 20px;">
+                        <div class="d-flex justify-content-between p-2 mb-2"
+                             style="background-color: #e1f5fe; font-size: 20px;">
                             <p class="fw-bold mb-3">Total:</p>
-                            <p class="fw-bold mb-3">2261$</p>
+                            <p class="fw-bold mb-3"><fmt:formatNumber value="${total}" pattern="#,##0"/></p>
                         </div>
                     </div>
                 </div>
 
                 <div class="card">
                     <div class="card-body">
-                        <button type="button" class="btn btn-warning btn-block btn-lg" style="width: 100%;font-size: 22px;">Proceed to Pay</button>
+                        <button type="button" class="btn btn-warning btn-block btn-lg"
+                                style="width: 100%;font-size: 22px;">Proceed to Pay
+                        </button>
                     </div>
                 </div>
 
@@ -607,7 +521,8 @@
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
                         <h3 class="footer-title">About Us</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                            ut.</p>
                         <ul class="footer-links">
                             <li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
                             <li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
@@ -679,7 +594,9 @@
                     </ul>
                     <span class="copyright">
 								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i
+                            class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                                                                                target="_blank">Colorlib</a>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 							</span>
                 </div>

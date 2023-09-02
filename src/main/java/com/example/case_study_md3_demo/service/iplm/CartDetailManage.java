@@ -1,7 +1,6 @@
 package com.example.case_study_md3_demo.service.iplm;
 
 import com.example.case_study_md3_demo.DAO.iplm.CartDetailDAO;
-import com.example.case_study_md3_demo.model.Cart;
 import com.example.case_study_md3_demo.model.CartDetail;
 import com.example.case_study_md3_demo.service.ICartDetailService;
 
@@ -17,15 +16,15 @@ public class CartDetailManage implements ICartDetailService {
         return cartDetailDAO.findAll();
     }
 
+    public List<CartDetail> findByIdCart(int id_cart) {
+        return cartDetailDAO.findByIdCart(id_cart);
+    }
     @Override
     public CartDetail findById(int id) {
         return cartDetailDAO.findById(id);
     }
-    public CartDetail findByIdCart(int id_cart) {
-        return cartDetailDAO.findByIdCart(id_cart);
-    }
-    public CartDetail findByIdProduct(int id_product) {
-        return cartDetailDAO.findByIdProduct(id_product);
+    public CartDetail checkCart(int id_cart) {
+        return cartDetailDAO.checkCart(id_cart);
     }
 
     @Override
