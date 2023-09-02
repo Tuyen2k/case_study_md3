@@ -19,7 +19,7 @@ public class BrandDAO implements IBrandDAO  {
     private final String SELECT_BRANDS_BY_ID = "select * from brand where id_brand = ?;";
     private final String INSERT_INTO_BRANDS = "insert into brand(name) value(?);";
     private final String UPDATE_BRANDS = "update brand set name = ? where id_brand = ?;";
-
+    private final String CHECK = "SELECT COUNT(*) FROM brand WHERE name = ?;";
     public BrandDAO() {
         myConnection = MyConnection.getMyConnection();
         connection = myConnection.getConnection();
@@ -77,6 +77,24 @@ public class BrandDAO implements IBrandDAO  {
             e.printStackTrace();
         }
 
+    }
+    public boolean checkForDuplicates(String name)  {
+        boolean isDuplicate = false;
+        try(PreparedStatement preparedStatement = connection.prepareStatement(CHECK)) {
+            preparedStatement.setString(1,name);
+            ResultSet resultSet =preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                if (count > 0) {
+                    isDuplicate = true;
+                }
+            }
+
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return  isDuplicate;
     }
 }
 

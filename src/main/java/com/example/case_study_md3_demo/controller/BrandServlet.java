@@ -1,5 +1,6 @@
 package com.example.case_study_md3_demo.controller;
 
+import com.example.case_study_md3_demo.DAO.iplm.BrandDAO;
 import com.example.case_study_md3_demo.model.Brand;
 import com.example.case_study_md3_demo.model.Category;
 import com.example.case_study_md3_demo.service.iplm.BrandManage;
@@ -13,10 +14,12 @@ import java.util.List;
 @WebServlet(name = "BrandServlet", value = "/brands")
 public class BrandServlet extends HttpServlet {
     private BrandManage brandManage ;
+    private BrandDAO brandDAO ;
 
     @Override
     public void init() throws ServletException {
         brandManage =new BrandManage();
+        brandDAO =new BrandDAO();
     }
 
     @Override
@@ -64,16 +67,26 @@ public class BrandServlet extends HttpServlet {
 
     private void postCreate(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String name = request.getParameter("name_brand");
+        boolean isDuplicate = brandDAO.checkForDuplicates(name);
+        if (isDuplicate) {
+            response.getWriter().println("Dữ liệu đã tồn tại. Không thể thêm vào.");
+        } else {
         Brand brand = new Brand(name);
         brandManage.create(brand);
         response.sendRedirect("brands");
     }
+    }
     private void postUpdateBrand(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int id_brand =Integer.parseInt( request.getParameter("id_brand"));
         String name =request.getParameter("name_brand");
+        boolean isDuplicate = brandDAO.checkForDuplicates(name);
+        if (isDuplicate) {
+            response.getWriter().println("Dữ liệu đã tồn tại. Không thể thêm vào.");
+        } else {
         Brand brand =new Brand(name);
         brand.setId_brand(id_brand);
         brandManage.update(brand);
         response.sendRedirect("brands");
     }
+}
 }
