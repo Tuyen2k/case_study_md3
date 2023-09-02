@@ -45,9 +45,8 @@ public class CartServlet extends HttpServlet {
     }
     protected void displayCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String strId = request.getParameter("id_user");
-//        String strId = "2";
         HttpSession session = request.getSession();
-        if (strId != null){
+        if (!strId.equals("")){
             int id_account = Integer.parseInt(strId);
             Account account = accountManage.findById(id_account);
             Cart cart = cartManage.findByIdAccount(account.getId_account());

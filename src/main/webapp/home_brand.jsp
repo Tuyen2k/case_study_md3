@@ -76,11 +76,6 @@
                 <div class="col-md-6">
                     <div class="header-search">
                         <form>
-                            <select class="input-select">
-                                <option value="0">All Brand</option>
-                                <option value="1">Brand 01</option>
-                                <option value="1">Brand 02</option>
-                            </select>
                             <input class="input" placeholder="Search here">
                             <button class="search-btn">Search</button>
                         </form>

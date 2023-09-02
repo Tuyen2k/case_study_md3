@@ -220,9 +220,9 @@ public class ProductServlet extends HttpServlet {
                             cartDetailManage.create(cartDetail);
                         }
                     }
-                    List<CartDetail> cartDetails = cartDetailManage.findByIdCart(cart.getId_cart());
+//                    List<CartDetail> cartDetails = cartDetailManage.findByIdCart(cart.getId_cart());
                     session.setAttribute("flag", true);
-                    session.setAttribute("cartDetails", cartDetails);
+//                    session.setAttribute("cartDetails", cartDetails);
                     session.setAttribute("message", "Add to cart success!");
                     response.sendRedirect("products");
                 }
