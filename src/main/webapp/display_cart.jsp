@@ -453,7 +453,7 @@
                                         </i>
                                     </button>
 
-                                    <input id="form5" min="0" name="quantity" value="${cartDetail.getQuantity()}" type="number"
+                                    <input id="form5" min="0" name="quantity" value="${cartDetail.getQuantity()}" onchange="updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})" type="number"
                                            class="form-control form-control-sm" style="width: 50px"/>
 
                                     <button class="btn btn-link px-2"
@@ -619,8 +619,8 @@
             window.location.href = "carts?action=delete_product_in_cart&id_cartDetail=" + id_cart+"&&id_user="+id_account;
         }
     }
-    function updateQuantity(id) {
+    function updateQuantity(id_cart, id_account) {
         var quantity = document.getElementById("quantity").value;
-        window.location.href = "products?action=update_product_in_cart&id_cart=" + id+"&&quantity=" + quantity;
+        window.location.href = "products?action=update_product_in_cart&id_cart=" + id_cart+"&&quantity=" + quantity +"&&id_user="+id_account;
     }
 </script>
