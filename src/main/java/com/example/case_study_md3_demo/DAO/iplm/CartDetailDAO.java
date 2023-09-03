@@ -93,16 +93,16 @@ public class CartDetailDAO implements ICartDetailDAO {
         return cartDetail;
     }
 
-    public CartDetail checkCart(int id) {
-        CartDetail cartDetail = new CartDetail();
+    public List<CartDetail> checkCart(int id) {
+        List<CartDetail> cartDetails = new ArrayList<>();
         try (PreparedStatement preparedStatement = connection.prepareStatement(SELECT_CARTDETAIL_BY_IDCART)) {
             preparedStatement.setInt(1, id);
             ResultSet resultSet = preparedStatement.executeQuery();
-            cartDetail = getDataDB(resultSet);
+            cartDetails = getListDataDB(resultSet);
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return cartDetail;
+        return cartDetails;
     }
 
     @Override

@@ -48,11 +48,13 @@
                 }
             }
             confirmUser()
+            ${flag = false}
         </script>
     </c:if>
     <c:if test="${ not empty message }">
         <script>
             alert("${message}");
+            ${flag = false}
         </script>
     </c:if>
 </c:if>

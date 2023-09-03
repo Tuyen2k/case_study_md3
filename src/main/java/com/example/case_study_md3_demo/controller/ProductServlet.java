@@ -182,59 +182,60 @@ public class ProductServlet extends HttpServlet {
 
     private void addCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
-        boolean flag = false;
         String strId = request.getParameter("id_user");
         if (!strId.equals("")) {
-                int id_user = Integer.parseInt(strId);
-                Account account = accountManage.findById(id_user);
-                int id_product = Integer.parseInt(request.getParameter("id_product"));
-                Product product = new Product();
-                if (account != null) {
-                    product = productManage.findById(id_product);
-                    Cart cart = cartManage.findByIdAccount(account.getId_account());
-                    if (cart.getId_cart() == 0) {
-                        cart = new Cart(account);
-                        cartManage.create(cart);
-                        cart = cartManage.findNewCart();
-                    }
-                    CartDetail cartDetail = cartDetailManage.checkCart(cart.getId_cart());
-                    if (cartDetail == null) {
-                        double price = product.getPrice();
-                        double total = price * 1;
-                        cart.setTotal(total);
-                        cartDetail = new CartDetail(cart, product, price, 1, total);
-                        cartDetailManage.create(cartDetail);
-                    } else {
-                        if (cartDetail.getProduct().getId_product() == product.getId_product()) {
-                            int quantity = cartDetail.getQuantity() + 1;
-                            double price = product.getSale_price();
-                            double total = price * quantity;
-                            cartDetail.setPrice(price);
-                            cartDetail.setQuantity(quantity);
-                            cartDetail.setTotal_product(total);
-                            cartDetailManage.update(cartDetail);
-                        } else {
-                            double price = product.getPrice();
-                            double total = price * 1;
-                            cartDetail = new CartDetail(cart, product, price, 1, total);
-                            cartDetailManage.create(cartDetail);
+            int id_user = Integer.parseInt(strId);
+            Account account = accountManage.findById(id_user);
+            int id_product = Integer.parseInt(request.getParameter("id_product"));
+            Product product = new Product();
+            if (account != null) {
+                product = productManage.findById(id_product);
+                Cart cart = cartManage.findByIdAccount(account.getId_account());
+                if (cart.getId_cart() == 0) {
+                    cart = new Cart(account);
+                    cartManage.create(cart);
+                    cart = cartManage.findNewCart();
+                }
+                List<CartDetail> cartDetails = cartDetailManage.checkCart(cart.getId_cart());
+                if (cartDetails.isEmpty()) {
+                    double price = product.getSale_price();
+                    double total = price * 1;
+                    cart.setTotal(total);
+                    CartDetail cartDetail = new CartDetail(cart, product, price, 1, total);
+                    cartDetailManage.create(cartDetail);
+                } else {
+                    boolean flag = false;
+                    CartDetail cartTemp = new CartDetail();
+                    for (CartDetail cartDetail : cartDetails){
+                        if (cartDetail.getProduct().getId_product() == product.getId_product()){
+                            flag = true;
+                            cartTemp = cartDetail;
+                            break;
                         }
                     }
-//                    List<CartDetail> cartDetails = cartDetailManage.findByIdCart(cart.getId_cart());
-                    session.setAttribute("flag", true);
-//                    session.setAttribute("cartDetails", cartDetails);
-                    session.setAttribute("message", "Add to cart success!");
-                    response.sendRedirect("products");
+                    if (flag) {
+                        int quantity = cartTemp.getQuantity() + 1;
+                        double price = product.getSale_price();
+                        double total = price * quantity;
+                        cartTemp.setPrice(price);
+                        cartTemp.setQuantity(quantity);
+                        cartTemp.setTotal_product(total);
+                        cartDetailManage.update(cartTemp);
+                    } else {
+                        double price = product.getSale_price();
+                        double total = price * 1;
+                        cartTemp = new CartDetail(cart, product, price, 1, total);
+                        cartDetailManage.create(cartTemp);
+                    }
                 }
-        }
-        else {
+                session.setAttribute("flag", true);
+                session.setAttribute("message", "Add to cart success!");
+                response.sendRedirect("products");
+            }
+        } else {
             session.setAttribute("flag", true);
             session.setAttribute("confirm_user", "You need to log in to your account first!");
-            //t có thấy b bắn message đâu
-            // cái confirm_user ở đây này b
             response.sendRedirect("products");
-            //nó nhận message ở đây r nhưng sang khi k hiển thị b ạ
-
         }
 
     }

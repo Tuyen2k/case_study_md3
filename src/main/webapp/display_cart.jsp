@@ -441,14 +441,12 @@
                             <div class="row d-flex justify-content-between align-items-center">
                                 <div class="col-md-2 col-lg-2 col-xl-2">
                                     <img src="${cartDetail.getProduct().getImage()}"
-                                            class="img-fluid rounded-3" alt="Cotton T-shirt">
+                                            class="img-fluid rounded-3" alt="image">
                                 </div>
                                 <div class="col-md-3 col-lg-3 col-xl-3">
-                                    <p class="lead fw-normal mb-2">Basic T-shirt</p>
-                                    <p><span class="text-muted">Size: </span>M <span class="text-muted">Color: </span>Grey
-                                    </p>
+                                    <p class="lead fw-normal mb-2">${cartDetail.getProduct().getName()}</p>
                                 </div>
-                                <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                <div class="col-md-2 col-lg-2 col-xl-2 d-flex" style="width: 12%">
                                     <button class="btn btn-link px-2"
                                             onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
                                         <i class="fas fa-minus">
@@ -456,7 +454,7 @@
                                     </button>
 
                                     <input id="form5" min="0" name="quantity" value="${cartDetail.getQuantity()}" type="number"
-                                           class="form-control form-control-sm"/>
+                                           class="form-control form-control-sm" style="width: 50px"/>
 
                                     <button class="btn btn-link px-2"
                                             onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
@@ -464,10 +462,13 @@
                                         </i>
                                     </button>
                                 </div>
-                                <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                <div class="col-md-2 col-lg-2 col-xl-2 " style="width: 12%">
                                     <h5 class="mb-0"><fmt:formatNumber value="${cartDetail.getPrice()}" pattern="#,##0"/></h5>
                                 </div>
-                                <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                                <div class="col-md-2 col-lg-2 col-xl-2 " style="width: 12%">
+                                    <h5 class="mb-0"><fmt:formatNumber value="${cartDetail.getTotal_product()}" pattern="#,##0"/></h5>
+                                </div>
+                                <div class="col-md-1 col-lg-1 col-xl-1 text-end" style="width: 10%">
                                     <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg">
                                     </i></a>
                                 </div>
@@ -475,6 +476,7 @@
                         </div>
                     </div>
                 </c:forEach>
+
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between px-x">

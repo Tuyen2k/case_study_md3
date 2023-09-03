@@ -23,7 +23,7 @@ public class CartDetailManage implements ICartDetailService {
     public CartDetail findById(int id) {
         return cartDetailDAO.findById(id);
     }
-    public CartDetail checkCart(int id_cart) {
+    public List<CartDetail> checkCart(int id_cart) {
         return cartDetailDAO.checkCart(id_cart);
     }
 
