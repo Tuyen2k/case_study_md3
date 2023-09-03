@@ -45,8 +45,7 @@
     </div>
 
     <!-- Submit button -->
-    <button type="submit" class="btn btn-primary btn-block mb-4" style="align-content: center">Sign in</button>
-
+    <button  type="submit" class="btn btn-primary btn-block mb-4" style="width: 380px; text-align: center; margin: 0 auto;">Sign in</button>
     <!-- Register buttons -->
     <div class="text-center">
         <p>Not a member? <a href="accounts?action=register">Register</a></p>

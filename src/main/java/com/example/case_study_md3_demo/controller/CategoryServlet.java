@@ -71,7 +71,7 @@ public class CategoryServlet extends HttpServlet {
         String name = request.getParameter("name_category");
         boolean isDuplicate = categoryDAO.checkForDuplicates(name);
         if (isDuplicate) {
-            response.getWriter().println("Dữ liệu đã tồn tại. Không thể thêm vào.");
+            response.getWriter().println("Data already exists. Cannot be added");
         } else {
         Category category = new Category(name);
         categoryManage.create(category);

@@ -71,7 +71,7 @@ public class AccountServlet extends HttpServlet {
         String username = request.getParameter("username");
         boolean isDuplicate = accountDAO.checkForDuplicates(username);
         if (isDuplicate) {
-            response.getWriter().println("Dữ liệu đã tồn tại. Không thể thêm vào.");
+            response.getWriter().println("Data already exists. Cannot be added");
         } else {
             String password = request.getParameter("password");
             Pattern pattern =Pattern.compile("^.{6,8}$");
@@ -92,7 +92,7 @@ public class AccountServlet extends HttpServlet {
                     response.sendRedirect("accounts");
                 }
             }else {
-                response.getWriter().println("Nhập sai mật khẩu");
+                response.getWriter().println("Enter wrong password");
             }
 
         }

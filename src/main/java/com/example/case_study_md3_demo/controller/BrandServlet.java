@@ -69,7 +69,7 @@ public class BrandServlet extends HttpServlet {
         String name = request.getParameter("name_brand");
         boolean isDuplicate = brandDAO.checkForDuplicates(name);
         if (isDuplicate) {
-            response.getWriter().println("Dữ liệu đã tồn tại. Không thể thêm vào.");
+            response.getWriter().println("Data already exists. Cannot be added");
         } else {
         Brand brand = new Brand(name);
         brandManage.create(brand);
