@@ -448,16 +448,18 @@
                                 </div>
                                 <div class="col-md-2 col-lg-2 col-xl-2 d-flex" style="width: 12%">
                                     <button class="btn btn-link px-2"
-                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown();
+                                                    updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})">
                                         <i class="fas fa-minus">
                                         </i>
                                     </button>
 
-                                    <input id="form5" min="0" name="quantity" value="${cartDetail.getQuantity()}" onchange="updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})" type="number"
+                                    <input id="quantity-${cartDetail.getId_cartDetail()}" min="0" name="quantity" value="${cartDetail.getQuantity()}"
+                                           onchange="updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})" type="number"
                                            class="form-control form-control-sm" style="width: 50px"/>
-
                                     <button class="btn btn-link px-2"
-                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp();
+                                            updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})">
                                         <i class="fas fa-plus">
                                         </i>
                                     </button>
@@ -503,7 +505,6 @@
                         </button>
                     </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -620,7 +621,9 @@
         }
     }
     function updateQuantity(id_cart, id_account) {
-        var quantity = document.getElementById("quantity").value;
-        window.location.href = "products?action=update_product_in_cart&id_cart=" + id_cart+"&&quantity=" + quantity +"&&id_user="+id_account;
+        console.log(id_cart)
+        var quantity = document.getElementById("quantity-"+id_cart).value;
+        window.location.href = "carts?action=update_product_in_cart&id_cartDetail=" +
+            id_cart+"&&quantity=" + quantity +"&&id_user="+id_account;
     }
 </script>
