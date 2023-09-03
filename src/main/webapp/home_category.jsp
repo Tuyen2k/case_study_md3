@@ -227,7 +227,7 @@
                     <td class="input-text" id="cell-${category.getId_category()}" style="display: none">
                         <form action="categories?action=update&&id_category=${category.getId_category()}"
                               method="post">
-                            <input type="text" name="name_category" placeholder="name category update">
+                            <input type="text" name="name_category" placeholder="name category update" required>
                             <button>Save</button>
                             <button type="reset">Reset</button>
                             <button type="button" onclick="onClose(${category.getId_category()})">Close</button>

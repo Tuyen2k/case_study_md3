@@ -1,5 +1,6 @@
 package com.example.case_study_md3_demo.controller;
 
+import com.example.case_study_md3_demo.DAO.iplm.AccountDAO;
 import com.example.case_study_md3_demo.model.*;
 import com.example.case_study_md3_demo.service.iplm.*;
 
@@ -8,6 +9,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @WebServlet(name = "AccountServlet", value = "/accounts")
 public class AccountServlet extends HttpServlet {
@@ -16,6 +18,7 @@ public class AccountServlet extends HttpServlet {
     private CategoryManage categoryManage;
     private BrandManage brandManage;
     private RoleManage roleManage;
+    private AccountDAO accountDAO ;
 
     @Override
     public void init() throws ServletException {
@@ -24,6 +27,7 @@ public class AccountServlet extends HttpServlet {
         productManage = new ProductManage();
         categoryManage = CategoryManage.getCategoryManage();
         brandManage = BrandManage.getBrandManage();
+        accountDAO =new AccountDAO();
     }
 
     @Override
@@ -54,6 +58,9 @@ public class AccountServlet extends HttpServlet {
             case "create":
                 registerPost(request,response);
                 break;
+            case "logout":
+                logOutPost(request,response);
+                break;
         }
     }
     private void registerGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -62,23 +69,52 @@ public class AccountServlet extends HttpServlet {
 
     private void registerPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String re_password = request.getParameter("re_password");
-        String phone = request.getParameter("phone");
-        String email =request.getParameter("email");
-        String address =request.getParameter("address");
-        HttpSession session = request.getSession();
-        if (password.equals(re_password)) {
-            Role role = roleManage.findById(2);
-            Account account = new Account(username, password, phone,email,address,role );
-            accountManage.create(account);
-            session.setAttribute("message", "Register success!");
-            response.sendRedirect("login.jsp");
+        boolean isDuplicate = accountDAO.checkForDuplicates(username);
+        if (isDuplicate) {
+            response.getWriter().println("Account already exists");
         } else {
-            session.setAttribute("message", "Repeat your password not matching!");
-            response.sendRedirect("accounts");
+            String password = request.getParameter("password");
+            Pattern pattern =Pattern.compile("^.{6,8}$");
+            if(pattern.matcher(password).matches()){
+                String re_password = request.getParameter("re_password");
+                String phone = request.getParameter("phone");
+                String email =request.getParameter("email");
+                String address =request.getParameter("address");
+                HttpSession session = request.getSession();
+                if (password.equals(re_password)) {
+                    Role role = roleManage.findById(2);
+                    Account account = new Account(username, password, phone,email,address,role );
+                    accountManage.create(account);
+                    session.setAttribute("message", "Register success!");
+                    response.sendRedirect("login.jsp");
+                } else {
+                    session.setAttribute("message", "Repeat your password not matching!");
+                    response.sendRedirect("accounts");
+                }
+            }else {
+                response.getWriter().println("Enter wrong password");
+            }
+
         }
-    }
+
+        }
+
+//        String re_password = request.getParameter("re_password");
+//        String phone = request.getParameter("phone");
+//        String email =request.getParameter("email");
+//        String address =request.getParameter("address");
+//        HttpSession session = request.getSession();
+//        if (password.equals(re_password)) {
+//            Role role = roleManage.findById(2);
+//            Account account = new Account(username, password, phone,email,address,role );
+//            accountManage.create(account);
+//            session.setAttribute("message", "Register success!");
+//            response.sendRedirect("login.jsp");
+//        } else {
+//            session.setAttribute("message", "Repeat your password not matching!");
+//            response.sendRedirect("accounts");
+//        }
+//    }
     private void loginGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.sendRedirect("login.jsp");
 
@@ -110,5 +146,9 @@ public class AccountServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
         }
     }
-
+    private void logOutPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.invalidate(); // Xóa thông tin đăng nhập khỏi session
+        response.sendRedirect("login.jsp");
+}
 }

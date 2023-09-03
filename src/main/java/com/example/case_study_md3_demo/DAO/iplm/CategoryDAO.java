@@ -18,6 +18,7 @@ public class CategoryDAO implements ICategoryDAO {
     private final String SELECT_CATEGORY_BY_ID = "select * from category where id_category = ?;";
     private final String INSERT_INTO_CATEGORY = "insert into category(name) value(?);";
     private final String UPDATE_CATEGORY = "update category set name = ? where id_category = ?;";
+    private final String CHECK = "SELECT COUNT(*) FROM category WHERE name = ?;";
     public CategoryDAO(){
         myConnection = MyConnection.getMyConnection();
         connection = myConnection.getConnection();
@@ -74,5 +75,23 @@ public class CategoryDAO implements ICategoryDAO {
         catch (SQLException e){
             e.printStackTrace();
         }
+    }
+    public boolean checkForDuplicates(String name)  {
+        boolean isDuplicate = false;
+        try(PreparedStatement preparedStatement = connection.prepareStatement(CHECK)) {
+            preparedStatement.setString(1,name);
+            ResultSet resultSet =preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                if (count > 0) {
+                    isDuplicate = true;
+                }
+            }
+
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return  isDuplicate;
     }
 }
