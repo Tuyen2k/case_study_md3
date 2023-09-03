@@ -26,7 +26,6 @@ public class CartDetailManage implements ICartDetailService {
     public List<CartDetail> checkCart(int id_cart) {
         return cartDetailDAO.checkCart(id_cart);
     }
-
     @Override
     public void create(CartDetail cartDetail) {
         cartDetailDAO.create(cartDetail);
@@ -36,4 +35,8 @@ public class CartDetailManage implements ICartDetailService {
     public void update(CartDetail cartDetail) {
         cartDetailDAO.update(cartDetail);
     }
+    public void deleteCartDetail(int id){
+        cartDetailDAO.deleteCartDetail(id);
+    }
+
 }

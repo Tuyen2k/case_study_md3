@@ -34,6 +34,10 @@ public class CartServlet extends HttpServlet {
         }
         switch (action){
             case "create":
+
+                break;
+            case "delete_product_in_cart":
+                deleteInCart(request, response);
                 break;
             default: displayCart(request, response);
         }
@@ -57,6 +61,7 @@ public class CartServlet extends HttpServlet {
             }
             session.setAttribute("cartDetails", cartDetails);
             session.setAttribute("total", total);
+            session.setAttribute("userLogin", account);
             session.setAttribute("discount", total*0.05);
             response.sendRedirect("display_cart.jsp");
         }else {
@@ -67,4 +72,15 @@ public class CartServlet extends HttpServlet {
 
     }
 
+    protected void deleteInCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strId = request.getParameter("id_cartDetail");
+        if (strId != null){
+            int id_cartDetail = Integer.parseInt(strId);
+            int id_account = Integer.parseInt(request.getParameter("id_user"));
+            cartDetailManage.deleteCartDetail(id_cartDetail);
+            request.setAttribute("message","Delete success!");
+            RequestDispatcher rq = request.getRequestDispatcher("carts?action=&&id_user"+id_account);
+            rq.forward(request,response);
+        }
+    }
 }

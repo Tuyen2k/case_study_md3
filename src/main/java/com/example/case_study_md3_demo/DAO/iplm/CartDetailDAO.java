@@ -19,7 +19,7 @@ public class CartDetailDAO implements ICartDetailDAO {
     private String SELECT_ALL = "select * from cart_detail;";
     private String SELECT_CARTDETAIL_BY_ID = "select * from cart_detail where id_cartDetail = ?;";
     private String SELECT_CARTDETAIL_BY_IDCART = "select * from cart_detail where id_cart = ?;";
-    private String SELECT_CARTDETAIL_BY_IDPRODUCT = "select * from cart_detail where id_product = ?;";
+    private String DELETE_PRODUCT_IN_CART_DETAIL = "delete from cart_detail where id_cartDetail = ?;";
     private String INSERT_INTO = "insert into cart_detail(id_cart, id_product, price, quantity, total_product) value(?, ?, ?, ?, ?);";
     private String UPDATE_CART = "update cart_detail set price = ?, quantity = ?, total_product = ? where id_cartDetail = ?;";
 
@@ -128,6 +128,14 @@ public class CartDetailDAO implements ICartDetailDAO {
             preparedStatement.setInt(4, cartDetail.getId_cartDetail());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void deleteCartDetail(int id_cartDetail){
+        try(PreparedStatement preparedStatement = connection.prepareStatement(DELETE_PRODUCT_IN_CART_DETAIL)) {
+            preparedStatement.setInt(1, id_cartDetail);
+            preparedStatement.executeUpdate();
+        }catch (SQLException e){
             e.printStackTrace();
         }
     }

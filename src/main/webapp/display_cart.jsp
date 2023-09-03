@@ -468,8 +468,8 @@
                                 <div class="col-md-2 col-lg-2 col-xl-2 " style="width: 12%">
                                     <h5 class="mb-0"><fmt:formatNumber value="${cartDetail.getTotal_product()}" pattern="#,##0"/></h5>
                                 </div>
-                                <div class="col-md-1 col-lg-1 col-xl-1 text-end" style="width: 10%">
-                                    <a href="#!" class="text-danger"><i class="fas fa-trash fa-lg">
+                                <div class="col-md-1 col-lg-1 col-xl-1 text-end" style="width: 10%" onclick="deleteProduct(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})">
+                                    <a class="text-danger"><i class="fas fa-trash fa-lg">
                                     </i></a>
                                 </div>
                             </div>
@@ -612,3 +612,15 @@
 <script src="js/nouislider.min.js"></script>
 <script src="js/jquery.zoom.min.js"></script>
 <script src="js/main.js"></script>
+<script>
+    function deleteProduct(id_cart, id_account) {
+        let flag = confirm("Are you sure?")
+        if (flag === true) {
+            window.location.href = "carts?action=delete_product_in_cart&id_cartDetail=" + id_cart+"&&id_user="+id_account;
+        }
+    }
+    function updateQuantity(id) {
+        var quantity = document.getElementById("quantity").value;
+        window.location.href = "products?action=update_product_in_cart&id_cart=" + id+"&&quantity=" + quantity;
+    }
+</script>
