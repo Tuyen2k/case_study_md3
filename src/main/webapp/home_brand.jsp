@@ -222,7 +222,7 @@
                     <td class="input-text" id="cell-${brand.getId_brand()}" style="display: none">
                         <form action="brands?action=update&&id_brand=${brand.getId_brand()}"
                               method="post">
-                            <input type="text" name="name_brand" placeholder="name brand update">
+                            <input type="text" name="name_brand" placeholder="name brand update" required>
                             <button>Save</button>
                             <button type="reset">Reset</button>
                             <button type="button" onclick="onClose(${brand.getId_brand()})">Close</button>

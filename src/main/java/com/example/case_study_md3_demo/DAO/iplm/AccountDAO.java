@@ -20,7 +20,8 @@ public class AccountDAO implements IAccountDAO {
     private String SELECT_ACCOUNT_LIST = "select * from account";
     private final String SELECT_ACCOUNT_BY_ID = "select * from account where id_account = ?";
     private final String INSERT_INTO_ACCOUNT = "insert into account(username,password,phone,email,address,id_role) value(?,?,?,?,?,?);";
-    private final String UPDATE_ACCOUNT = "update account set name = ? where id_account = ?";
+    private final String UPDATE_ACCOUNT = "update account set username = ? where id_account = ?";
+    private final String CHECK_NAME = "SELECT COUNT(*) FROM account WHERE username = ?;";
 
     public AccountDAO() {
       myConnection =MyConnection.getMyConnection();
@@ -99,5 +100,23 @@ public class AccountDAO implements IAccountDAO {
             e.printStackTrace();
         }
 
+    }
+    public boolean checkForDuplicates(String username)  {
+        boolean isDuplicate = false;
+        try(PreparedStatement preparedStatement = connection.prepareStatement(CHECK_NAME)) {
+            preparedStatement.setString(1,username);
+            ResultSet resultSet =preparedStatement.executeQuery();
+            if (resultSet.next()) {
+                int count = resultSet.getInt(1);
+                if (count > 0) {
+                    isDuplicate = true;
+                }
+            }
+
+        }
+        catch (SQLException e){
+            e.printStackTrace();
+        }
+        return  isDuplicate;
     }
 }

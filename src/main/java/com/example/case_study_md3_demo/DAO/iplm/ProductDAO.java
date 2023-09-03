@@ -177,12 +177,9 @@ public class ProductDAO implements IProductDAO {
                 int isActive = resultSet.getInt("isActive");
                 int categoryId = resultSet.getInt("id_category");
                 int brandId = resultSet.getInt("id_brand");
-
                 Category category = categoryDAO.findById(categoryId);
                 Brand brand = brandDAO.findById(brandId);
-
                 product.add(new Product(name, price, salePrice, quantity, description, image, isActive, category, brand));
-
             }
         } catch (SQLException e) {
             e.printStackTrace();

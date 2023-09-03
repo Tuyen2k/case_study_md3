@@ -70,7 +70,15 @@
             </ul>
             <ul class="header-links pull-right">
                 <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                <li><a href="accounts"><i class="fa fa-user-o"></i> My Account</a></li>
+                <li>
+                <c:if test="${not empty sessionScope.userLogin}">
+                    <a href="accounts"> <i class="fa fa-user-o"></i>LogOut</a>
+                </c:if>
+                <c:if test="${empty sessionScope.userLogin}">
+                    <a href="accounts"><i class="fa fa-user-o"></i>>LogIn</a>
+                </c:if>
+                </li>
+<%--                <li><a href="accounts"><i class="fa fa-user-o"></i> My Account</a></li>--%>
             </ul>
         </div>
     </div>
