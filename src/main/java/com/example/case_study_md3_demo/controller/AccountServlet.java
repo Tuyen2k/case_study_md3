@@ -71,7 +71,7 @@ public class AccountServlet extends HttpServlet {
         String username = request.getParameter("username");
         boolean isDuplicate = accountDAO.checkForDuplicates(username);
         if (isDuplicate) {
-            response.getWriter().println("Data already exists. Cannot be added");
+            response.getWriter().println("Account already exists");
         } else {
             String password = request.getParameter("password");
             Pattern pattern =Pattern.compile("^.{6,8}$");
