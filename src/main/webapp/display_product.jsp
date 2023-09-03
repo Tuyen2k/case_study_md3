@@ -354,7 +354,7 @@
                                 </div>
                                 <div class="add-to-cart">
                                     <a class="add-to-cart-btn"
-                                       href="products?action=add_cart&&id_user=${userLogin.getId_account()}&&id_product=${product.getId_product()}"><i
+                                       href="carts?action=add_cart&&id_user=${userLogin.getId_account()}&&id_product=${product.getId_product()}"><i
                                             class="fa fa-shopping-cart"></i> Add to cart</a>
                                 </div>
                             </div>

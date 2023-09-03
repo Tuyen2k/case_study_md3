@@ -21,8 +21,6 @@ public class ProductServlet extends HttpServlet {
     private BrandManage brandManage;
     AccountManage accountManage;
     RoleManage roleManage;
-    private CartManage cartManage;
-    private CartDetailManage cartDetailManage;
 
     @Override
     public void init() throws ServletException {
@@ -31,8 +29,6 @@ public class ProductServlet extends HttpServlet {
         categoryManage = CategoryManage.getCategoryManage();
         roleManage = new RoleManage();
         brandManage = BrandManage.getBrandManage();
-        cartManage = new CartManage();
-        cartDetailManage = new CartDetailManage();
     }
 
     @Override
@@ -53,9 +49,6 @@ public class ProductServlet extends HttpServlet {
                 break;
             case "delete_product":
                 delete(request, response);
-                break;
-            case "add_cart":
-                addCart(request, response);
                 break;
             default:
                 displayProduct(request, response);
@@ -180,75 +173,4 @@ public class ProductServlet extends HttpServlet {
 
     }
 
-    private void addCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String strId = request.getParameter("id_user");
-        if (!strId.equals("")) {
-            int id_user = Integer.parseInt(strId);
-            Account account = accountManage.findById(id_user);
-            int id_product = Integer.parseInt(request.getParameter("id_product"));
-            Product product = new Product();
-            if (account != null) {
-                product = productManage.findById(id_product);
-                Cart cart = cartManage.findByIdAccount(account.getId_account());
-                if (cart.getId_cart() == 0) {
-                    cart = new Cart(account);
-                    cartManage.create(cart);
-                    cart = cartManage.findNewCart();
-                }
-                List<CartDetail> cartDetails = cartDetailManage.checkCart(cart.getId_cart());
-                if (cartDetails.isEmpty()) {
-                    double price = product.getSale_price();
-                    double total = price * 1;
-                    cart.setTotal(total);
-                    CartDetail cartDetail = new CartDetail(cart, product, price, 1, total);
-                    cartDetailManage.create(cartDetail);
-                } else {
-                    boolean flag = false;
-                    CartDetail cartTemp = new CartDetail();
-                    for (CartDetail cartDetail : cartDetails){
-                        if (cartDetail.getProduct().getId_product() == product.getId_product()){
-                            flag = true;
-                            cartTemp = cartDetail;
-                            break;
-                        }
-                    }
-                    if (flag) {
-                        int quantity = cartTemp.getQuantity() + 1;
-                        double price = product.getSale_price();
-                        double total = price * quantity;
-                        cartTemp.setPrice(price);
-                        cartTemp.setQuantity(quantity);
-                        cartTemp.setTotal_product(total);
-                        cartDetailManage.update(cartTemp);
-                    } else {
-                        double price = product.getSale_price();
-                        double total = price * 1;
-                        cartTemp = new CartDetail(cart, product, price, 1, total);
-                        cartDetailManage.create(cartTemp);
-                    }
-                }
-                session.setAttribute("flag", true);
-                session.setAttribute("message", "Add to cart success!");
-                response.sendRedirect("products");
-            }
-        } else {
-            session.setAttribute("flag", true);
-            session.setAttribute("confirm_user", "You need to log in to your account first!");
-            response.sendRedirect("products");
-        }
-
-    }
-
-    private boolean checkUser(int id_user) {
-        boolean flag = false;
-        List<Account> accounts = accountManage.findAll();
-        for (Account account : accounts) {
-            if (account.getId_account() == id_user) {
-                flag = true;
-                break;
-            }
-        }
-        return flag;
-    }
 }
