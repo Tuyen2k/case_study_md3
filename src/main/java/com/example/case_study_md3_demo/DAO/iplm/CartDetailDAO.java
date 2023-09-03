@@ -4,6 +4,7 @@ import com.example.case_study_md3_demo.DAO.ICartDetailDAO;
 import com.example.case_study_md3_demo.model.CartDetail;
 import com.example.case_study_md3_demo.myConnection.MyConnection;
 
+import javax.swing.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,6 +23,8 @@ public class CartDetailDAO implements ICartDetailDAO {
     private String DELETE_PRODUCT_IN_CART_DETAIL = "delete from cart_detail where id_cartDetail = ?;";
     private String INSERT_INTO = "insert into cart_detail(id_cart, id_product, price, quantity, total_product) value(?, ?, ?, ?, ?);";
     private String UPDATE_CART = "update cart_detail set price = ?, quantity = ?, total_product = ? where id_cartDetail = ?;";
+    private String SORT_BY_PRICE_IN = "select  * from cart_detail where id_cart = ? order by price asc;";
+    private String SORT_BY_PRICE_DE = "select  * from cart_detail where id_cart = ? order by price desc ;";
 
     public CartDetailDAO() {
         connection = myConnection.getConnection();
@@ -138,5 +141,31 @@ public class CartDetailDAO implements ICartDetailDAO {
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<CartDetail> sortPriceIn(int id_cart) {
+        List<CartDetail> cartDetails = new ArrayList<>();
+        try(PreparedStatement preparedStatement = connection.prepareStatement(SORT_BY_PRICE_IN)) {
+            preparedStatement.setInt(1,id_cart);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            cartDetails = getListDataDB(resultSet);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return cartDetails;
+    }
+
+    @Override
+    public List<CartDetail> sortPriceDe(int id_cart) {
+        List<CartDetail> cartDetails = new ArrayList<>();
+        try(PreparedStatement preparedStatement = connection.prepareStatement(SORT_BY_PRICE_DE)) {
+            preparedStatement.setInt(1,id_cart);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            cartDetails = getListDataDB(resultSet);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return cartDetails;
     }
 }

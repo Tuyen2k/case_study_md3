@@ -39,4 +39,13 @@ public class CartDetailManage implements ICartDetailService {
         cartDetailDAO.deleteCartDetail(id);
     }
 
+    @Override
+    public List<CartDetail> sortPriceIn(int id) {
+        return cartDetailDAO.sortPriceIn(id);
+    }
+
+    @Override
+    public List<CartDetail> sortPriceDe(int id) {
+        return cartDetailDAO.sortPriceDe(id);
+    }
 }

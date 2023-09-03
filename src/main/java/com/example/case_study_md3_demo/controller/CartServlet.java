@@ -46,6 +46,12 @@ public class CartServlet extends HttpServlet {
             case "update_product_in_cart":
                 updateProductInCart(request, response);
                 break;
+            case "sort_in":
+                sortPriceIn(request, response);
+                break;
+            case "sort_de":
+                sortPriceDe(request, response);
+                break;
             default:
                 displayCart(request, response);
         }
@@ -113,5 +119,38 @@ public class CartServlet extends HttpServlet {
             RequestDispatcher rq = request.getRequestDispatcher("carts?action=&&id_user" + id_account);
             rq.forward(request, response);
         }
+    }
+
+    public void sortPriceIn(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id_account = Integer.parseInt(request.getParameter("id_user"));
+        Cart cart = cartManage.findByIdAccount(id_account);
+        List<CartDetail> cartDetails = cartDetailManage.sortPriceIn(cart.getId_cart());
+        Account account = accountManage.findById(id_account);
+        HttpSession session = request.getSession();
+        double total = 0;
+        for (CartDetail cartDetail : cartDetails) {
+            total += cartDetail.getTotal_product();
+        }
+        session.setAttribute("cartDetails", cartDetails);
+        session.setAttribute("total", total);
+        session.setAttribute("userLogin", account);
+        session.setAttribute("discount", total * 0.05);
+        response.sendRedirect("display_cart.jsp");
+    }
+    public void sortPriceDe(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        int id_account = Integer.parseInt(request.getParameter("id_user"));
+        Cart cart = cartManage.findByIdAccount(id_account);
+        List<CartDetail> cartDetails = cartDetailManage.sortPriceDe(cart.getId_cart());
+        Account account = accountManage.findById(id_account);
+        HttpSession session = request.getSession();
+        double total = 0;
+        for (CartDetail cartDetail : cartDetails) {
+            total += cartDetail.getTotal_product();
+        }
+        session.setAttribute("cartDetails", cartDetails);
+        session.setAttribute("total", total);
+        session.setAttribute("userLogin", account);
+        session.setAttribute("discount", total * 0.05);
+        response.sendRedirect("display_cart.jsp");
     }
 }

@@ -428,11 +428,22 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
-                    <div>
-                        <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!" class="text-body">Price <i
-                                class="fas fa-angle-down mt-1">
-
-                        </i></a></p>
+<%--                    <div>--%>
+<%--                        <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!" class="text-body">Price<i--%>
+<%--                                class="fas fa-angle-down mt-1">--%>
+<%--                        </i></a></p>--%>
+<%--                    </div>--%>
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" aria-expanded="true">
+                            <p class="mb-0"><span class="text-muted">Sort by: Price</span>
+                                <i class="fas fa-angle-down mt-1"></i></p>
+                        </a>
+                        <div class="cart-dropdown">
+                            <ul>
+                                <li><a href="carts?action=sort_in&&id_user=${userLogin.getId_account()}">Increment</a></li>
+                                <li><a href="carts?action=sort_de&&id_user=${userLogin.getId_account()}">Decrement</a></li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <c:forEach var="cartDetail" items="${cartDetails}">
