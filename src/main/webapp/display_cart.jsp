@@ -303,6 +303,14 @@
     }
 </style>
 <body>
+<c:if test="${flag}">
+    <c:if test="${ message != null }">
+        <script>
+            alert("${message}");
+            ${flag = false}
+        </script>
+    </c:if>
+</c:if>
 <header>
     <!-- TOP HEADER -->
     <div id="top-header">
@@ -428,11 +436,6 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
-<%--                    <div>--%>
-<%--                        <p class="mb-0"><span class="text-muted">Sort by:</span> <a href="#!" class="text-body">Price<i--%>
-<%--                                class="fas fa-angle-down mt-1">--%>
-<%--                        </i></a></p>--%>
-<%--                    </div>--%>
                     <div class="dropdown">
                         <a data-toggle="dropdown" aria-expanded="true">
                             <p class="mb-0"><span class="text-muted">Sort by: Price</span>
@@ -440,8 +443,10 @@
                         </a>
                         <div class="cart-dropdown">
                             <ul>
-                                <li><a href="carts?action=sort_in&&id_user=${userLogin.getId_account()}">Increment</a></li>
-                                <li><a href="carts?action=sort_de&&id_user=${userLogin.getId_account()}">Decrement</a></li>
+                                <li><a href="carts?action=sort_in&&id_user=${userLogin.getId_account()}">Increment</a>
+                                </li>
+                                <li><a href="carts?action=sort_de&&id_user=${userLogin.getId_account()}">Decrement</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -452,7 +457,7 @@
                             <div class="row d-flex justify-content-between align-items-center">
                                 <div class="col-md-2 col-lg-2 col-xl-2">
                                     <img src="${cartDetail.getProduct().getImage()}"
-                                            class="img-fluid rounded-3" alt="image">
+                                         class="img-fluid rounded-3" alt="image">
                                 </div>
                                 <div class="col-md-3 col-lg-3 col-xl-3">
                                     <p class="lead fw-normal mb-2">${cartDetail.getProduct().getName()}</p>
@@ -465,23 +470,28 @@
                                         </i>
                                     </button>
 
-                                    <input id="quantity-${cartDetail.getId_cartDetail()}" min="0" name="quantity" value="${cartDetail.getQuantity()}"
-                                           onchange="updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})" type="number"
+                                    <input id="quantity-${cartDetail.getId_cartDetail()}" min="0" name="quantity"
+                                           value="${cartDetail.getQuantity()}"
+                                           onchange="updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})"
+                                           type="number"
                                            class="form-control form-control-sm" style="width: 50px"/>
                                     <button class="btn btn-link px-2"
                                             onclick="this.parentNode.querySelector('input[type=number]').stepUp();
-                                            updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})">
+                                                    updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})">
                                         <i class="fas fa-plus">
                                         </i>
                                     </button>
                                 </div>
                                 <div class="col-md-2 col-lg-2 col-xl-2 " style="width: 12%">
-                                    <h5 class="mb-0"><fmt:formatNumber value="${cartDetail.getPrice()}" pattern="#,##0"/></h5>
+                                    <h5 class="mb-0"><fmt:formatNumber value="${cartDetail.getPrice()}"
+                                                                       pattern="#,##0"/></h5>
                                 </div>
                                 <div class="col-md-2 col-lg-2 col-xl-2 " style="width: 12%">
-                                    <h5 class="mb-0"><fmt:formatNumber value="${cartDetail.getTotal_product()}" pattern="#,##0"/></h5>
+                                    <h5 class="mb-0"><fmt:formatNumber value="${cartDetail.getTotal_product()}"
+                                                                       pattern="#,##0"/></h5>
                                 </div>
-                                <div class="col-md-1 col-lg-1 col-xl-1 text-end" style="width: 10%" onclick="deleteProduct(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})">
+                                <div class="col-md-1 col-lg-1 col-xl-1 text-end" style="width: 10%"
+                                     onclick="deleteProduct(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})">
                                     <a class="text-danger"><i class="fas fa-trash fa-lg">
                                     </i></a>
                                 </div>
@@ -628,13 +638,14 @@
     function deleteProduct(id_cart, id_account) {
         let flag = confirm("Are you sure?")
         if (flag === true) {
-            window.location.href = "carts?action=delete_product_in_cart&id_cartDetail=" + id_cart+"&&id_user="+id_account;
+            window.location.href = "carts?action=delete_product_in_cart&id_cartDetail=" + id_cart + "&&id_user=" + id_account;
         }
     }
+
     function updateQuantity(id_cart, id_account) {
         console.log(id_cart)
-        var quantity = document.getElementById("quantity-"+id_cart).value;
+        var quantity = document.getElementById("quantity-" + id_cart).value;
         window.location.href = "carts?action=update_product_in_cart&id_cartDetail=" +
-            id_cart+"&&quantity=" + quantity +"&&id_user="+id_account;
+            id_cart + "&&quantity=" + quantity + "&&id_user=" + id_account;
     }
 </script>
