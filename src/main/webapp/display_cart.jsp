@@ -451,7 +451,7 @@
                         </div>
                     </div>
                 </div>
-                <form action="carts?action=display_bill&&id_cart=" method="post">
+                <form action="carts?action=&&id_user=${userLogin.getId_account()}" method="post">
                     <c:forEach var="cartDetail" items="${cartDetails}">
                         <div class="card rounded-3 mb-4">
                             <div class="card-body p-4">
