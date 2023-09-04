@@ -7,7 +7,7 @@ import com.example.case_study_md3_demo.service.ICartService;
 import java.util.List;
 
 public class CartManage implements ICartService {
-    private CartDAO cartDAO;
+    private final CartDAO cartDAO;
     public CartManage(){
         cartDAO = new CartDAO();
     }

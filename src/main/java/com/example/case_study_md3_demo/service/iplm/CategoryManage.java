@@ -7,7 +7,7 @@ import com.example.case_study_md3_demo.service.ICategoryService;
 import java.util.List;
 
 public class CategoryManage implements ICategoryService {
-    private CategoryDAO categoryDAO;
+    private final CategoryDAO categoryDAO;
     private static CategoryManage categoryManage;
 
     public CategoryManage() {
