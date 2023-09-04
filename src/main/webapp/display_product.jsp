@@ -75,14 +75,16 @@
                 <!-- SEARCH BAR -->
                 <div class="col-md-6">
                     <div class="header-search">
-                        <form>
+                        <form action="http://localhost:8080/products">
                             <select class="input-select">
                                 <option value="0">All Categories</option>
                                 <c:forEach items="${categories}" var="category">
                                     <option value="${category.getId_category()}">${category.getName()}</option>
                                 </c:forEach>
                             </select>
-                            <input class="input" placeholder="Search here">
+                            <input type="hidden" name="action" value="find_product">--%>
+                            <input type="text" placeholder="Tìm kiếm" aria-label="Search"
+                                   name="keyword">
                             <button class="search-btn">Search</button>
                         </form>
                     </div>

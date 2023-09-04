@@ -24,6 +24,7 @@ public class ProductServlet extends HttpServlet {
     private BrandManage brandManage;
     AccountManage accountManage;
     RoleManage roleManage;
+    private ProductDAO productDAO;
 
     @Override
     public void init() throws ServletException {
@@ -44,6 +45,12 @@ public class ProductServlet extends HttpServlet {
             case "display_one":
                 displayOneProduct(request, response);
                 break;
+            case "display_by_category":
+                displayByCategory(request, response);
+                break;
+            case "display_by_brand":
+                displayByBrand(request, response);
+                break;
             case "home_product":
                 homeProduct(request, response);
                 break;
@@ -53,7 +60,9 @@ public class ProductServlet extends HttpServlet {
             case "delete_product":
                 delete(request, response);
                 break;
-
+            case "find_product":
+                findProduct(request, response);
+                break;
             default:
                 displayProduct(request, response);
         }
@@ -170,10 +179,48 @@ public class ProductServlet extends HttpServlet {
     }
 
     private void displayByCategory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int categoryId = Integer.parseInt(request.getParameter("id_category"));
 
+        List<Product> products = productManage.findAllByCategory(categoryId);
+        List<Category> categories = categoryManage .findAll();
+        List<Brand> brands = brandManage.findAll();
+
+        request.setAttribute("products", products);
+        request.setAttribute("categories", categories);
+        request.setAttribute("brands", brands);
+
+        RequestDispatcher rq = request.getRequestDispatcher("display_product.jsp");
+        rq.forward(request, response);
     }
 
     private void displayByBrand(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int brandId= Integer.parseInt(request.getParameter("id_brand"));
 
+        List<Product> products = productManage.findAllByBrand(brandId);
+        List<Category> categories = categoryManage .findAll();
+        List<Brand> brands = brandManage.findAll();
+
+        request.setAttribute("products", products);
+        request.setAttribute("categories", categories);
+        request.setAttribute("brands", brands);
+
+        RequestDispatcher rq = request.getRequestDispatcher("display_product.jsp");
+        rq.forward(request, response);
     }
+
+    private void findProduct(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String keyword = request.getParameter("keyword");
+
+        List<Product> products = productManage.findProduct(keyword);
+        List<Category> categories = categoryManage.findAll();
+        List<Brand> brands = brandManage.findAll();
+
+        request.setAttribute("products", products);
+        request.setAttribute("category", categories);
+        request.setAttribute("brands", brands);
+
+        RequestDispatcher rq = request.getRequestDispatcher("display_product.jsp");
+        rq.forward(request, response);
+    }
+
 }

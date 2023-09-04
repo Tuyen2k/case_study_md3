@@ -39,4 +39,16 @@ public class ProductManage implements IProductService {
     public void delete(int id) {
         productDAO.delete(id);
     }
+    @Override
+    public List<Product> findProduct(String search) {
+        return productDAO.findProduct(search);
+    }
+    @Override
+    public List<Product> findAllByCategory(int id) {
+        return productDAO.findAllByCategory(id);
+    }
+    @Override
+    public List<Product> findAllByBrand(int id) {
+        return productDAO.findAllByBrand(id);
+    }
 }

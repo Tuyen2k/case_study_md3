@@ -5,8 +5,6 @@ import com.example.case_study_md3_demo.model.Brand;
 import com.example.case_study_md3_demo.model.Category;
 import com.example.case_study_md3_demo.model.Product;
 import com.example.case_study_md3_demo.myConnection.MyConnection;
-import com.example.case_study_md3_demo.service.iplm.BrandManage;
-import com.example.case_study_md3_demo.service.iplm.CategoryManage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -183,6 +181,37 @@ public class ProductDAO implements IProductDAO {
 
                 product.add(new Product(name, price, salePrice, quantity, description, image, isActive, category, brand));
 
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return product;
+    }
+
+    @Override
+    public List<Product> findProduct(String search) {
+        List<Product> product = new ArrayList<>();
+        try {
+            String sql = "SELECT * FROM product WHERE name like concat('%',?,'%');";
+            PreparedStatement statement = connection.prepareStatement(sql);
+            statement.setString(1, search);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("name");
+                double price = rs.getDouble("price");
+                double salePrice = rs.getDouble("sale_price");
+                int quantity = rs.getInt("quantity");
+                String description = rs.getString("description");
+                String image = rs.getString("image");
+                int isActive = rs.getInt("isActive");
+                int categoryId = rs.getInt("id_category");
+                int brandId = rs.getInt("id_brand");
+
+                Category category = categoryDAO.findById(categoryId);
+                Brand brand = brandDAO.findById(brandId);
+                if (category != null) {
+                    product.add(new Product(name, price, salePrice, quantity, description, image, isActive, category, brand));
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
