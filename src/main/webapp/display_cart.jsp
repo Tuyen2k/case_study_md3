@@ -451,81 +451,83 @@
                         </div>
                     </div>
                 </div>
-                <c:forEach var="cartDetail" items="${cartDetails}">
-                    <div class="card rounded-3 mb-4">
-                        <div class="card-body p-4">
-                            <div class="row d-flex justify-content-between align-items-center">
-                                <div class="col-md-2 col-lg-2 col-xl-2">
-                                    <img src="${cartDetail.getProduct().getImage()}"
-                                         class="img-fluid rounded-3" alt="image">
-                                </div>
-                                <div class="col-md-3 col-lg-3 col-xl-3">
-                                    <p class="lead fw-normal mb-2">${cartDetail.getProduct().getName()}</p>
-                                </div>
-                                <div class="col-md-2 col-lg-2 col-xl-2 d-flex" style="width: 12%">
-                                    <button class="btn btn-link px-2"
-                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown();
-                                                    updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})">
-                                        <i class="fas fa-minus">
-                                        </i>
-                                    </button>
+                <form action="" method="post">
+                    <c:forEach var="cartDetail" items="${cartDetails}">
+                        <div class="card rounded-3 mb-4">
+                            <div class="card-body p-4">
+                                <div class="row d-flex justify-content-between align-items-center">
+                                    <div class="col-md-2 col-lg-2 col-xl-2">
+                                        <img src="${cartDetail.getProduct().getImage()}"
+                                             class="img-fluid rounded-3" alt="image">
+                                    </div>
+                                    <div class="col-md-3 col-lg-3 col-xl-3">
+                                        <p class="lead fw-normal mb-2">${cartDetail.getProduct().getName()}</p>
+                                    </div>
+                                    <div class="col-md-2 col-lg-2 col-xl-2 d-flex" style="width: 12%">
+                                        <button class="btn btn-link px-2"
+                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown();
+                                                        updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})">
+                                            <i class="fas fa-minus">
+                                            </i>
+                                        </button>
 
-                                    <input id="quantity-${cartDetail.getId_cartDetail()}" min="0" name="quantity"
-                                           value="${cartDetail.getQuantity()}"
-                                           onchange="updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})"
-                                           type="number"
-                                           class="form-control form-control-sm" style="width: 50px"/>
-                                    <button class="btn btn-link px-2"
-                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp();
-                                                    updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})">
-                                        <i class="fas fa-plus">
-                                        </i>
-                                    </button>
-                                </div>
-                                <div class="col-md-2 col-lg-2 col-xl-2 " style="width: 12%">
-                                    <h5 class="mb-0"><fmt:formatNumber value="${cartDetail.getPrice()}"
-                                                                       pattern="#,##0"/></h5>
-                                </div>
-                                <div class="col-md-2 col-lg-2 col-xl-2 " style="width: 12%">
-                                    <h5 class="mb-0"><fmt:formatNumber value="${cartDetail.getTotal_product()}"
-                                                                       pattern="#,##0"/></h5>
-                                </div>
-                                <div class="col-md-1 col-lg-1 col-xl-1 text-end" style="width: 10%"
-                                     onclick="deleteProduct(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})">
-                                    <a class="text-danger"><i class="fas fa-trash fa-lg">
-                                    </i></a>
+                                        <input id="quantity-${cartDetail.getId_cartDetail()}" min="0" name="quantity"
+                                               value="${cartDetail.getQuantity()}"
+                                               onchange="updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})"
+                                               type="number"
+                                               class="form-control form-control-sm" style="width: 50px"/>
+                                        <button class="btn btn-link px-2"
+                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp();
+                                                        updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})">
+                                            <i class="fas fa-plus">
+                                            </i>
+                                        </button>
+                                    </div>
+                                    <div class="col-md-2 col-lg-2 col-xl-2 " style="width: 12%">
+                                        <h5 class="mb-0"><fmt:formatNumber value="${cartDetail.getPrice()}"
+                                                                           pattern="#,##0"/></h5>
+                                    </div>
+                                    <div class="col-md-2 col-lg-2 col-xl-2 " style="width: 12%">
+                                        <h5 class="mb-0"><fmt:formatNumber value="${cartDetail.getTotal_product()}"
+                                                                           pattern="#,##0"/></h5>
+                                    </div>
+                                    <div class="col-md-1 col-lg-1 col-xl-1 text-end" style="width: 10%"
+                                         onclick="deleteProduct(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})">
+                                        <a class="text-danger"><i class="fas fa-trash fa-lg">
+                                        </i></a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </c:forEach>
+                    </c:forEach>
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between px-x">
-                            <p class="fw-bold mb-3">Discount:</p>
-                            <p class="fw-bold mb-3"><fmt:formatNumber value="${discount}" pattern="#,##0"/></p>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between px-x">
+                                <p class="fw-bold mb-3">Discount:</p>
+                                <p class="fw-bold mb-3"><fmt:formatNumber value="${discount}" pattern="#,##0"/></p>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between p-2 mb-2"
-                             style="background-color: #e1f5fe; font-size: 20px;">
-                            <p class="fw-bold mb-3">Total:</p>
-                            <p class="fw-bold mb-3"><fmt:formatNumber value="${total}" pattern="#,##0"/></p>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between p-2 mb-2"
+                                 style="background-color: #e1f5fe; font-size: 20px;">
+                                <p class="fw-bold mb-3">Total:</p>
+                                <p class="fw-bold mb-3"><fmt:formatNumber value="${total}" pattern="#,##0"/></p>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="card">
-                    <div class="card-body">
-                        <button type="button" class="btn btn-warning btn-block btn-lg"
-                                style="width: 100%;font-size: 22px;">Proceed to Pay
-                        </button>
+                    <div class="card">
+                        <div class="card-body">
+                            <button type="submit" class="btn btn-warning btn-block btn-lg"
+                                    style="width: 100%;font-size: 22px;">Proceed to Pay
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
