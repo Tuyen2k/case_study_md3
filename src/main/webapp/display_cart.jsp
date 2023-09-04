@@ -451,7 +451,7 @@
                         </div>
                     </div>
                 </div>
-                <form action="" method="post">
+                <form action="carts?action=display_bill&&id_cart=" method="post">
                     <c:forEach var="cartDetail" items="${cartDetails}">
                         <div class="card rounded-3 mb-4">
                             <div class="card-body p-4">
@@ -464,24 +464,24 @@
                                         <p class="lead fw-normal mb-2">${cartDetail.getProduct().getName()}</p>
                                     </div>
                                     <div class="col-md-2 col-lg-2 col-xl-2 d-flex" style="width: 12%">
-                                        <button class="btn btn-link px-2"
+                                        <a class="btn btn-link px-2"
                                                 onclick="this.parentNode.querySelector('input[type=number]').stepDown();
                                                         updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})">
                                             <i class="fas fa-minus">
                                             </i>
-                                        </button>
+                                        </a>
 
                                         <input id="quantity-${cartDetail.getId_cartDetail()}" min="0" name="quantity"
                                                value="${cartDetail.getQuantity()}"
                                                onchange="updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})"
                                                type="number"
                                                class="form-control form-control-sm" style="width: 50px"/>
-                                        <button class="btn btn-link px-2"
+                                        <a class="btn btn-link px-2"
                                                 onclick="this.parentNode.querySelector('input[type=number]').stepUp();
                                                         updateQuantity(${cartDetail.getId_cartDetail()},${userLogin.getId_account()})">
                                             <i class="fas fa-plus">
                                             </i>
-                                        </button>
+                                        </a>
                                     </div>
                                     <div class="col-md-2 col-lg-2 col-xl-2 " style="width: 12%">
                                         <h5 class="mb-0"><fmt:formatNumber value="${cartDetail.getPrice()}"

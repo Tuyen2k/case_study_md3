@@ -257,16 +257,8 @@
                         <span class="product-available">In Stock</span>
                     </div>
                     <div class="add-to-cart">
-<%--                        <div class="qty-label">--%>
-<%--                            Qty--%>
-<%--                            <div class="input-number">--%>
-<%--                                <input type="number">--%>
-<%--                                <span class="qty-up">+</span>--%>
-<%--                                <span class="qty-down">-</span>--%>
-<%--                            </div>--%>
-<%--                        </div>--%>
-                        <a href="products?action=add_cart&&id_user=${userLogin.getId_account()}&&id_product=${product.getId_product()}"
-                           class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</a>
+                        <a href="carts?action=add_cart&&id_user=${userLogin.getId_account()}&&id_product=${product.getId_product()}"
+                           class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Add to cart</a>
                     </div>
 
                     <ul class="product-btns">
