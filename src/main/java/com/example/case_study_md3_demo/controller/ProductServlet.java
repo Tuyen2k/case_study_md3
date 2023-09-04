@@ -144,17 +144,24 @@ public class ProductServlet extends HttpServlet {
         double price = Double.parseDouble(request.getParameter("price"));
         double sale_price = Double.parseDouble(request.getParameter("sale_price"));
         int quantity = Integer.parseInt(request.getParameter("quantity"));
-        String description = request.getParameter("description");
-        String image = request.getParameter("image");
-        int id_category = Integer.parseInt(request.getParameter("category"));
-        int id_brand = Integer.parseInt(request.getParameter("brand"));
-        Category category = categoryManage.findById(id_category);
-        Brand brand = brandManage.findById(id_brand);
-        Product product = new Product(id, name, price, sale_price, quantity, description, image, 1, category, brand);
-        productManage.update(product);
         HttpSession session = request.getSession();
-        session.setAttribute("message", "Create product success!");
-        response.sendRedirect("products?action=home_product");
+        if (quantity > 0) {
+            String description = request.getParameter("description");
+            String image = request.getParameter("image");
+            int id_category = Integer.parseInt(request.getParameter("category"));
+            int id_brand = Integer.parseInt(request.getParameter("brand"));
+            Category category = categoryManage.findById(id_category);
+            Brand brand = brandManage.findById(id_brand);
+            Product product = new Product(id, name, price, sale_price, quantity, description, image, 1, category, brand);
+            productManage.update(product);
+            session.setAttribute("message", "Create product success!");
+            response.sendRedirect("products?action=home_product");
+        }
+        else {
+            productManage.delete(id);
+            session.setAttribute("message", "The product has been deleted!");
+            response.sendRedirect("products?action=home_product");
+        }
     }
 
     private void delete(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

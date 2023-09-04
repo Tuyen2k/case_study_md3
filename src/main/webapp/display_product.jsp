@@ -38,7 +38,6 @@
 
 </head>
 <body>
-
 <c:if test="${flag}">
     <c:if test="${ not empty confirm_user}">
         <script>

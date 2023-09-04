@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
@@ -38,6 +38,14 @@
 
 </head>
 <body>
+<c:if test="${flag}">
+    <c:if test="${ not empty message }">
+        <script>
+            alert("${message}");
+            ${flag = false}
+        </script>
+    </c:if>
+</c:if>
 <!-- HEADER -->
 <header>
     <!-- TOP HEADER -->
@@ -49,8 +57,18 @@
                 <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
             </ul>
             <ul class="header-links pull-right">
-                <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                <li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+                <c:if test="${not empty sessionScope.userLogin}">
+                    <a style="color: #F0F0F0">${userLogin.getUsername()}</a>
+                </c:if>
+                <li>
+                    <c:if test="${not empty sessionScope.userLogin}">
+                        <a href="accounts"> <i class="fa fa-user-o"></i>LogOut</a>
+                    </c:if>
+                    <c:if test="${empty sessionScope.userLogin}">
+                        <a href="accounts"><i class="fa fa-user-o"></i>LogIn</a>
+                    </c:if>
+                </li>
+                <%--                <li><a href="accounts"><i class="fa fa-user-o"></i> My Account</a></li>--%>
             </ul>
         </div>
     </div>
@@ -65,8 +83,8 @@
                 <!-- LOGO -->
                 <div class="col-md-3">
                     <div class="header-logo">
-                        <a href="#" class="logo">
-                            <img src="./img/logo.png" alt="">
+                        <a href="products" class="logo">
+                            <img src="./img/logo.png" alt="image">
                         </a>
                     </div>
                 </div>
@@ -88,65 +106,21 @@
                     <div class="header-ctn">
                         <!-- Wishlist -->
                         <div>
-                            <a href="#">
+                            <a href="">
                                 <i class="fa fa-heart-o"></i>
                                 <span>Your Wishlist</span>
-                                <div class="qty">2</div>
                             </a>
                         </div>
                         <!-- /Wishlist -->
 
                         <!-- Cart -->
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                        <div>
+                            <a href="carts?action=&&id_user=${userLogin.getId_account()}">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Your Cart</span>
-                                <div class="qty">3</div>
                             </a>
-                            <div class="cart-dropdown">
-                                <div class="cart-list">
-                                    <div class="product-widget">
-                                        <div class="product-img">
-                                            <img src="./img/product01.png" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-                                        </div>
-                                        <button class="delete"><i class="fa fa-close"></i></button>
-                                    </div>
-
-                                    <div class="product-widget">
-                                        <div class="product-img">
-                                            <img src="./img/product02.png" alt="">
-                                        </div>
-                                        <div class="product-body">
-                                            <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                                            <h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-                                        </div>
-                                        <button class="delete"><i class="fa fa-close"></i></button>
-                                    </div>
-                                </div>
-                                <div class="cart-summary">
-                                    <small>3 Item(s) selected</small>
-                                    <h5>SUBTOTAL: $2940.00</h5>
-                                </div>
-                                <div class="cart-btns">
-                                    <a href="#">View Cart</a>
-                                    <a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
-                                </div>
-                            </div>
                         </div>
                         <!-- /Cart -->
-
-                        <!-- Menu Toogle -->
-                        <div class="menu-toggle">
-                            <a href="#">
-                                <i class="fa fa-bars"></i>
-                                <span>Menu</span>
-                            </a>
-                        </div>
-                        <!-- /Menu Toogle -->
                     </div>
                 </div>
                 <!-- /ACCOUNT -->
@@ -158,6 +132,7 @@
     <!-- /MAIN HEADER -->
 </header>
 <!-- /HEADER -->
+
 <!-- NAVIGATION -->
 <nav id="navigation">
     <!-- container -->
@@ -169,11 +144,15 @@
                 <li class="active"><a href="products">Home</a></li>
                 <li><a href="#">Hot Deals</a></li>
                 <c:forEach var="category" items="${categories}">
-                    <li><a href="products?action=search_by_category&&id_category=${category.getId_category()}">${category.getName()}</a></li>
+                    <li>
+                        <a href="products?action=search_by_category&&id_category=${category.getId_category()}">${category.getName()}</a>
+                    </li>
                 </c:forEach>
-                <li><a href="products?action=home_product">Product Home</a></li>
-                <li><a href="categories">Category Home</a></li>
-                <li><a href="brands">Brand Home</a></li>
+                <c:if test="${sessionScope.role.getId_role() == 1}">
+                    <li><a href="products?action=home_product">Product Home</a></li>
+                    <li><a href="categories">Category Home</a></li>
+                    <li><a href="brands">Brand Home</a></li>
+                </c:if>
             </ul>
             <!-- /NAV -->
         </div>
@@ -182,16 +161,9 @@
     <!-- /container -->
 </nav>
 <!-- /NAVIGATION -->
+
 <div class="container" style="width: 900px; height: 1000px; align-content: center;position: relative;z-index: 50">
     <div style="position: absolute; margin-top: 100px;">
-        <c:if test="${flag == true}">
-            <c:if test="${message != null&& not empty message }">
-                <script>
-                    alert("${message}");
-                    ${flag = false};
-                </script>
-            </c:if>
-        </c:if>
         <h1>Show List Category</h1>
         <a class="btn btn-primary" onclick="document.getElementById('form_create_category').style.display = 'block'">
             Create Category</a> <br>

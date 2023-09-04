@@ -310,6 +310,7 @@
     </script>
 </head>
 <body>
+<!-- thêm message-->
 <!-- Disp vlay product -->
 <div class="container">
     <div class="table-responsive">
