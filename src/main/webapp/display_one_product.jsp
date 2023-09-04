@@ -223,18 +223,6 @@
                     <div class="product-preview">
                         <img src="${product.getImage()}" alt="image">
                     </div>
-
-<%--                    <div class="product-preview">--%>
-<%--                        <img src="./img/product03.png" alt="">--%>
-<%--                    </div>--%>
-
-<%--                    <div class="product-preview">--%>
-<%--                        <img src="./img/product06.png" alt="">--%>
-<%--                    </div>--%>
-
-<%--                    <div class="product-preview">--%>
-<%--                        <img src="./img/product08.png" alt="">--%>
-<%--                    </div>--%>
                 </div>
             </div>
             <!-- /Product main img -->
@@ -245,18 +233,6 @@
                     <div class="product-preview">
                         <img src="${product.getImage()}" alt="image">
                     </div>
-
-<%--                    <div class="product-preview">--%>
-<%--                        <img src="./img/product03.png" alt="">--%>
-<%--                    </div>--%>
-
-<%--                    <div class="product-preview">--%>
-<%--                        <img src="./img/product06.png" alt="">--%>
-<%--                    </div>--%>
-
-<%--                    <div class="product-preview">--%>
-<%--                        <img src="./img/product08.png" alt="">--%>
-<%--                    </div>--%>
                 </div>
             </div>
             <!-- /Product thumb imgs -->
@@ -280,23 +256,6 @@
                             <del class="product-old-price"><fmt:formatNumber value="${product.getPrice()}" pattern="#,##0"/></del></h3>
                         <span class="product-available">In Stock</span>
                     </div>
-<%--                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>--%>
-
-<%--                    <div class="product-options">--%>
-<%--                        <label>--%>
-<%--                            Size--%>
-<%--                            <select class="input-select">--%>
-<%--                                <option value="0">X</option>--%>
-<%--                            </select>--%>
-<%--                        </label>--%>
-<%--                        <label>--%>
-<%--                            Color--%>
-<%--                            <select class="input-select">--%>
-<%--                                <option value="0">Red</option>--%>
-<%--                            </select>--%>
-<%--                        </label>--%>
-<%--                    </div>--%>
-
                     <div class="add-to-cart">
 <%--                        <div class="qty-label">--%>
 <%--                            Qty--%>
@@ -306,7 +265,8 @@
 <%--                                <span class="qty-down">-</span>--%>
 <%--                            </div>--%>
 <%--                        </div>--%>
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        <a href="products?action=add_cart&&id_user=${userLogin.getId_account()}&&id_product=${product.getId_product()}"
+                           class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</a>
                     </div>
 
                     <ul class="product-btns">

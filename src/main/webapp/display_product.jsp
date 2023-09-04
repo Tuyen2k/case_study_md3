@@ -38,6 +38,26 @@
 
 </head>
 <body>
+
+<c:if test="${flag}">
+    <c:if test="${ not empty confirm_user}">
+        <script>
+            function confirmUser() {
+                if (confirm("${confirm_user}")) {
+                    window.location.href = "accounts";
+                }
+            }
+            confirmUser()
+            ${flag = false}
+        </script>
+    </c:if>
+    <c:if test="${ not empty message }">
+        <script>
+            alert("${message}");
+            ${flag = false}
+        </script>
+    </c:if>
+</c:if>
 <!-- HEADER -->
 <header>
     <!-- TOP HEADER -->
@@ -49,8 +69,18 @@
                 <li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
             </ul>
             <ul class="header-links pull-right">
-                <li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
-                <li><a href="accounts"><i class="fa fa-user-o"></i> My Account</a></li>
+                <c:if test="${not empty sessionScope.userLogin}">
+                    <a style="color: #F0F0F0">${userLogin.getUsername()}</a>
+                </c:if>
+                <li>
+                <c:if test="${not empty sessionScope.userLogin}">
+                    <a href="accounts"> <i class="fa fa-user-o"></i>LogOut</a>
+                </c:if>
+                <c:if test="${empty sessionScope.userLogin}">
+                    <a href="accounts"><i class="fa fa-user-o"></i>LogIn</a>
+                </c:if>
+                </li>
+<%--                <li><a href="accounts"><i class="fa fa-user-o"></i> My Account</a></li>--%>
             </ul>
         </div>
     </div>
@@ -65,8 +95,8 @@
                 <!-- LOGO -->
                 <div class="col-md-3">
                     <div class="header-logo">
-                        <a href="#" class="logo">
-                            <img src="./img/logo.png" alt="">
+                        <a href="products" class="logo">
+                            <img src="./img/logo.png" alt="image">
                         </a>
                     </div>
                 </div>
@@ -96,17 +126,16 @@
                     <div class="header-ctn">
                         <!-- Wishlist -->
                         <div>
-                            <a href="#">
+                            <a href="">
                                 <i class="fa fa-heart-o"></i>
                                 <span>Your Wishlist</span>
-                                <div class="qty">2</div>
                             </a>
                         </div>
                         <!-- /Wishlist -->
 
                         <!-- Cart -->
-                        <div class="dropdown">
-                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                        <div>
+                            <a href="carts?action=&&id_user=${userLogin.getId_account()}">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Your Cart</span>
                                 <div class="qty">3</div>
@@ -178,7 +207,9 @@
                 <li class="active"><a href="products">Home</a></li>
                 <li><a href="#">Hot Deals</a></li>
                 <c:forEach var="category" items="${categories}">
-                    <li><a href="products?action=search_by_category&&id_category=${category.getId_category()}">${category.getName()}</a></li>
+                    <li>
+                        <a href="products?action=search_by_category&&id_category=${category.getId_category()}">${category.getName()}</a>
+                    </li>
                 </c:forEach>
                 <c:if test="${sessionScope.role.getId_role() == 1}">
                     <li><a href="products?action=home_product">Product Home</a></li>
@@ -228,14 +259,14 @@
                     <h3 class="aside-title">Categories</h3>
                     <div class="checkbox-filter">
                         <c:forEach items="${categories}" var="category">
-                        <div class="input-checkbox">
-                            <input type="checkbox" id="category-${category.getId_category()}">
-                            <label for="category-${category.getId_category()}">
-                                <span></span>
-                                <a href="products?action=display_by_category&id_category=${category.getId_category()}">${category.getName()}</a>
-                                <small>(120)</small> <!--đếm số lượng cata trong list-->
-                            </label>
-                        </div>
+                            <div class="input-checkbox">
+                                <input type="checkbox" id="category-${category.getId_category()}">
+                                <label for="category-${category.getId_category()}">
+                                    <span></span>
+                                    <a href="products?action=display_by_category&id_category=${category.getId_category()}">${category.getName()}</a>
+                                    <small>(120)</small> <!--đếm số lượng cata trong list-->
+                                </label>
+                            </div>
                         </c:forEach>
                     </div>
                 </div>
@@ -289,7 +320,9 @@
                         <div class="product-body">
                             <p class="product-category">Category</p>
                             <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                            <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                            <h4 class="product-price">$980.00
+                                <del class="product-old-price">$990.00</del>
+                            </h4>
                         </div>
                     </div>
 
@@ -300,7 +333,9 @@
                         <div class="product-body">
                             <p class="product-category">Category</p>
                             <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                            <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                            <h4 class="product-price">$980.00
+                                <del class="product-old-price">$990.00</del>
+                            </h4>
                         </div>
                     </div>
 
@@ -311,7 +346,9 @@
                         <div class="product-body">
                             <p class="product-category">Category</p>
                             <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                            <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                            <h4 class="product-price">$980.00
+                                <del class="product-old-price">$990.00</del>
+                            </h4>
                         </div>
                     </div>
                 </div>
@@ -352,40 +389,48 @@
                     <!-- product -->
                     <!-- forEarch-->
                     <c:forEach var="product" items="${products}">
-                    <div class="col-md-4 col-xs-6">
-                        <div class="product">
-                            <div class="product-img">
-                                <img src="${product.getImage()}" alt="image">
-                                <div class="product-label">
-                                    <span class="sale">-30%</span>
-                                    <span class="new">NEW</span>
+                        <div class="col-md-4 col-xs-6">
+                            <div class="product">
+                                <div class="product-img">
+                                    <img src="${product.getImage()}" alt="image">
+                                    <div class="product-label">
+                                        <span class="sale">-10%</span>
+                                        <span class="new">NEW</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="product-body">
-                                <p class="product-category">${name}</p>
-                                <h3 class="product-name"><a href="products?action=display_one&&id_product=${product.getId_product()}">${product.getName()}</a></h3>
-                                <h4 class="product-price">
-                                    <fmt:formatNumber value="${product.getPrice()}" pattern="#,##0"/>
-                                    <del class="product-old-price">
-                                        <fmt:formatNumber value="${product.getPrice()}" pattern="#,##0"/></del></h4>
-                                <div class="product-rating">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                                <div class="product-body">
+                                    <p class="product-category">${name}</p>
+                                    <h3 class="product-name"><a
+                                            href="products?action=display_one&&id_product=${product.getId_product()}">${product.getName()}</a>
+                                    </h3>
+                                    <h4 class="product-price">
+                                        <fmt:formatNumber value="${product.getSale_price()}" pattern="#,##0"/>
+                                        <del class="product-old-price">
+                                            <fmt:formatNumber value="${product.getPrice()}" pattern="#,##0"/></del>
+                                    </h4>
+                                    <div class="product-rating">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
+                                    <div class="product-btns">
+                                        <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span
+                                                class="tooltipp">add to wishlist</span></button>
+                                        <button class="add-to-compare"><i class="fa fa-exchange"></i><span
+                                                class="tooltipp">add to compare</span></button>
+                                        <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div class="product-btns">
-                                    <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                    <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                <div class="add-to-cart">
+                                    <a class="add-to-cart-btn"
+                                       href="products?action=add_cart&&id_user=${userLogin.getId_account()}&&id_product=${product.getId_product()}"><i
+                                            class="fa fa-shopping-cart"></i> Add to cart</a>
                                 </div>
-                            </div>
-                            <div class="add-to-cart">
-                                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
                             </div>
                         </div>
-                    </div>
                     </c:forEach>
                     <!-- /product -->
 
@@ -687,7 +732,8 @@
                 <div class="col-md-3 col-xs-6">
                     <div class="footer">
                         <h3 class="footer-title">About Us</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt
+                            ut.</p>
                         <ul class="footer-links">
                             <li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
                             <li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
@@ -759,7 +805,9 @@
                     </ul>
                     <span class="copyright">
 								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i
+                            class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                                                                                target="_blank">Colorlib</a>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 							</span>
                 </div>

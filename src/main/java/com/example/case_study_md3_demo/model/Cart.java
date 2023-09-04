@@ -15,6 +15,9 @@ public class Cart {
         this.account = account;
         this.total = total;
     }
+    public Cart(Account account) {
+        this.account = account;
+    }
 
     public Cart() {
     }

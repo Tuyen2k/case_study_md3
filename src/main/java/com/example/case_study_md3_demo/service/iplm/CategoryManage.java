@@ -17,6 +17,7 @@ public class CategoryManage implements ICategoryService {
     public static CategoryManage getCategoryManage() {
         if (categoryManage == null) {
             categoryManage = new CategoryManage();
+
         }
         return categoryManage;
     }

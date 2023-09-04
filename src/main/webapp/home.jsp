@@ -76,12 +76,6 @@
                 <div class="col-md-6">
                     <div class="header-search">
                         <form>
-                            <select class="input-select">
-                                <option value="0">All Categories</option>
-                                <c:forEach items="${categories}" var="category">
-                                <option value="${category.id_category}">${category.name}</option>
-                                </c:forEach>
-                            </select>
                             <input class="input" placeholder="Search here">
                             <button class="search-btn">Search</button>
                         </form>

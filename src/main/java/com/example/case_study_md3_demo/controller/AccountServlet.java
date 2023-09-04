@@ -1,5 +1,6 @@
 package com.example.case_study_md3_demo.controller;
 
+import com.example.case_study_md3_demo.DAO.iplm.AccountDAO;
 import com.example.case_study_md3_demo.model.*;
 import com.example.case_study_md3_demo.service.iplm.*;
 
@@ -8,6 +9,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @WebServlet(name = "AccountServlet", value = "/accounts")
 public class AccountServlet extends HttpServlet {
@@ -16,14 +18,16 @@ public class AccountServlet extends HttpServlet {
     private CategoryManage categoryManage;
     private BrandManage brandManage;
     private RoleManage roleManage;
+    private AccountDAO accountDAO;
 
     @Override
     public void init() throws ServletException {
-        accountManage =AccountManage.getAccountManage();
-        roleManage =new RoleManage();
+        accountManage = AccountManage.getAccountManage();
+        roleManage = new RoleManage();
         productManage = new ProductManage();
         categoryManage = CategoryManage.getCategoryManage();
         brandManage = BrandManage.getBrandManage();
+        accountDAO = new AccountDAO();
     }
 
     @Override
@@ -33,11 +37,11 @@ public class AccountServlet extends HttpServlet {
             action = "";
         }
         switch (action) {
-            case "register" :
-                registerGet(request,response);
+            case "register":
+                registerGet(request, response);
                 break;
             default:
-                loginGet(request,response);
+                loginGet(request, response);
         }
     }
 
@@ -52,33 +56,48 @@ public class AccountServlet extends HttpServlet {
                 loginPost(request, response);
                 break;
             case "create":
-                registerPost(request,response);
+                registerPost(request, response);
+                break;
+            case "logout":
+                logOutPost(request, response);
                 break;
         }
     }
+
     private void registerGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         response.sendRedirect("signup.jsp");
     }
 
     private void registerPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String re_password = request.getParameter("re_password");
-        String phone = request.getParameter("phone");
-        String email =request.getParameter("email");
-        String address =request.getParameter("address");
-        HttpSession session = request.getSession();
-        if (password.equals(re_password)) {
-            Role role = roleManage.findById(2);
-            Account account = new Account(username, password, phone,email,address,role );
-            accountManage.create(account);
-            session.setAttribute("message", "Register success!");
-            response.sendRedirect("login.jsp");
+        boolean isDuplicate = accountDAO.checkForDuplicates(username);
+        if (isDuplicate) {
+            response.getWriter().println("Account already exists");
         } else {
-            session.setAttribute("message", "Repeat your password not matching!");
-            response.sendRedirect("accounts");
+            String password = request.getParameter("password");
+            Pattern pattern = Pattern.compile("^.{6,8}$");
+            if (pattern.matcher(password).matches()) {
+                String re_password = request.getParameter("re_password");
+                String phone = request.getParameter("phone");
+                String email = request.getParameter("email");
+                String address = request.getParameter("address");
+                HttpSession session = request.getSession();
+                if (password.equals(re_password)) {
+                    Role role = roleManage.findById(2);
+                    Account account = new Account(username, password, phone, email, address, role);
+                    accountManage.create(account);
+                    session.setAttribute("message", "Register success!");
+                    response.sendRedirect("login.jsp");
+                } else {
+                    session.setAttribute("message", "Repeat your password not matching!");
+                    response.sendRedirect("accounts");
+                }
+            } else {
+                response.getWriter().println("Enter wrong password");
+            }
         }
     }
+
     private void loginGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.sendRedirect("login.jsp");
 
@@ -91,7 +110,7 @@ public class AccountServlet extends HttpServlet {
         List<Account> accounts = accountManage.findAll();
         Account userLogin = new Account();
         HttpSession session = request.getSession();
-        for (Account account :accounts ) {
+        for (Account account : accounts) {
             if (account.getUsername().equals(username)
                     && account.getPassword().equals(password)) {
                 userLogin = account;
@@ -111,4 +130,9 @@ public class AccountServlet extends HttpServlet {
         }
     }
 
+    private void logOutPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.invalidate(); // Xóa thông tin đăng nhập khỏi session
+        response.sendRedirect("login.jsp");
+    }
 }
