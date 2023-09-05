@@ -1,6 +1,7 @@
 package com.example.case_study_md3_demo.model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class BillDetail {
     private int id_billDetail;
@@ -9,12 +10,13 @@ public class BillDetail {
     private double price;
     private int quantity;
     private double total_bill;
-    private LocalDate timePurchase;
+    private LocalDateTime timePurchase;
 
     public BillDetail() {
     }
 
-    public BillDetail(Product product, Bill bill, double price, int quantity, double total_bill, LocalDate timePurchase) {
+    public BillDetail(int id_billDetail, Product product, Bill bill, double price, int quantity, double total_bill, LocalDateTime timePurchase) {
+        this.id_billDetail = id_billDetail;
         this.product = product;
         this.bill = bill;
         this.price = price;
@@ -23,8 +25,7 @@ public class BillDetail {
         this.timePurchase = timePurchase;
     }
 
-    public BillDetail(int id_billDetail, Product product, Bill bill, double price, int quantity, double total_bill, LocalDate timePurchase) {
-        this.id_billDetail = id_billDetail;
+    public BillDetail(Product product, Bill bill, double price, int quantity, double total_bill, LocalDateTime timePurchase) {
         this.product = product;
         this.bill = bill;
         this.price = price;
@@ -81,11 +82,11 @@ public class BillDetail {
         this.total_bill = total_bill;
     }
 
-    public LocalDate getTimePurchase() {
+    public LocalDateTime getTimePurchase() {
         return timePurchase;
     }
 
-    public void setTimePurchase(LocalDate timePurchase) {
+    public void setTimePurchase(LocalDateTime timePurchase) {
         this.timePurchase = timePurchase;
     }
 }

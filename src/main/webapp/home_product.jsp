@@ -403,7 +403,7 @@
                     </div>
                     <div class="form-group">
                         <label>Quantity</label>
-                        <input type="text" class="form-control" name="quantity" required>
+                        <input type="number" min="0" class="form-control" name="quantity" required>
                     </div>
                     <div class="form-group">
                         <label>Image</label>

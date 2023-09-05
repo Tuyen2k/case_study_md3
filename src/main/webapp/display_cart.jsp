@@ -399,7 +399,7 @@
 <!-- /HEADER -->
 
 <!-- NAVIGATION -->
-<nav id="navigation"> <!-- chỉnh thanh navbar cho hiển thị trên cùng 1 hàng-->
+<nav id="navigation" style=" display: inline-flex">
     <!-- container -->
     <div class="container">
         <!-- responsive-nav -->

@@ -57,10 +57,6 @@ public class CartServlet extends HttpServlet {
         }
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 
     protected void displayCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String strId = request.getParameter("id_user");

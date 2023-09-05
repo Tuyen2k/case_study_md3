@@ -297,7 +297,12 @@
                         <div><strong>TOTAL</strong></div>
                         <div><strong class="order-total"><fmt:formatNumber value="${total}"
                                                                            pattern="#,##0"/></strong></div>
-                    </div>x
+                    </div>
+                    <div class="order-col">
+                        <div><strong>TOTAL PAYMENT</strong></div>
+                        <div><strong class="order-total"><fmt:formatNumber value="${total - discount}"
+                                                                           pattern="#,##0"/></strong></div>
+                    </div>
                     <div class="payment-method">
                         <div class="input-radio">
                             <input type="radio" name="payment" id="payment-1">
