@@ -94,15 +94,20 @@ public class BillServlet extends HttpServlet {
             if (bill.getId_bill() == 0) {
                 bill = new Bill(cart, 0);
                 billManage.create(bill);
+                bill = billManage.findByCart(cart.getId_cart());
             }
+
             List<CartDetail> cartDetails = cartDetailManage.findByIdCart(cart.getId_cart());
+            double total = 0;
             for (CartDetail cartDetail : cartDetails) {
+                total += cartDetail.getTotal_product() - cartDetail.getTotal_product()*0.05;
                 Product product = productManage.findById(cartDetail.getProduct().getId_product());
-                billDetailManage.create(new BillDetail(product, bill, cartDetail.getPrice(), cartDetail.getQuantity(), cartDetail.getTotal_product() - (cartDetail.getTotal_product()*0.05), LocalDateTime.now()));
+                billDetailManage.create(new BillDetail(product, bill, cartDetail.getPrice(), cartDetail.getQuantity(), total, LocalDateTime.now()));
                 product.setQuantity(product.getQuantity() - cartDetail.getQuantity());
                 productManage.update(product);
                 cartDetailManage.deleteCartDetail(cartDetail.getId_cartDetail());
             }
+            bill.setTotal(total);
             session.setAttribute("message", "Payment success!");
             session.setAttribute("userLogin", account);
             response.sendRedirect("carts?action=&&id_user=" + strId);
