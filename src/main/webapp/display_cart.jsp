@@ -434,6 +434,7 @@
 
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3 class="fw-normal mb-0 text-black">Shopping Cart</h3>
+                    <h3><a href="bills?action=purchase_history&&id_user=${userLogin.getId_account()}">Purchase History</a></h3>
                     <div class="dropdown">
                         <a data-toggle="dropdown" aria-expanded="true">
                             <p class="mb-0"><span class="text-muted">Sort by: Price</span>

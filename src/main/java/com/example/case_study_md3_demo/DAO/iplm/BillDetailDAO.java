@@ -21,6 +21,7 @@ public class BillDetailDAO implements IBillDetailDAO {
     private BillDAO billDAO;
     private Connection connection;
     private String SELECT_ALL = "select * from bill_detail;";
+    private String SELECT_ALL_ID_BILL = "select * from bill_detail where id_bill = ?;";
     private String SELECT_BY_ID = "select * from bill_detail where id_bill = ?;";
     private String INSERT_INTO = "insert into bill_detail(id_product, id_bill, quantity, price, timePurchase, total) value (?,?,?,?,?,?);";
     public BillDetailDAO(){
@@ -37,6 +38,27 @@ public class BillDetailDAO implements IBillDetailDAO {
                 int id_billDetail = resultSet.getInt("id_billDetail");
                 int id_product = resultSet.getInt("id_product");
                 int id_bill = resultSet.getInt("id_bill");
+                int quantity = resultSet.getInt("quantity");
+                double price = resultSet.getInt("price");
+                double total = resultSet.getInt("total");
+                LocalDateTime time = resultSet.getObject("timePurchase",LocalDateTime.class);
+                Product product = productDAO.findById(id_product);
+                Bill bill = billDAO.findById(id_bill);
+                billDetails.add(new BillDetail(id_billDetail,product,bill,price,quantity,total,time));
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return billDetails;
+    }
+    public List<BillDetail> findAllIdBill(int id_bill) {
+        List<BillDetail> billDetails = new ArrayList<>();
+        try(PreparedStatement preparedStatement = connection.prepareStatement(SELECT_ALL_ID_BILL)) {
+            preparedStatement.setInt(1,id_bill);
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()){
+                int id_billDetail = resultSet.getInt("id_billDetail");
+                int id_product = resultSet.getInt("id_product");
                 int quantity = resultSet.getInt("quantity");
                 double price = resultSet.getInt("price");
                 double total = resultSet.getInt("total");

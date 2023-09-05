@@ -43,6 +43,9 @@ public class BillServlet extends HttpServlet {
             case "display_bill":
                 displayBill(request, response);
                 break;
+            case "purchase_history":
+                displayPurchaseHistory(request, response);
+                break;
         }
     }
 
@@ -100,17 +103,35 @@ public class BillServlet extends HttpServlet {
             List<CartDetail> cartDetails = cartDetailManage.findByIdCart(cart.getId_cart());
             double total = 0;
             for (CartDetail cartDetail : cartDetails) {
-                total += cartDetail.getTotal_product() - cartDetail.getTotal_product()*0.05;
+                total += cartDetail.getTotal_product() - cartDetail.getTotal_product() * 0.05;
                 Product product = productManage.findById(cartDetail.getProduct().getId_product());
                 billDetailManage.create(new BillDetail(product, bill, cartDetail.getPrice(), cartDetail.getQuantity(), total, LocalDateTime.now()));
                 product.setQuantity(product.getQuantity() - cartDetail.getQuantity());
                 productManage.update(product);
                 cartDetailManage.deleteCartDetail(cartDetail.getId_cartDetail());
             }
-            bill.setTotal(total);
             session.setAttribute("message", "Payment success!");
             session.setAttribute("userLogin", account);
             response.sendRedirect("carts?action=&&id_user=" + strId);
+        }
+    }
+
+    private void displayPurchaseHistory(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strId = request.getParameter("id_user");
+        if (!strId.equals("")) {
+            int id_user = Integer.parseInt(strId);
+            Account account = accountManage.findById(id_user);
+            Cart cart = cartManage.findByIdAccount(id_user);
+            Bill bill = billManage.findByCart(cart.getId_cart());
+            List<BillDetail> billDetails = billDetailManage.findAllByIdBill(bill.getId_bill());
+            double total = 0;
+            for (BillDetail billDetail: billDetails){
+                total += billDetail.getTotal_bill();
+            }
+            request.setAttribute("total", total);
+            request.setAttribute("billDetails", billDetails);
+            RequestDispatcher rq = request.getRequestDispatcher("purchase_history.jsp");
+            rq.forward(request, response);
         }
     }
 }

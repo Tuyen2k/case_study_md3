@@ -332,30 +332,26 @@
           <th>Name</th>
           <th>Price</th>
           <th>Quantity</th>
-          <th>Quantity</th>
+          <th>Total</th>
+          <th colspan="2">Time Purchase</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach items="${products}" var="product" varStatus="index">
+        <c:forEach items="${billDetails}" var="billDetail" varStatus="index">
           <tr>
             <td>${index.count}</td>
-            <td>${product.getName()}</td>
-            <td><fmt:formatNumber value="${product.getPrice()}" pattern="#,##0"/></td>
-            <td><fmt:formatNumber value="${product.getSale_price()}" pattern="#,##0"/></td> <!-- thay getSale_price() -->
-            <td>${product.getQuantity()}</td>
-            <td>${product.getCategory().getName()}</td>
-            <td>${product.getBrand().getName()}</td>
-            <td>
-              <a href="products?action=update_product&&id_product=${product.getId_product()}" class="edit" data-toggle="modal"><i class="material-icons"
-                                                                                                                                  data-toggle="tooltip"
-                                                                                                                                  title="Edit">&#xE254;</i></a>
-              <a onclick="deleteProduct(${product.getId_product()})"
-                 class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip"
-                                                       title="Delete">&#xE872;</i></a>
-            </td>
+            <td>${billDetail.getProduct().getName()}</td>
+            <td><fmt:formatNumber value="${billDetail.getProduct().getPrice()}" pattern="#,##0"/></td>
+            <td>${billDetail.getQuantity()}</td>
+            <td><fmt:formatNumber value="${billDetail.getTotal_bill()}" pattern="#,##0"/></td>
+            <td colspan="2">${billDetail.getTimePurchase().toString()}</td>
           </tr>
         </c:forEach>
         </tbody>
+        <tr>
+          <td colspan="5">Total Purchase</td>
+          <td colspan=""><fmt:formatNumber value="${total}" pattern="#,##0"/></td>
+        </tr>
       </table>
       <div class="clearfix">
         <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
