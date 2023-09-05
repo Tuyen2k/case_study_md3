@@ -1,5 +1,7 @@
 package com.example.case_study_md3_demo.controller;
 
+import com.example.case_study_md3_demo.DAO.iplm.CategoryDAO;
+import com.example.case_study_md3_demo.DAO.iplm.ProductDAO;
 import com.example.case_study_md3_demo.model.*;
 import com.example.case_study_md3_demo.service.iplm.*;
 
@@ -60,6 +62,9 @@ public class ProductServlet extends HttpServlet {
                 break;
             case "delete_product":
                 delete(request, response);
+                break;
+            case "find_product":
+                findProduct(request, response);
                 break;
             case "add_cart":
                 addCart(request, response);
