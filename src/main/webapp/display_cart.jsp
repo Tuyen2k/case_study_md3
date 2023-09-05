@@ -405,12 +405,12 @@
         <!-- responsive-nav -->
         <div id="responsive-nav">
             <!-- NAV -->
-            <ul class="main-nav nav navbar-nav">
+            <ul class="main-nav nav navbar-nav" style="display: flex;">
                 <li class="active"><a href="products">Home</a></li>
                 <li><a href="#">Hot Deals</a></li>
                 <c:forEach var="category" items="${categories}">
                     <li>
-                        <a href="products?action=search_by_category&&id_category=${category.getId_category()}">${category.getName()}</a>
+                        <a href="products?action=display_by_category&&id_category=${category.getId_category()}">${category.getName()}</a>
                     </li>
                 </c:forEach>
                 <c:if test="${sessionScope.role.getId_role() == 1}">

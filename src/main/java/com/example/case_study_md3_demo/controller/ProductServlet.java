@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -58,6 +57,9 @@ public class ProductServlet extends HttpServlet {
                 break;
             case "delete_product":
                 delete(request, response);
+                break;
+            case "sort_price":
+                sortByPrice(request, response);
                 break;
             default:
                 displayProduct(request, response);
@@ -227,6 +229,23 @@ public class ProductServlet extends HttpServlet {
 
         RequestDispatcher rq = request.getRequestDispatcher("display_product.jsp");
         rq.forward(request, response);
+    }
+    private void sortByPrice(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String strValue = request.getParameter("value");
+        if (strValue.equals("in")){
+            List<Product>products = productManage.sortByProductDecrease();
+            request.setAttribute("products", products);
+        } else if (strValue.equals("de")){
+            List<Product>products = productManage.sortByProductAscending();
+            request.setAttribute("products", products);
+        }
+        List<Category> categories = categoryManage.findAll();
+        List<Brand> brands = brandManage.findAll();
+        request.setAttribute("category", categories);
+        request.setAttribute("brands", brands);
+        RequestDispatcher rq = request.getRequestDispatcher("display_product.jsp");
+        rq.forward(request, response);
+
     }
 
 }

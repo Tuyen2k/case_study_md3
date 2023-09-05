@@ -17,6 +17,8 @@ public class ProductDAO implements IProductDAO {
     private final MyConnection myConnection;
     private final Connection connection;
     private String SELECT_PRODUCT_LIST = "select * from product;";
+    private final String SORT_BY_PRICE_DECREASE = "select * from product order by price desc;";
+    private final String SORT_BY_PRICE_ASCENDING = "select * from product order by price ;";
 
     private CategoryDAO categoryDAO;
     private BrandDAO brandDAO;
@@ -214,5 +216,53 @@ public class ProductDAO implements IProductDAO {
             e.printStackTrace();
         }
         return product;
+    }
+    public List<Product> sortByProductDecrease(){
+        List<Product> productList = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SORT_BY_PRICE_DECREASE)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id_product");
+                String name = resultSet.getString("name");
+                double price = resultSet.getDouble("price");
+                double salePrice = resultSet.getDouble("sale_price");
+                int quantity = resultSet.getInt("quantity");
+                String description = resultSet.getString("description");
+                String image = resultSet.getString("image");
+                int isActive = resultSet.getInt("isActive");
+                int categoryId = resultSet.getInt("id_category");
+                int brandId = resultSet.getInt("id_brand");
+                Category category = categoryDAO.findById(categoryId);
+                Brand brand = brandDAO.findById(brandId);
+                productList.add(new Product(id, name, price, salePrice, quantity, description, image, isActive, category, brand));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
+    }
+    public List<Product> sortByProductAscending(){
+        List<Product> productList = new ArrayList<>();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(SORT_BY_PRICE_ASCENDING)) {
+            ResultSet resultSet = preparedStatement.executeQuery();
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id_product");
+                String name = resultSet.getString("name");
+                double price = resultSet.getDouble("price");
+                double salePrice = resultSet.getDouble("sale_price");
+                int quantity = resultSet.getInt("quantity");
+                String description = resultSet.getString("description");
+                String image = resultSet.getString("image");
+                int isActive = resultSet.getInt("isActive");
+                int categoryId = resultSet.getInt("id_category");
+                int brandId = resultSet.getInt("id_brand");
+                Category category = categoryDAO.findById(categoryId);
+                Brand brand = brandDAO.findById(brandId);
+                productList.add(new Product(id, name, price, salePrice, quantity, description, image, isActive, category, brand));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return productList;
     }
 }

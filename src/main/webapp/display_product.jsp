@@ -130,7 +130,6 @@
                             <a href="carts?action=&&id_user=${userLogin.getId_account()}">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Your Cart</span>
-                                <div class="qty">3</div>
                             </a>
                             <div class="cart-dropdown">
                                 <div class="cart-list">
@@ -200,7 +199,7 @@
                 <li><a href="#">Hot Deals</a></li>
                 <c:forEach var="category" items="${categories}">
                     <li>
-                        <a href="products?action=search_by_category&&id_category=${category.getId_category()}">${category.getName()}</a>
+                        <a href="products?action=display_by_category&&id_category=${category.getId_category()}">${category.getName()}</a>
                     </li>
                 </c:forEach>
                 <c:if test="${sessionScope.role.getId_role() == 1}">
@@ -217,26 +216,6 @@
 </nav>
 <!-- /NAVIGATION -->
 
-<!-- BREADCRUMB -->
-<div id="breadcrumb" class="section">
-    <!-- container -->
-    <div class="container">
-        <!-- row -->
-        <div class="row">
-            <div class="col-md-12">
-                <ul class="breadcrumb-tree">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">All Categories</a></li>
-                    <li><a href="#">Accessories</a></li>
-                    <li class="active">Headphones (227,490 Results)</li>
-                </ul>
-            </div>
-        </div>
-        <!-- /row -->
-    </div>
-    <!-- /container -->
-</div>
-<!-- /BREADCRUMB -->
 
 <!-- SECTION -->
 <div class="section">
@@ -354,11 +333,11 @@
                 <div class="store-filter clearfix">
                     <div class="store-sort">
                         <label>
-                            Sort By:
-                            <select class="input-select">
-                                <option value="0">Popular</option>
-                                <option value="1">Position</option>
-                            </select>
+                            Sort By Price:
+                            <ul class="dropdown">
+                                <li><a href="products?action=sort_price&&value=in">Increase</a></li>
+                                <li><a href="products?action=sort_price&&value=de">Decrease</a></li>
+                            </ul>
                         </label>
 
                         <label>

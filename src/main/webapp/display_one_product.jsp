@@ -145,7 +145,7 @@
                 <li><a href="#">Hot Deals</a></li>
                 <c:forEach var="category" items="${categories}">
                     <li>
-                        <a href="products?action=search_by_category&&id_category=${category.getId_category()}">${category.getName()}</a>
+                        <a href="products?action=display_by_category&&id_category=${category.getId_category()}">${category.getName()}</a>
                     </li>
                 </c:forEach>
                 <c:if test="${sessionScope.role.getId_role() == 1}">

@@ -8,7 +8,7 @@ import com.example.case_study_md3_demo.DAO.iplm.ProductDAO;
 import java.util.List;
 
 public class ProductManage implements IProductService {
-    private IProductDAO productDAO;
+    private ProductDAO productDAO;
 
 
     public ProductManage() {
@@ -50,5 +50,12 @@ public class ProductManage implements IProductService {
     @Override
     public List<Product> findAllByBrand(int id) {
         return productDAO.findAllByBrand(id);
+    }
+    public List<Product> sortByProductDecrease() {
+        return  productDAO.sortByProductDecrease();
+
+    }
+    public List<Product> sortByProductAscending() {
+        return productDAO.sortByProductAscending();
     }
 }
