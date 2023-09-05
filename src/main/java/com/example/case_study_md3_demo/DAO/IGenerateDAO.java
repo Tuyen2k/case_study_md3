@@ -7,4 +7,5 @@ public interface IGenerateDAO<E>{
     E findById(int id);
     void create(E e);
     void update(E e);
+
 }
